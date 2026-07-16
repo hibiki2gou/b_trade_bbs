@@ -19,6 +19,6 @@ class CreateCards < ActiveRecord::Migration[8.1]
       t.timestamps
     end
     # 同じ選手・同じ弾・同じカード名 の組み合わせは1枚だけ（二重登録の防止）
-    add_index :cards, [:topic_id, :player_id, :name], unique: true
+    add_index :cards, [ :topic_id, :player_id, :name ], unique: true
   end
 end

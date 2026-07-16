@@ -14,7 +14,7 @@ class Card < ApplicationRecord
                      inclusion: { in: 1..5, message: "は1〜5で入力してください" }
   # 同じ選手・同じ弾の中では、カード名が重複しないこと。
   # name が空文字("")のカードは「その弾に1種類だけ」を意味する
-  validates :name, uniqueness: { scope: [:topic_id, :player_id] }
+  validates :name, uniqueness: { scope: [ :topic_id, :player_id ] }
 
   # 選手の所属クラブは Player が持っているので、card.team で引けるようにする
   delegate :team, to: :player

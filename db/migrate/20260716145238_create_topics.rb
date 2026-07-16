@@ -19,6 +19,6 @@ class CreateTopics < ActiveRecord::Migration[8.1]
       t.timestamps
     end
     # slug は同じカテゴリの中で重複しなければよい（board をまたげば同名OK）
-    add_index :topics, [:board_id, :slug], unique: true
+    add_index :topics, [ :board_id, :slug ], unique: true
   end
 end

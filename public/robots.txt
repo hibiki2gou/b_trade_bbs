@@ -1,1 +1,15 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+# 検索エンジンのクローラに対する指示を書くファイル。
+# https://www.robotstxt.org/robotstxt.html
+#
+# User-agent: *  … すべての検索エンジンに対して
+# Disallow: /    … サイト全体をインデックスしないでほしい
+#
+# 【なぜ今は全面ブロックか】
+# 開発中で、まだ公開する範囲を決めていないため。うっかり Google に
+# 載ってしまうと、あとで消しても検索キャッシュに残ってしまう。
+# 特にアカウントIDのような情報が一度インデックスされると回収できない。
+#
+# 実際にインターネット公開すると決めたら、ここを選択的に緩める。
+# （例: 一覧ページは載せてよいが、ログインが要るページは Disallow のまま）
+User-agent: *
+Disallow: /

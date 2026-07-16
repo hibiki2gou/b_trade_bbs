@@ -1,0 +1,62 @@
+# ------------------------------------------------------------
+# 開発用の Dockerfile
+#
+# 同じ階層にある ./Dockerfile は Rails が自動生成した「本番用」。
+# 用途がまったく違う（本番用は軽さ優先で、開発に必要な道具が入っていない）ので、
+# 開発用はこのファイルに分けている。
+# 使うのは compose.yaml 経由 → `docker compose up`
+# ------------------------------------------------------------
+
+# Ruby のバージョンは .ruby-version と揃えること。
+# ずれると「手元では動くのに…」の原因になる。
+FROM ruby:3.4.10-slim
+
+# gem のビルドや Rails の動作に必要な OS パッケージを入れる。
+#   build-essential : C コンパイラ一式。ネイティブ拡張を持つ gem のビルドに要る
+#   libyaml-dev     : YAML を扱う psych gem が必要とする
+#   pkg-config      : ライブラリの場所を探すのに使われる
+#   git             : Gemfile が git 経由の gem を指しているとき必要
+#   curl            : 動作確認やヘルスチェック用
+#   sqlite3         : sqlite3 コマンド。DB の中身を直接のぞきたいとき便利
+# apt のキャッシュは最後に消す。イメージを不必要に太らせないため。
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+      build-essential \
+      libyaml-dev \
+      pkg-config \
+      git \
+      curl \
+      sqlite3 && \
+    rm -rf /var/lib/apt/lists/*
+
+# コンテナの中でアプリを置く場所
+WORKDIR /rails
+
+# 開発モードで動かす。BUNDLE_PATH は gem のインストール先。
+# compose.yaml でここに名前付きボリュームを当てて、gem を使い回している。
+ENV RAILS_ENV=development \
+    BUNDLE_PATH=/usr/local/bundle
+
+# ★ Gemfile だけを先にコピーして bundle install する。
+# アプリのコードを1行変えただけでこの層のキャッシュが壊れると、
+# 毎回 gem を入れ直すことになって再ビルドが遅い。
+# Gemfile が変わったときだけやり直せばいいので、先にコピーしておく。
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+# 残りのアプリコードをコピー。
+# compose では . を /rails にマウントするので実行時はホスト側で上書きされるが、
+# compose を使わず docker build / docker run しても動くようにしておく。
+COPY . .
+
+# 起動のたびに走る後始末スクリプト（詳細はスクリプト内のコメント参照）
+COPY bin/docker-entrypoint-dev /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint-dev"]
+
+# Rails サーバのポート
+EXPOSE 3000
+
+# -b 0.0.0.0 が重要。
+# 既定の localhost のままだとコンテナの内側しか待ち受けず、
+# ホストのブラウザから開けない。
+CMD ["bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]

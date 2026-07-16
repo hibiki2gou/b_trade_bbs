@@ -1,0 +1,61 @@
+# ------------------------------------------------------------
+# 開発環境の構成ファイル。
+#
+#   docker compose up          … 起動（http://localhost:3000）
+#   docker compose up --build  … Dockerfile.dev を変えたとき
+#   docker compose down        … 停止
+#   docker compose exec web bash                  … コンテナに入る
+#   docker compose exec web bin/rails console     … rails console
+#   docker compose exec web bin/rails g model Foo … generate 系
+# ------------------------------------------------------------
+
+services:
+  # web = Rails サーバ。今は DB が SQLite（ただのファイル）なので、
+  # DB 用のコンテナは要らず、これ1つだけで動く。
+  web:
+    build:
+      context: .
+      # 本番用の ./Dockerfile ではなく開発用を使う、という指定
+      dockerfile: Dockerfile.dev
+
+    # 「ホストの3001番 : コンテナの3000番」をつなぐ。
+    # これでホストのブラウザから http://localhost:3001 で開ける。
+    #
+    # 左（ホスト側）が3001なのは、3000番を別プロジェクト（hugkun_bento）が
+    # 既に使っていてぶつかるため。そちらを止めたあとなら "3000:3000" に戻してよい。
+    # 右（コンテナ側）は rails server の待ち受けポートなので3000のままでよい。
+    ports:
+      - "3001:3000"
+
+    volumes:
+      # ソースコードをまるごとマウント。
+      # ホスト側でファイルを編集すると即コンテナに反映されるので、
+      # コードを直すたびに build し直す必要がない。
+      - .:/rails
+
+      # gem の置き場所。名前付きボリュームにしておくと、
+      # コンテナを作り直しても bundle install をやり直さずに済む。
+      - bundle_data:/usr/local/bundle
+
+      # ★ .claude だけは中身を隠す。
+      # 上の `.:/rails` でプロジェクト全体をマウントすると、
+      # .claude/worktrees/ にある無関係な別プロジェクトまでコンテナから見えてしまう。
+      # 空のボリュームをかぶせて覆い隠し、Rails のファイル監視が
+      # 余計なファイルを延々と見に行くのを防ぐ。
+      - /rails/.claude
+
+    environment:
+      RAILS_ENV: development
+      # ログをファイルではなく標準出力へ。
+      # `docker compose up` の画面にそのまま流れて読みやすい。
+      RAILS_LOG_TO_STDOUT: "true"
+
+    # この2つを付けておくと、コードに binding.irb や debugger を仕込んだとき、
+    # `docker attach b_trade_bbs-web-1` でコンテナに入って操作できる。
+    stdin_open: true
+    tty: true
+
+volumes:
+  # gem を貯めておくボリューム。中身を消してやり直したいときは
+  #   docker compose down -v
+  bundle_data:

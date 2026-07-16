@@ -1,0 +1,29 @@
+#!/bin/bash
+# ------------------------------------------------------------
+# 開発用コンテナが起動するたびに、CMD の前に走るスクリプト。
+# 「毎回やっておくと事故らない後始末」をここにまとめてある。
+# ------------------------------------------------------------
+set -e
+
+# コンテナを強制終了したときなどに server.pid が残ることがある。
+# 残っていると次の起動で
+#   "A server is already running. Check /rails/tmp/pids/server.pid"
+# と言われて立ち上がらないので、先に消しておく。
+rm -f /rails/tmp/pids/server.pid
+
+# Gemfile に gem を足したとき、いちいちイメージを build し直さなくて済むように、
+# 足りない gem があればここで入れる。
+if ! bundle check > /dev/null 2>&1; then
+  echo "==> 足りない gem があるので bundle install します"
+  bundle install
+fi
+
+# DB がまだ無ければ作ってスキーマを流し込む。
+# すでにあれば、未適用のマイグレーションだけを流す。
+# （db:create + db:schema:load + db:migrate をよしなにやってくれるのが db:prepare）
+./bin/rails db:prepare
+
+# Dockerfile の CMD（= rails server）にバトンを渡す。
+# exec を使うのは、Ctrl-C や docker stop のシグナルが
+# rails server にちゃんと届くようにするため。
+exec "$@"

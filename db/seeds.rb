@@ -3,7 +3,7 @@
 #
 #     docker compose exec web bin/rails db:seed
 #
-# db/seeds/card_sets.yml を読み込んで、弾・選手・カードを登録する。
+# db/seeds/card_sets.yml を読み込んで、弾・チーム・選手・カードを登録する。
 # 何度実行しても同じ結果になる（冪等）。利用者の投稿(Post)には触れない。
 # ============================================================
 
@@ -11,27 +11,41 @@
 yaml_path = Rails.root.join("db/seeds/card_sets.yml")
 data = YAML.load_file(yaml_path)
 sets    = data["sets"]    || []
+teams   = data["teams"]   || []
 players = data["players"] || []
 
-valid_slugs = sets.map { |s| s["slug"] }
+set_slugs  = sets.map  { |s| s["slug"] }
+team_slugs = teams.map { |t| t["slug"] }
 
 # --- 2. 書き間違いを検証する（DBに触る前に全部チェック）-----------------
 errors = []
 
 sets.each do |s|
-  errors << "sets: name が未記入の弾があります"        if s["name"].blank?
+  errors << "sets: name が未記入の弾があります"          if s["name"].blank?
   errors << "sets: slug が未記入の弾があります（#{s["name"]}）" if s["slug"].blank?
 end
-dup_slugs = valid_slugs.tally.select { |_, n| n > 1 }.keys
-errors << "sets: slug が重複しています（#{dup_slugs.join(", ")}）" if dup_slugs.any?
+dup_set_slugs = set_slugs.tally.select { |_, n| n > 1 }.keys
+errors << "sets: slug が重複しています（#{dup_set_slugs.join(", ")}）" if dup_set_slugs.any?
+
+teams.each do |t|
+  errors << "teams: name が未記入のチームがあります"       if t["name"].blank?
+  errors << "teams: slug が未記入のチームがあります（#{t["name"]}）" if t["slug"].blank?
+end
+dup_team_slugs = team_slugs.tally.select { |_, n| n > 1 }.keys
+errors << "teams: slug が重複しています（#{dup_team_slugs.join(", ")}）" if dup_team_slugs.any?
 
 players.each do |p|
   errors << "players: name が未記入の選手があります" if p["name"].blank?
-  errors << "#{p["name"]}: team が未記入です"        if p["team"].blank?
+  # 選手の team は、teams に書いた slug を指していなければならない
+  if p["team"].blank?
+    errors << "#{p["name"]}: team が未記入です"
+  elsif !team_slugs.include?(p["team"])
+    errors << "#{p["name"]}: チーム \"#{p["team"]}\" は teams にありません"
+  end
 
   cards = p["cards"] || []
   cards.each do |c|
-    unless valid_slugs.include?(c["set"])
+    unless set_slugs.include?(c["set"])
       errors << "#{p["name"]}: 弾 \"#{c["set"]}\" は sets にありません"
     end
     r = c["rarity"]
@@ -58,7 +72,7 @@ end
 
 # --- 3. DB に投入する（冪等）-------------------------------------------
 ActiveRecord::Base.transaction do
-  # カテゴリ「トレード募集」。弾はこの下にぶら下げる
+  # カテゴリ「トレード募集」。弾はこの下にぶら下げる（ユーザーには見せない裏方）
   board = Board.find_or_create_by!(slug: "trade") do |b|
     b.name = "トレード募集"
     b.description = "欲しいカード・譲れるカードを書いて、トレード相手を探す場所"
@@ -76,10 +90,20 @@ ActiveRecord::Base.transaction do
     topics_by_slug[s["slug"]] = topic
   end
 
+  # チーム(Team)。slug で探して、無ければ作る
+  teams_by_slug = {}
+  teams.each_with_index do |t, i|
+    team = Team.find_or_initialize_by(slug: t["slug"])
+    team.name = t["name"]
+    team.position = i + 1
+    team.save!
+    teams_by_slug[t["slug"]] = team
+  end
+
   # 選手(Player)とカード(Card)
   players.each do |p|
     player = Player.find_or_initialize_by(name: p["name"])
-    player.team = p["team"]
+    player.team = teams_by_slug.fetch(p["team"])  # slug からチームを引いて紐づける
     player.save!
 
     (p["cards"] || []).each do |c|
@@ -93,4 +117,5 @@ ActiveRecord::Base.transaction do
 end
 
 # --- 4. 結果を表示 -----------------------------------------------------
-puts "seed 完了: 弾 #{Topic.count} 個 / 選手 #{Player.count} 人 / カード #{Card.count} 枚"
+puts "seed 完了: 弾 #{Topic.count} 個 / チーム #{Team.count} 個 / " \
+     "選手 #{Player.count} 人 / カード #{Card.count} 枚"

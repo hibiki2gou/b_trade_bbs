@@ -1,0 +1,8 @@
+<%# 弾/チームを1マス表示するタイル。クリックで掲示板へ飛ぶ。
+    locals: record（Topic か Team）, path（飛び先） %>
+<%= link_to path, class: "tile" do %>
+  <div class="tile__thumb">
+    <%= board_thumbnail(record) %>
+  </div>
+  <span class="tile__name"><%= record.name %></span>
+<% end %>

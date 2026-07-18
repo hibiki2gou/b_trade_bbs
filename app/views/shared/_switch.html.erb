@@ -1,0 +1,11 @@
+<%# 「弾で見る / チームで見る」の切り替えボタン。
+    locals: active（:topics か :teams） %>
+<nav class="switch">
+  <% if active == :topics %>
+    <span class="switch__btn switch__btn--active">弾で見る</span>
+    <%= link_to "チームで見る", teams_path, class: "switch__btn" %>
+  <% else %>
+    <%= link_to "弾で見る", topics_path, class: "switch__btn" %>
+    <span class="switch__btn switch__btn--active">チームで見る</span>
+  <% end %>
+</nav>

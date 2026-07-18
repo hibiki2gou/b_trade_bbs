@@ -1,0 +1,12 @@
+<% content_for :title, "#{@topic.name} - B-Trade BBS" %>
+
+<%= render "shared/board",
+      record: @topic,
+      posts: @posts,
+      post: @post,
+      wanted_options: @wanted_options,
+      offered_options: @offered_options,
+      showing_completed: @showing_completed,
+      open_path: topic_path(@topic),
+      completed_path: topic_path(@topic, status: :completed),
+      index_path: topics_path %>

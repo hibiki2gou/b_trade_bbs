@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_16_145241) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_18_075512) do
   create_table "boards", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -33,12 +33,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_16_145241) do
     t.index ["topic_id"], name: "index_cards_on_topic_id"
   end
 
+  create_table "offers", force: :cascade do |t|
+    t.integer "card_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "post_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_offers_on_card_id"
+    t.index ["post_id", "card_id"], name: "index_offers_on_post_id_and_card_id", unique: true
+    t.index ["post_id"], name: "index_offers_on_post_id"
+  end
+
   create_table "players", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
-    t.string "team", null: false
+    t.integer "team_id", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_players_on_name", unique: true
+    t.index ["team_id"], name: "index_players_on_team_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -46,7 +57,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_16_145241) do
     t.datetime "created_at", null: false
     t.string "nickname", null: false
     t.text "note"
-    t.text "offered_cards"
     t.integer "status", default: 0, null: false
     t.integer "topic_id", null: false
     t.datetime "updated_at", null: false
@@ -54,6 +64,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_16_145241) do
     t.index ["status"], name: "index_posts_on_status"
     t.index ["topic_id"], name: "index_posts_on_topic_id"
     t.index ["wanted_card_id"], name: "index_posts_on_wanted_card_id"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_teams_on_slug", unique: true
   end
 
   create_table "topics", force: :cascade do |t|
@@ -70,6 +89,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_16_145241) do
 
   add_foreign_key "cards", "players"
   add_foreign_key "cards", "topics"
+  add_foreign_key "offers", "cards"
+  add_foreign_key "offers", "posts"
+  add_foreign_key "players", "teams"
   add_foreign_key "posts", "cards", column: "wanted_card_id"
   add_foreign_key "posts", "topics"
   add_foreign_key "topics", "boards"

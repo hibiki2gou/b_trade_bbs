@@ -7,9 +7,12 @@
       offered_options   … 出せるカードの選択肢
       showing_completed … 成立済みを表示中か（true/false）
       open_path         … 「募集中」タブのリンク先
-      completed_path    … 「成立済み」タブのリンク先 %>
+      completed_path    … 「成立済み」タブのリンク先
+      index_path        … 「一覧へもどる」のリンク先（弾一覧 or チーム一覧） %>
 
-<p class="back"><%= link_to "← 一覧へもどる", :back %></p>
+<%# ブラウザの「戻る」(:back)ではなく、一覧ページへ確実に飛ぶ。
+    投稿後は履歴が増えていて :back では一覧まで戻れないため。 %>
+<p class="back"><%= link_to "← 一覧へもどる", index_path %></p>
 
 <div class="board-header">
   <div class="board-header__thumb"><%= board_thumbnail(record) %></div>
@@ -42,6 +45,7 @@
   <section class="new-post">
     <h2 class="new-post__title">このカードで募集する</h2>
     <%= render "posts/form", post: post, wanted_options: wanted_options,
-                             offered_options: offered_options %>
+                             offered_options: offered_options,
+                             cancel_path: open_path %>
   </section>
 <% end %>

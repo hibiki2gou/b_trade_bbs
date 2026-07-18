@@ -1,5 +1,6 @@
 <%# 募集の投稿フォーム。
-    locals: post, wanted_options（欲しいカード候補）, offered_options（出せるカード候補） %>
+    locals: post, wanted_options（欲しいカード候補）, offered_options（出せるカード候補）,
+            cancel_path（キャンセル時の戻り先） %>
 <%= form_with model: post, url: posts_path, method: :post, class: "post-form" do |f| %>
   <div class="field">
     <%= f.label :wanted_card_id, "欲しいカード" %>
@@ -27,6 +28,6 @@
 
   <div class="form-actions">
     <%= f.submit "投稿する", class: "btn btn--primary" %>
-    <%= link_to "キャンセル", :back, class: "btn btn--ghost" %>
+    <%= link_to "キャンセル", cancel_path, class: "btn btn--ghost" %>
   </div>
 <% end %>

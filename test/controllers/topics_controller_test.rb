@@ -17,4 +17,9 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", text: "弾A"
   end
+
+  test "一覧へもどるリンクは弾一覧を指す（history.back に頼らない）" do
+    get topic_url(@topic)
+    assert_select "a.back-link, .back a[href=?]", topics_path, text: /一覧へもどる/
+  end
 end

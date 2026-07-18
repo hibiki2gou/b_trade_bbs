@@ -1,10 +1,229 @@
 /*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
+ * B-Trade BBS スタイル
+ * デザイン方針: 白 × 黒。清潔でシンプル、スポーティに引き締める。
+ * 色は変数にまとめてあるので、ここを変えれば全体の色調を調整できる。
  */
+
+:root {
+  --bg:        #ffffff;   /* 背景（白） */
+  --surface:   #f5f5f5;   /* カードやパネルの面 */
+  --ink:       #111111;   /* 文字（黒） */
+  --ink-soft:  #555555;   /* 補助テキスト */
+  --line:      #e0e0e0;   /* 区切り線 */
+  --accent:    #111111;   /* アクセント（黒） */
+  --accent-ink:#ffffff;   /* アクセント上の文字（白） */
+  --radius:    10px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN",
+               "Noto Sans JP", Meiryo, sans-serif;
+  line-height: 1.6;
+}
+
+a { color: inherit; }
+
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ---- ヘッダー / フッター ---- */
+.site-header {
+  border-bottom: 2px solid var(--ink);
+  background: var(--bg);
+}
+.site-header__inner {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 16px;
+}
+.site-header__logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+.site-header__tagline {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+.site-footer {
+  margin-top: 48px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  padding: 24px 0;
+}
+
+main.container { padding-top: 24px; padding-bottom: 24px; }
+
+/* ---- フラッシュメッセージ ---- */
+.flash {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+.flash--notice { background: #111; color: #fff; }
+.flash--alert  { background: #fff; color: #111; border: 2px solid #111; }
+
+.lead { color: var(--ink-soft); }
+
+/* ---- 切り替えボタン（弾で見る / チームで見る） ---- */
+.switch {
+  display: inline-flex;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.switch__btn {
+  padding: 8px 20px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.switch__btn--active { background: var(--ink); color: var(--accent-ink); }
+
+/* ---- グリッド（弾/チーム一覧） ---- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+.tile {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  text-decoration: none;
+  background: var(--bg);
+  transition: transform .08s ease, box-shadow .08s ease, border-color .08s ease;
+}
+.tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.10);
+  border-color: var(--ink);
+}
+.tile__thumb { aspect-ratio: 16 / 9; background: var(--surface); }
+.tile__thumb .thumb__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb__placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  padding: 12px; text-align: center;
+  font-weight: 800; font-size: 1.1rem;
+  color: var(--ink);
+  background: repeating-linear-gradient(
+    -45deg, #f0f0f0, #f0f0f0 10px, #f7f7f7 10px, #f7f7f7 20px);
+}
+.tile__name {
+  padding: 12px 14px;
+  font-weight: 700;
+  border-top: 1px solid var(--line);
+}
+
+/* ---- 掲示板ヘッダー ---- */
+.back { margin: 0 0 8px; font-size: 0.9rem; }
+.board-header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 2px solid var(--ink);
+}
+.board-header__thumb {
+  width: 120px; flex: 0 0 120px; aspect-ratio: 16/9;
+  border-radius: var(--radius); overflow: hidden; background: var(--surface);
+}
+.board-header__thumb .thumb__img { width: 100%; height: 100%; object-fit: cover; }
+.board-header__thumb .thumb__placeholder { font-size: 0.9rem; }
+.board-header h1 { margin: 0; font-size: 1.5rem; }
+.board-header__desc { margin: 4px 0 0; color: var(--ink-soft); font-size: 0.9rem; }
+
+/* ---- タブ（募集中 / 成立済み） ---- */
+.tabs { display: flex; gap: 4px; margin: 20px 0 12px; border-bottom: 1px solid var(--line); }
+.tabs__item {
+  padding: 8px 16px; text-decoration: none; font-weight: 700; color: var(--ink-soft);
+  border-bottom: 3px solid transparent;
+}
+.tabs__item--active { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* ---- 募集リスト ---- */
+.posts { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.post {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  background: var(--bg);
+}
+.post--done { opacity: 0.7; border-left-color: var(--ink-soft); background: var(--surface); }
+.post__head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.post__nick { font-weight: 800; }
+.post__time { margin-left: auto; color: var(--ink-soft); font-size: 0.8rem; }
+.badge { font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+.badge--done { background: var(--ink); color: #fff; }
+
+.post__row { display: flex; gap: 10px; align-items: baseline; margin: 4px 0; }
+.post__tag {
+  flex: 0 0 auto; font-size: 0.75rem; font-weight: 800;
+  padding: 2px 8px; border-radius: 4px; border: 1px solid var(--ink);
+}
+.post__tag--want { background: var(--ink); color: #fff; }
+.post__tag--give { background: #fff; color: var(--ink); }
+.post__cards { font-weight: 600; }
+.stars { letter-spacing: 1px; }
+.muted { color: var(--ink-soft); font-weight: 400; }
+.post__note { margin: 8px 0 0; color: var(--ink-soft); white-space: pre-wrap; }
+.post__actions { margin-top: 10px; }
+.post__complete-form { display: inline; }
+
+/* ---- 投稿フォーム ---- */
+.new-post {
+  margin-top: 28px; padding: 20px; border: 1px solid var(--line);
+  border-radius: var(--radius); background: var(--surface);
+}
+.new-post__title { margin: 0 0 12px; font-size: 1.1rem; }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-weight: 700; margin-bottom: 4px; font-size: 0.9rem; }
+.field__hint { margin: 4px 0 0; font-size: 0.8rem; color: var(--ink-soft); }
+.input {
+  width: 100%; padding: 8px 10px; border: 1px solid #ccc;
+  border-radius: 6px; font-size: 1rem; background: #fff; color: var(--ink);
+}
+.input:focus { outline: 2px solid var(--ink); border-color: var(--ink); }
+.input--multi { height: auto; }
+
+/* ---- ボタン ---- */
+.btn {
+  display: inline-block; padding: 10px 18px; border-radius: 8px;
+  border: 2px solid var(--ink); background: #fff; color: var(--ink);
+  font-weight: 700; text-decoration: none; cursor: pointer; font-size: 0.95rem;
+}
+.btn:hover { background: var(--surface); }
+.btn--primary { background: var(--ink); color: #fff; }
+.btn--primary:hover { background: #000; }
+.btn--ghost { border-color: var(--line); color: var(--ink-soft); }
+.btn--small { padding: 6px 12px; font-size: 0.85rem; }
+.form-actions { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
+
+.empty { color: var(--ink-soft); padding: 24px 0; }
+
+/* ---- スマホ ---- */
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; }
+  .board-header { flex-direction: column; align-items: flex-start; }
+  .site-header__inner { flex-direction: column; gap: 4px; }
+}

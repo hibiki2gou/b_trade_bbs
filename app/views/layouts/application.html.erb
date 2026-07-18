@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "App" %></title>
+    <title><%= content_for(:title) || "B-Trade BBS" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="App">
@@ -24,6 +24,29 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <%= link_to "B-Trade BBS", root_path, class: "site-header__logo" %>
+        <p class="site-header__tagline">Bリーグカード トレード掲示板</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <%# フラッシュメッセージ（投稿しました 等の通知） %>
+      <% if notice.present? %>
+        <p class="flash flash--notice"><%= notice %></p>
+      <% end %>
+      <% if alert.present? %>
+        <p class="flash flash--alert"><%= alert %></p>
+      <% end %>
+
+      <%= yield %>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>B-Trade BBS — Bリーグカードのトレード相手を見つける掲示板</p>
+      </div>
+    </footer>
   </body>
 </html>

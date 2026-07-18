@@ -1,0 +1,11 @@
+<% content_for :title, "弾一覧 - B-Trade BBS" %>
+
+<%= render "shared/switch", active: :topics %>
+
+<p class="lead">気になる弾を選ぶと、その弾のカードのトレード募集を見られます。</p>
+
+<div class="grid">
+  <% @topics.each do |topic| %>
+    <%= render "shared/tile", record: topic, path: topic_path(topic) %>
+  <% end %>
+</div>

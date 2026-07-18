@@ -9,6 +9,11 @@ class Card < ApplicationRecord
   has_many :posts, foreign_key: :wanted_card_id, dependent: :restrict_with_error,
                    inverse_of: :wanted_card
 
+  # このカードを「出せるカード」に含んでいる募集（Offer 経由）。
+  # 提供されているカードも、募集がある限り消せない
+  has_many :offers, dependent: :restrict_with_error
+  has_many :offering_posts, through: :offers, source: :post
+
   # レア度は 1〜5 の数字のみ許可
   validates :rarity, presence: true,
                      inclusion: { in: 1..5, message: "は1〜5で入力してください" }
@@ -27,5 +32,12 @@ class Card < ApplicationRecord
   # レア度を★で表す。例: rarity 4 → "★★★★☆"
   def stars
     "★" * rarity + "☆" * (5 - rarity)
+  end
+
+  # 選択肢（プルダウン）用の見やすいラベル。
+  # 例: 「河村勇輝（得点記録） ★★★★★ / 記録達成カード」
+  # 弾をまたぐチームの掲示板でも、どの弾のカードか分かるようにする。
+  def picker_label
+    "#{label} #{stars} / #{topic.name}"
   end
 end

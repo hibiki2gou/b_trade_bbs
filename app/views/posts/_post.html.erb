@@ -1,0 +1,41 @@
+<%# 募集を1件表示する。collection: で呼ばれるので local 変数 post が渡る。 %>
+<li class="post <%= 'post--done' if post.completed? %>">
+  <div class="post__head">
+    <span class="post__nick"><%= post.nickname %></span>
+    <% if post.completed? %>
+      <span class="badge badge--done">成立済み</span>
+    <% end %>
+    <time class="post__time"><%= post.created_at.strftime("%Y/%m/%d %H:%M") %></time>
+  </div>
+
+  <div class="post__row">
+    <span class="post__tag post__tag--want">欲しい</span>
+    <span class="post__cards">
+      <%= post.wanted_card.label %>
+      <span class="stars"><%= post.wanted_card.stars %></span>
+    </span>
+  </div>
+
+  <div class="post__row">
+    <span class="post__tag post__tag--give">出せる</span>
+    <span class="post__cards">
+      <% if post.offered_cards.any? %>
+        <%= post.offered_cards.map(&:label).join("、") %>
+      <% else %>
+        <span class="muted">交渉で相談</span>
+      <% end %>
+    </span>
+  </div>
+
+  <% if post.note.present? %>
+    <p class="post__note"><%= simple_format(post.note) %></p>
+  <% end %>
+
+  <% if post.open? %>
+    <div class="post__actions">
+      <%= button_to "トレード成立にする", complete_post_path(post), method: :patch,
+            class: "btn btn--small", form_class: "post__complete-form",
+            data: { turbo_confirm: "このトレードを成立にしますか？（一覧から非表示になります）" } %>
+    </div>
+  <% end %>
+</li>

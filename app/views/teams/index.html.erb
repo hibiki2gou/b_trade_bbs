@@ -1,0 +1,11 @@
+<% content_for :title, "チーム一覧 - B-Trade BBS" %>
+
+<%= render "shared/switch", active: :teams %>
+
+<p class="lead">気になるチームを選ぶと、そのチームのカードのトレード募集を見られます。</p>
+
+<div class="grid">
+  <% @teams.each do |team| %>
+    <%= render "shared/tile", record: team, path: team_path(team) %>
+  <% end %>
+</div>

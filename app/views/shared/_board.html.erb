@@ -1,0 +1,47 @@
+<%# 弾/チームの掲示板の共通レイアウト。topics/show と teams/show から呼ばれる。
+    locals:
+      record            … Topic か Team
+      posts             … 表示する募集
+      post              … 新規投稿フォーム用の空 Post
+      wanted_options    … 欲しいカードの選択肢
+      offered_options   … 出せるカードの選択肢
+      showing_completed … 成立済みを表示中か（true/false）
+      open_path         … 「募集中」タブのリンク先
+      completed_path    … 「成立済み」タブのリンク先 %>
+
+<p class="back"><%= link_to "← 一覧へもどる", :back %></p>
+
+<div class="board-header">
+  <div class="board-header__thumb"><%= board_thumbnail(record) %></div>
+  <div class="board-header__text">
+    <h1><%= record.name %></h1>
+    <% if record.respond_to?(:description) && record.description.present? %>
+      <p class="board-header__desc"><%= record.description %></p>
+    <% end %>
+  </div>
+</div>
+
+<nav class="tabs">
+  <%= link_to "募集中", open_path,
+        class: "tabs__item #{'tabs__item--active' unless showing_completed}" %>
+  <%= link_to "成立済み", completed_path,
+        class: "tabs__item #{'tabs__item--active' if showing_completed}" %>
+</nav>
+
+<% if posts.any? %>
+  <ul class="posts">
+    <%= render partial: "posts/post", collection: posts, as: :post %>
+  </ul>
+<% else %>
+  <p class="empty">
+    <%= showing_completed ? "成立したトレードはまだありません。" : "まだ募集がありません。最初の募集をしてみましょう。" %>
+  </p>
+<% end %>
+
+<% unless showing_completed %>
+  <section class="new-post">
+    <h2 class="new-post__title">このカードで募集する</h2>
+    <%= render "posts/form", post: post, wanted_options: wanted_options,
+                             offered_options: offered_options %>
+  </section>
+<% end %>

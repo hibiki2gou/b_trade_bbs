@@ -49,7 +49,7 @@
     「募集する」を押せばその場で開く。投稿に失敗したときは自動で開く（open）。 %>
 <% unless showing_completed %>
   <details class="new-post" <%= "open" if post.errors.any? %>>
-    <summary class="new-post__summary">＋ このカードで募集する</summary>
+    <summary class="new-post__summary">＋ 新しく募集する</summary>
     <div class="new-post__body">
       <%= render "posts/form", post: post, wanted_options: wanted_options,
                                offered_options: offered_options,

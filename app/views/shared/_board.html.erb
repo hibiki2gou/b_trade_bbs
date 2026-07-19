@@ -79,7 +79,9 @@
             <button type="button" class="modal__close"
                     data-action="modal#close" aria-label="閉じる">✕</button>
           </div>
-          <div class="modal__body">
+          <%# フォームのモーダルは、余白とスクロールをフォーム側で管理する
+              （ボタン列を下部に固定するため） %>
+          <div class="modal__body modal__body--form">
             <%= render "posts/form", post: post, wanted_options: wanted_options,
                                      offered_options: offered_options,
                                      cancel_path: open_path,

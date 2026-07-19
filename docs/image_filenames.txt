@@ -1,0 +1,120 @@
+=== 弾の画像（app/assets/images/sets/ に置く）===
+ocean.jpg   ← OCEAN
+emotional.jpg   ← EMOTIONAL
+iconic-moments.jpg   ← ICONIC MOMENTS
+finale.jpg   ← FINALE
+snapshot.jpg   ← SNAPSHOT
+handwritten-deco.jpg   ← 手書きデコ
+tanabata.jpg   ← 七夕
+last-uniform.jpg   ← ラストユニフォーム
+all-time-best-player.jpg   ← オールタイムベストプレーヤー
+record.jpg   ← 記録達成
+leaders.jpg   ← LEADERS
+akatsuki-japan-4.jpg   ← AKATSUKI JAPAN vol.4
+break.jpg   ← BREAK
+award-show.jpg   ← AWARD SHOW
+champions-offshot.jpg   ← CHAMPIONS OFFSHOT
+leading-scorers.jpg   ← LEADING SCORERS
+award.jpg   ← AWARD
+one-team.jpg   ← ONE TEAM
+playback.jpg   ← PLAYBACK
+mascot-party.jpg   ← MASCOT PARTY
+champions.jpg   ← CHAMPIONS
+throwback-award-show.jpg   ← Throwback B.LEAGUE AWARD SHOW
+finals.jpg   ← FINALS
+b2-champions.jpg   ← B2 CHAMPIONS
+easl.jpg   ← EASL
+championship.jpg   ← CHAMPIONSHIP
+kodomo-no-hi.jpg   ← こどもの日
+b2-playoffs.jpg   ← B2 PLAYOFFS
+east-champion.jpg   ← 東地区優勝
+west-champion.jpg   ← 西地区優勝
+oshikatsu.jpg   ← 推し活
+courtside-express.jpg   ← COURTSIDE EXPRESS
+inner-flame.jpg   ← INNER FLAME
+neon-light.jpg   ← NEON LIGHT
+bench-scene.jpg   ← ベンチシーン
+fire.jpg   ← FIRE
+zoom-up.jpg   ← ZOOM UP
+dunk.jpg   ← DUNK
+white-day-sp.jpg   ← ホワイトデーSP
+akatsuki-japan-3.jpg   ← AKATSUKI JAPAN vol.3
+sakura.jpg   ← 桜
+smile.jpg   ← SMILE
+mascot-of-the-year.jpg   ← マスコットオブザイヤー
+valentine-white-day.jpg   ← バレンタインデ&ホワイトデー
+one-on-one.jpg   ← 1 on 1
+akatsuki-japan-2.jpg   ← AKATSUKI JAPAN vol.2
+sanrio-characters-2.jpg   ← Sanrio characters vol.2
+akatsuki-japan.jpg   ← AKATSUKI JAPAN
+shishifunjin.jpg   ← 獅子奮迅
+all-star-8.jpg   ← オールスター vol.8
+all-star-7.jpg   ← オールスター vol.7
+valentine-cp.jpg   ← バレンタインCP
+all-star-6.jpg   ← オールスター vol.6
+toshiotoko.jpg   ← 年男
+all-star-5.jpg   ← オールスター vol.5
+all-star-4.jpg   ← オールスター vol.4
+all-star-3.jpg   ← オールスター vol.3
+all-star-2.jpg   ← オールスター vol.2
+omikuji.jpg   ← おみくじ
+nengajo.jpg   ← 年賀状
+all-star.jpg   ← オールスター
+christmas.jpg   ← クリスマス
+kanji-of-the-year.jpg   ← 今年の一文字
+jersey-number.jpg   ← 背番号
+captain.jpg   ← キャプテン
+mascot.jpg   ← マスコット
+entrance.jpg   ← 入場
+sanrio-characters.jpg   ← Sanrio characters
+arena.jpg   ← ARENA
+dog-day.jpg   ← 犬の日
+autumn.jpg   ← オータム
+halloween.jpg   ← HALLOWEEN
+energy.jpg   ← ENERGY
+yume-wo-katare.jpg   ← 夢を、語れ。
+opening-game.jpg   ← 開幕戦
+beginning.jpg   ← Beginning
+season-2025-26.jpg   ← 2025-26シーズン
+
+=== チームの画像（app/assets/images/teams/ に置く）===
+levanga-hokkaido.png   ← レバンガ北海道
+sendai-89ers.png   ← 仙台89ERS
+akita-northern-happinets.png   ← 秋田ノーザンハピネッツ
+ibaraki-robots.png   ← 茨城ロボッツ
+utsunomiya-brex.png   ← 宇都宮ブレックス
+gunma-crane-thunders.png   ← 群馬クレインサンダーズ
+koshigaya-alphas.png   ← 越谷アルファーズ
+altiri-chiba.png   ← アルティーリ千葉
+chiba-jets.png   ← 千葉ジェッツ
+alvark-tokyo.png   ← アルバルク東京
+sunrockers-shibuya.png   ← サンロッカーズ渋谷
+kawasaki-brave-thunders.png   ← 川崎ブレイブサンダース
+yokohama-b-corsairs.png   ← 横浜ビー・コルセアーズ
+toyama-grouses.png   ← 富山グラウジーズ
+sanen-neophoenix.png   ← 三遠ネオフェニックス
+seahorses-mikawa.png   ← シーホース三河
+fighting-eagles-nagoya.png   ← ファイティングイーグルス名古屋
+nagoya-diamond-dolphins.png   ← 名古屋ダイヤモンドドルフィンズ
+shiga-lakes.png   ← 滋賀レイクス
+kyoto-hannaryz.png   ← 京都ハンナリーズ
+osaka-evessa.png   ← 大阪エヴェッサ
+shimane-susanoo-magic.png   ← 島根スサノオマジック
+hiroshima-dragonflies.png   ← 広島ドラゴンフライズ
+saga-ballooners.png   ← 佐賀バルーナーズ
+nagasaki-velca.png   ← 長崎ヴェルカ
+ryukyu-golden-kings.png   ← 琉球ゴールデンキングス
+aomori-wats.png   ← 青森ワッツ
+iwate-big-bulls.png   ← 岩手ビッグブルズ
+yamagata-wyverns.png   ← 山形ワイヴァンズ
+fukushima-firebonds.png   ← 福島ファイヤーボンズ
+yokohama-excellence.png   ← 横浜エクセレンス
+fukui-blowinds.png   ← 福井ブローウィンズ
+shinshu-brave-warriors.png   ← 信州ブレイブウォリアーズ
+veltex-shizuoka.png   ← ベルテックス静岡
+kobe-storks.png   ← 神戸ストークス
+bambitious-nara.png   ← バンビシャス奈良
+ehime-orange-vikings.png   ← 愛媛オレンジバイキングス
+rizing-zephyr-fukuoka.png   ← ライジングゼファーズ福岡
+kumamoto-volters.png   ← 熊本ヴォルターズ
+kagoshima-rebnise.png   ← 鹿児島レブナイズ

@@ -290,6 +290,18 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
 /* 投稿ボタンは右揃え（キャンセルの右に「投稿する」が来る） */
 .form-actions { display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-top: 8px; }
 
+/* モーダルの中では、ボタンを下部に貼り付けて常に押せるようにする。
+   本文をスクロールしても右下に残る。
+   （負の margin で本文の padding を打ち消し、モーダルの幅いっぱいに敷く） */
+/* スクロール領域の外にあるので、中身の長さに関わらず常に下部に出る */
+.modal .form-actions {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 14px 18px;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+}
+
 /* 必須マーク */
 .required {
   font-size: 0.68rem; font-weight: 700; color: #fff; background: var(--ink);
@@ -355,7 +367,20 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
 }
 .modal__close:hover { background: var(--surface); }
 /* 残りの高さいっぱいを使い、あふれたらここだけスクロールする */
-.modal__body { padding: 18px; overflow-y: auto; flex: 1 1 auto; }
+.modal__body {
+  padding: 18px; overflow-y: auto; flex: 1 1 auto;
+  display: flex; flex-direction: column;
+  min-height: 0;  /* これが無いと中身が縮まず、モーダルからはみ出す */
+}
+/* フォームのモーダルは、余白とスクロールをフォーム側で管理する。
+   （本文＝スクロール領域、ボタン列＝下部に固定、の2段構成にするため） */
+.modal__body--form { padding: 0; overflow: hidden; }
+.modal .post-form {
+  display: flex; flex-direction: column;
+  flex: 1 1 auto; min-height: 0;
+}
+/* フォームの中身だけがスクロールする */
+.post-form__body { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 18px; }
 
 /* 収録カード一覧（モーダルの中身） */
 .cardlist__items { list-style: none; margin: 0; padding: 0; }

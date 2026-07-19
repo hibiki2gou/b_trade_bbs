@@ -32,6 +32,13 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".cardlist__item", text: /選手A（得点記録）/
   end
 
+  test "弾を削除できる（廃止したカラムを参照する関連が残っていないこと）" do
+    # posts.topic_id を廃止したのに Topic に has_many :posts が残っていると、
+    # 削除時に存在しないカラムを探して落ちる。
+    assert_nothing_raised { @topic.destroy! }
+    assert_not Topic.exists?(@topic.id)
+  end
+
   test "モーダルの display 指定は開いているときだけに限定されている" do
     # .modal { display: flex } と無条件に書くと、閉じた <dialog> をブラウザが
     # 隠す動作（display:none）を上書きしてしまい、常に表示されてしまう。

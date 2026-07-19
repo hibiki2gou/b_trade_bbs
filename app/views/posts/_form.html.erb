@@ -19,6 +19,10 @@
   <%= hidden_field_tag :board_type, board_type %>
   <%= hidden_field_tag :board_id, board_id %>
 
+  <%# ここから下がスクロールする領域。ボタン列はこの外に置くことで、
+      中身の長さに関わらずモーダル下部に固定される。 %>
+  <div class="post-form__body">
+
   <%# 項目順は投稿の表示（ニックネーム→欲しい→出せる）に合わせる %>
   <div class="field">
     <%= f.label :nickname do %>ニックネーム <span class="required">必須</span><% end %>
@@ -65,6 +69,9 @@
           placeholder: "よろしくお願いします / 希望する交換方法 など" %>
   </div>
 
+  </div><%# /post-form__body %>
+
+  <%# 常にモーダル下部に固定されるボタン列 %>
   <div class="form-actions">
     <%= link_to "キャンセル", cancel_path, class: "btn btn--ghost" %>
     <%= f.submit "投稿する", class: "btn btn--primary" %>

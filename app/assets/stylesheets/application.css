@@ -172,6 +172,14 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
   margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
 }
 .board-header__text { min-width: 0; }
+/* 一覧へもどる（ヘッダーの左端に丸ボタンとして置く） */
+.board-header__back {
+  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--line); background: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  text-decoration: none; font-weight: 700; font-size: 1.05rem;
+}
+.board-header__back:hover { background: var(--surface); border-color: var(--ink); }
 .board-header__thumb {
   width: 120px; flex: 0 0 120px; aspect-ratio: 16/9;
   border-radius: var(--radius); overflow: hidden; background: var(--surface);
@@ -320,18 +328,21 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
 .empty { color: var(--ink-soft); padding: 24px 0; }
 
 /* ---- モーダル（収録カード一覧 / 募集フォーム）---- */
+/* 高さを最初から固定しておく。検索の候補が出てもモーダルの大きさが
+   変わらないので、画面が跳ねない。 */
 .modal {
   border: none; border-radius: var(--radius); padding: 0;
-  width: min(720px, calc(100vw - 32px));
-  max-height: min(80vh, 900px);
+  width: min(760px, calc(100vw - 32px));
+  height: min(680px, calc(100vh - 64px));
   box-shadow: 0 20px 60px rgba(0,0,0,.28);
   color: var(--ink); background: var(--bg);
+  display: flex; flex-direction: column;
 }
 .modal::backdrop { background: rgba(0,0,0,.5); }
 .modal__head {
   display: flex; align-items: center; gap: 12px;
   padding: 14px 18px; border-bottom: 2px solid var(--ink);
-  position: sticky; top: 0; background: var(--bg); z-index: 1;
+  background: var(--bg); flex: 0 0 auto;
 }
 .modal__title { margin: 0; font-size: 1.05rem; }
 .modal__close {
@@ -340,7 +351,8 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
   font-size: 0.9rem; line-height: 1;
 }
 .modal__close:hover { background: var(--surface); }
-.modal__body { padding: 18px; overflow-y: auto; max-height: calc(80vh - 60px); }
+/* 残りの高さいっぱいを使い、あふれたらここだけスクロールする */
+.modal__body { padding: 18px; overflow-y: auto; flex: 1 1 auto; }
 
 /* 収録カード一覧（モーダルの中身） */
 .cardlist__items { list-style: none; margin: 0; padding: 0; }

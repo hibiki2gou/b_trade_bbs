@@ -23,7 +23,7 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
 
   test "一覧へもどるリンクは弾一覧を指す（history.back に頼らない）" do
     get topic_url(@topic)
-    assert_select "a.back-link, .back a[href=?]", topics_path, text: /一覧へもどる/
+    assert_select "a.board-header__back[href=?]", topics_path
   end
 
   test "弾の掲示板に収録カード一覧がモーダルで用意される" do

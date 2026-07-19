@@ -14,14 +14,15 @@
                           :team  … チーム名（弾の掲示板。チーム順に並ぶので目印になる）
                           :topic … 弾名（チームの掲示板。弾をまたぐため） %>
 
-<%# ブラウザの「戻る」(:back)ではなく、一覧ページへ確実に飛ぶ。
-    投稿後は履歴が増えていて :back では一覧まで戻れないため。 %>
-<p class="back"><%= link_to "← 一覧へもどる", index_path %></p>
-
 <%# 弾/チームの見出しは画面上部に貼り付ける（sticky）。
     スクロールしても「今どの弾を見ているか」が分かるようにするため。
-    2つのボタンもこの中に並べ、押すとそれぞれモーダルが開く。 %>
+    「一覧へもどる」と2つのボタンもこの中にまとめる。 %>
 <div class="board-header board-header--sticky">
+  <%# ブラウザの「戻る」(:back)ではなく、一覧ページへ確実に飛ぶ。
+      投稿後は履歴が増えていて :back では一覧まで戻れないため。 %>
+  <%= link_to "←", index_path, class: "board-header__back",
+        title: "一覧へもどる", aria: { label: "一覧へもどる" } %>
+
   <div class="board-header__thumb"><%= board_thumbnail(record) %></div>
   <div class="board-header__text">
     <h1><%= record.name %></h1>

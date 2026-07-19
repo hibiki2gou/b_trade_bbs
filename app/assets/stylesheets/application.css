@@ -257,6 +257,33 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
 
 .empty { color: var(--ink-soft); padding: 24px 0; }
 
+/* 収録カード一覧（開閉式） */
+.cardlist {
+  border: 1px solid var(--line); border-radius: var(--radius);
+  margin-top: 16px; background: var(--bg);
+}
+.cardlist__summary {
+  cursor: pointer; padding: 12px 16px; font-weight: 700;
+  list-style: none; user-select: none;
+}
+.cardlist__summary::before { content: "▶ "; font-size: 0.8em; }
+.cardlist[open] .cardlist__summary::before { content: "▼ "; }
+.cardlist__summary::-webkit-details-marker { display: none; }
+.cardlist__items {
+  list-style: none; margin: 0; padding: 0 16px 12px;
+  border-top: 1px solid var(--line);
+}
+.cardlist__item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid var(--line);
+}
+.cardlist__item:last-child { border-bottom: none; }
+.cardlist__name { font-weight: 600; }
+.cardlist__topic {
+  margin-left: auto; font-size: 0.78rem; color: var(--ink-soft);
+  border: 1px solid var(--line); border-radius: 4px; padding: 1px 8px;
+}
+
 /* ---- スマホ ---- */
 @media (max-width: 600px) {
   .grid { grid-template-columns: 1fr; }

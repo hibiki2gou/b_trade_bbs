@@ -217,7 +217,43 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
 .btn--primary:hover { background: #000; }
 .btn--ghost { border-color: var(--line); color: var(--ink-soft); }
 .btn--small { padding: 6px 12px; font-size: 0.85rem; }
-.form-actions { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
+/* 投稿ボタンは右揃え（キャンセルの右に「投稿する」が来る） */
+.form-actions { display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-top: 8px; }
+
+/* 必須マーク */
+.required {
+  font-size: 0.68rem; font-weight: 700; color: #fff; background: var(--ink);
+  padding: 1px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle;
+}
+
+/* フォーム内のエラー表示（ページ上部ではなくフォームの中に出す） */
+.form-errors {
+  border: 2px solid var(--ink); border-radius: 8px; padding: 10px 14px;
+  margin-bottom: 16px; background: #fff;
+}
+.form-errors__title { margin: 0 0 6px; font-weight: 800; }
+.form-errors ul { margin: 0; padding-left: 18px; }
+
+/* 出せるカードの検索ピッカー */
+.picker {
+  list-style: none; margin: 6px 0 0; padding: 4px;
+  border: 1px solid var(--ink); border-radius: 8px; background: #fff;
+  max-height: 240px; overflow-y: auto;
+}
+.picker__item { padding: 8px 10px; border-radius: 6px; cursor: pointer; }
+.picker__item:hover { background: var(--surface); }
+.picker__chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 6px 4px 12px; border: 1px solid var(--ink);
+  border-radius: 999px; background: var(--surface); font-size: 0.85rem; font-weight: 600;
+}
+.chip__remove {
+  border: none; background: var(--ink); color: #fff; border-radius: 50%;
+  width: 18px; height: 18px; line-height: 18px; padding: 0; text-align: center;
+  cursor: pointer; font-size: 0.7rem;
+}
+.chip__remove:hover { background: #000; }
 
 .empty { color: var(--ink-soft); padding: 24px 0; }
 

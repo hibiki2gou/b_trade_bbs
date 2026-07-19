@@ -14,8 +14,9 @@ class PostsController < ApplicationController
       redirect_back fallback_location: topic_path(@post.topic),
                     notice: "募集を投稿しました。"
     else
-      redirect_back fallback_location: root_path,
-                    alert: "投稿できませんでした: #{@post.errors.full_messages.join('、')}"
+      # 失敗したら、投稿元の掲示板をエラー付きで再表示する。
+      # （エラーはフォームの中に出る。ページ上部には出さない）
+      render_board_with_errors
     end
   end
 
@@ -32,5 +33,30 @@ class PostsController < ApplicationController
   def post_params
     # offered_card_ids は「出せるカード」の複数選択。配列で受け取る。
     params.require(:post).permit(:wanted_card_id, :note, :nickname, offered_card_ids: [])
+  end
+
+  # 投稿に失敗したとき、投稿元の掲示板（弾 or チーム）を組み立てて
+  # エラー付きの @post のまま再表示する。show アクションと同じ変数を用意する。
+  def render_board_with_errors
+    @showing_completed = false
+    @offered_options = Card.includes(:player, :topic).to_a.sort_by(&:picker_label)
+
+    if params[:board_type] == "team" && params[:board_id].present?
+      @team = Team.find(params[:board_id])
+      @posts = Post.wanting_team(@team).open_posts
+                   .recent.includes(:wanted_card, offered_cards: :player)
+      @wanted_options = @team.cards.includes(:player, :topic).sort_by(&:picker_label)
+      render "teams/show", status: :unprocessable_entity
+    elsif params[:board_id].present?
+      @topic = Topic.find(params[:board_id])
+      @posts = @topic.posts.open_posts
+                     .recent.includes(:wanted_card, offered_cards: :player)
+      @wanted_options = @topic.cards.includes(:player).sort_by(&:label)
+      render "topics/show", status: :unprocessable_entity
+    else
+      # 投稿元が分からない場合の保険
+      redirect_back fallback_location: root_path,
+                    alert: "投稿できませんでした: #{@post.errors.full_messages.join('、')}"
+    end
   end
 end

@@ -46,6 +46,8 @@
     <h2 class="new-post__title">このカードで募集する</h2>
     <%= render "posts/form", post: post, wanted_options: wanted_options,
                              offered_options: offered_options,
-                             cancel_path: open_path %>
+                             cancel_path: open_path,
+                             board_type: record.model_name.param_key,
+                             board_id: record.id %>
   </section>
 <% end %>

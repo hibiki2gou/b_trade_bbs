@@ -1,17 +1,58 @@
 <%# 募集の投稿フォーム。
     locals: post, wanted_options（欲しいカード候補）, offered_options（出せるカード候補）,
-            cancel_path（キャンセル時の戻り先） %>
+            cancel_path（キャンセル時の戻り先）, board_type/board_id（投稿元の掲示板） %>
 <%= form_with model: post, url: posts_path, method: :post, class: "post-form" do |f| %>
+
+  <%# 保存に失敗したときのエラーを、ページ上部ではなくフォームの中に出す %>
+  <% if post.errors.any? %>
+    <div class="form-errors">
+      <p class="form-errors__title">入力を確認してください</p>
+      <ul>
+        <% post.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%# 投稿元の掲示板を覚えておく（失敗時にその掲示板を再表示するため） %>
+  <%= hidden_field_tag :board_type, board_type %>
+  <%= hidden_field_tag :board_id, board_id %>
+
+  <%# 項目順は投稿の表示（ニックネーム→欲しい→出せる）に合わせる %>
   <div class="field">
-    <%= f.label :wanted_card_id, "欲しいカード" %>
-    <%= f.collection_select :wanted_card_id, wanted_options, :id, :picker_label,
-          { prompt: "カードを選んでください" }, { class: "input" } %>
+    <%= f.label :nickname do %>ニックネーム <span class="required">必須</span><% end %>
+    <%= f.text_field :nickname, class: "input", required: true,
+          placeholder: "お名前（ニックネーム）" %>
   </div>
 
   <div class="field">
-    <%= f.label :offered_card_ids, "出せるカード（複数選べます・Ctrl/⌘ を押しながらクリック）" %>
-    <%= f.collection_select :offered_card_ids, offered_options, :id, :picker_label,
-          {}, { multiple: true, size: 6, class: "input input--multi" } %>
+    <%= f.label :wanted_card_id do %>欲しいカード <span class="required">必須</span><% end %>
+    <%= f.collection_select :wanted_card_id, wanted_options, :id, :picker_label,
+          { prompt: "カードを選んでください" }, { class: "input", required: true } %>
+  </div>
+
+  <div class="field">
+    <%= f.label :offered_card_ids, "出せるカード（選手名で検索して選ぶ）" %>
+
+    <%# data-controller で、この <div> を card-picker コントローラの担当にする。
+        data-card-picker-cards-value に、全カードを JSON で渡す（JSの検索対象）。 %>
+    <div data-controller="card-picker"
+         data-card-picker-cards-value="<%= offered_options.map { |c|
+           { id: c.id, label: c.picker_label, search: c.search_text } }.to_json %>">
+
+      <%# 検索の入力欄。target=query、入力されたら filter を呼ぶ。 %>
+      <input type="text" class="input" placeholder="選手名を入力…（例: サンプル）"
+             data-card-picker-target="query"
+             data-action="input->card-picker#filter">
+
+      <%# 候補リスト（最初は hidden で隠れている）。JSがここに <li> を入れる。 %>
+      <ul class="picker" data-card-picker-target="results" hidden></ul>
+
+      <%# 選んだカードのタグ置き場。JSがここに chip を入れる。 %>
+      <div class="picker__chips" data-card-picker-target="chips"></div>
+    </div>
+
     <p class="field__hint">出せるカードが無ければ選ばなくてもOK（備考で「交渉」と書けます）。</p>
   </div>
 
@@ -21,13 +62,8 @@
           placeholder: "よろしくお願いします / 希望する交換方法 など" %>
   </div>
 
-  <div class="field">
-    <%= f.label :nickname, "ニックネーム" %>
-    <%= f.text_field :nickname, class: "input", placeholder: "お名前（ニックネーム）" %>
-  </div>
-
   <div class="form-actions">
-    <%= f.submit "投稿する", class: "btn btn--primary" %>
     <%= link_to "キャンセル", cancel_path, class: "btn btn--ghost" %>
+    <%= f.submit "投稿する", class: "btn btn--primary" %>
   </div>
 <% end %>

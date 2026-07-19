@@ -50,4 +50,16 @@ class TradeFlowTest < ActionDispatch::IntegrationTest
       post posts_path, params: { post: { wanted_card_id: @wanted.id, nickname: "" } }
     end
   end
+
+  test "投稿に失敗すると、掲示板を再表示してフォーム内にエラーを出す" do
+    post posts_path, params: {
+      board_type: "topic", board_id: @topic.id,
+      post: { wanted_card_id: @wanted.id, nickname: "" }
+    }
+    assert_response :unprocessable_entity
+    # エラーがフォームの中（.form-errors）に表示される
+    assert_select ".form-errors", true, "フォーム内にエラー欄が出る"
+    # 投稿フォーム自体も再表示されている
+    assert_select "form.post-form"
+  end
 end

@@ -40,4 +40,8 @@ class Card < ApplicationRecord
   def picker_label
     "#{label} #{stars} / #{topic.name}"
   end
+
+  def search_text
+    [ player.name, name, player.team.name, topic.name ].join(" ").downcase
+  end
 end

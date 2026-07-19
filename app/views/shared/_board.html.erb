@@ -45,6 +45,21 @@
   </details>
 <% end %>
 
+<%# 募集フォームは開閉式。投稿が増えても下までスクロールせず、
+    「募集する」を押せばその場で開く。投稿に失敗したときは自動で開く（open）。 %>
+<% unless showing_completed %>
+  <details class="new-post" <%= "open" if post.errors.any? %>>
+    <summary class="new-post__summary">＋ 新しく募集する</summary>
+    <div class="new-post__body">
+      <%= render "posts/form", post: post, wanted_options: wanted_options,
+                               offered_options: offered_options,
+                               cancel_path: open_path,
+                               board_type: record.model_name.param_key,
+                               board_id: record.id %>
+    </div>
+  </details>
+<% end %>
+
 <nav class="tabs">
   <%= link_to "募集中", open_path,
         class: "tabs__item #{'tabs__item--active' unless showing_completed}" %>
@@ -60,15 +75,4 @@
   <p class="empty">
     <%= showing_completed ? "成立したトレードはまだありません。" : "まだ募集がありません。最初の募集をしてみましょう。" %>
   </p>
-<% end %>
-
-<% unless showing_completed %>
-  <section class="new-post">
-    <h2 class="new-post__title">このカードで募集する</h2>
-    <%= render "posts/form", post: post, wanted_options: wanted_options,
-                             offered_options: offered_options,
-                             cancel_path: open_path,
-                             board_type: record.model_name.param_key,
-                             board_id: record.id %>
-  </section>
 <% end %>

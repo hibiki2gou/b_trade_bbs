@@ -69,5 +69,7 @@ class TradeFlowTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
     assert_select ".form-errors", true, "フォーム内にエラー欄が出る"
     assert_select "form.post-form"
+    # 失敗時は開閉フォームが自動で開いている（エラーが見えるように）
+    assert_select "details.new-post[open]"
   end
 end

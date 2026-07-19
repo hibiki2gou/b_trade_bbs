@@ -3,11 +3,11 @@ class Card < ApplicationRecord
   belongs_to :topic   # どの弾に収録されたか
   belongs_to :player  # どの選手か
 
-  # このカードを「欲しいカード」に指定している募集。
+  # このカードを「欲しいカード」に含んでいる募集（Wish 経由）。
   # restrict_with_error = 募集から参照されているカードは消せない
-  # （消すと募集が宙に浮くため）。外部キー名は wanted_card_id
-  has_many :posts, foreign_key: :wanted_card_id, dependent: :restrict_with_error,
-                   inverse_of: :wanted_card
+  # （消すと募集が宙に浮くため）
+  has_many :wishes, dependent: :restrict_with_error
+  has_many :wishing_posts, through: :wishes, source: :post
 
   # このカードを「出せるカード」に含んでいる募集（Offer 経由）。
   # 提供されているカードも、募集がある限り消せない

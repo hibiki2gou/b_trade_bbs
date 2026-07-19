@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_18_075512) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_19_051639) do
   create_table "boards", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -58,12 +58,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_18_075512) do
     t.string "nickname", null: false
     t.text "note"
     t.integer "status", default: 0, null: false
-    t.integer "topic_id", null: false
     t.datetime "updated_at", null: false
-    t.integer "wanted_card_id", null: false
     t.index ["status"], name: "index_posts_on_status"
-    t.index ["topic_id"], name: "index_posts_on_topic_id"
-    t.index ["wanted_card_id"], name: "index_posts_on_wanted_card_id"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -87,12 +83,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_18_075512) do
     t.index ["board_id"], name: "index_topics_on_board_id"
   end
 
+  create_table "wishes", force: :cascade do |t|
+    t.integer "card_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "post_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id"], name: "index_wishes_on_card_id"
+    t.index ["post_id", "card_id"], name: "index_wishes_on_post_id_and_card_id", unique: true
+    t.index ["post_id"], name: "index_wishes_on_post_id"
+  end
+
   add_foreign_key "cards", "players"
   add_foreign_key "cards", "topics"
   add_foreign_key "offers", "cards"
   add_foreign_key "offers", "posts"
   add_foreign_key "players", "teams"
-  add_foreign_key "posts", "cards", column: "wanted_card_id"
-  add_foreign_key "posts", "topics"
   add_foreign_key "topics", "boards"
+  add_foreign_key "wishes", "cards"
+  add_foreign_key "wishes", "posts"
 end

@@ -10,9 +10,8 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     if @post.save
-      # 投稿元の掲示板に戻る。戻れなければ、その募集の弾の掲示板へ。
-      redirect_back fallback_location: topic_path(@post.topic),
-                    notice: "募集を投稿しました。"
+      # 投稿元の掲示板に戻る（戻れなければトップへ）。
+      redirect_back fallback_location: root_path, notice: "募集を投稿しました。"
     else
       # 失敗したら、投稿元の掲示板をエラー付きで再表示する。
       # （エラーはフォームの中に出る。ページ上部には出さない）
@@ -24,15 +23,15 @@ class PostsController < ApplicationController
   def complete
     @post = Post.find(params[:id])
     @post.complete!
-    redirect_back fallback_location: topic_path(@post.topic),
-                  notice: "トレード成立にしました。"
+    redirect_back fallback_location: root_path, notice: "トレード成立にしました。"
   end
 
   private
 
   def post_params
-    # offered_card_ids は「出せるカード」の複数選択。配列で受け取る。
-    params.require(:post).permit(:wanted_card_id, :note, :nickname, offered_card_ids: [])
+    # wanted_card_ids / offered_card_ids は複数選択。どちらも配列で受け取る。
+    params.require(:post).permit(:note, :nickname,
+                                 wanted_card_ids: [], offered_card_ids: [])
   end
 
   # 投稿に失敗したとき、投稿元の掲示板（弾 or チーム）を組み立てて
@@ -44,13 +43,13 @@ class PostsController < ApplicationController
     if params[:board_type] == "team" && params[:board_id].present?
       @team = Team.find(params[:board_id])
       @posts = Post.wanting_team(@team).open_posts
-                   .recent.includes(:wanted_card, offered_cards: :player)
+                   .recent.includes(wanted_cards: :player, offered_cards: :player)
       @wanted_options = @team.cards.includes(:player, :topic).sort_by(&:picker_label)
       render "teams/show", status: :unprocessable_entity
     elsif params[:board_id].present?
       @topic = Topic.find(params[:board_id])
-      @posts = @topic.posts.open_posts
-                     .recent.includes(:wanted_card, offered_cards: :player)
+      @posts = Post.wanting_topic(@topic).open_posts
+                   .recent.includes(wanted_cards: :player, offered_cards: :player)
       @wanted_options = @topic.cards.includes(:player).sort_by(&:label)
       render "topics/show", status: :unprocessable_entity
     else

@@ -10,9 +10,11 @@ class TopicsController < ApplicationController
     @topic = Topic.find(params[:id])
 
     # ?status=completed のときだけ成立済みを表示。既定は募集中。
+    # この弾のカードを1枚でも欲しがっている募集を表示する。
     @showing_completed = params[:status] == "completed"
-    posts = @showing_completed ? @topic.posts.completed_posts : @topic.posts.open_posts
-    @posts = posts.recent.includes(:wanted_card, offered_cards: :player)
+    posts = Post.wanting_topic(@topic)
+    posts = @showing_completed ? posts.completed_posts : posts.open_posts
+    @posts = posts.recent.includes(wanted_cards: :player, offered_cards: :player)
 
     # 投稿フォーム用。
     @post = Post.new

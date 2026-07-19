@@ -13,7 +13,7 @@ class TeamsController < ApplicationController
     @showing_completed = params[:status] == "completed"
     posts = Post.wanting_team(@team)
     posts = @showing_completed ? posts.completed_posts : posts.open_posts
-    @posts = posts.recent.includes(:wanted_card, offered_cards: :player)
+    @posts = posts.recent.includes(wanted_cards: :player, offered_cards: :player)
 
     # 投稿フォーム用。
     @post = Post.new

@@ -31,4 +31,12 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
     assert_select "dialog.modal"
     assert_select ".cardlist__item", text: /選手A（得点記録）/
   end
+
+  test "通常表示ではモーダルを自動で開く指定が出ない" do
+    # data-modal-open-value="false" と書くと Stimulus は「属性がある＝真」と
+    # 解釈して勝手に開いてしまう。属性そのものが出ないことを確かめる。
+    get topic_url(@topic)
+    assert_select "[data-modal-open-value]", false,
+                  "エラーが無いときは open 指定を出さない（出すと勝手に開く）"
+  end
 end

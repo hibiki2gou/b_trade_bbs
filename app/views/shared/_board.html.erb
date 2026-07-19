@@ -64,8 +64,11 @@
 
     <%# --- 募集フォームのモーダル。投稿に失敗したときは開いた状態で再表示する --- %>
     <% unless showing_completed %>
+      <%# 投稿に失敗したときだけ open 属性を出す。
+          Stimulus の Boolean は「属性があること」を真とみなすため、
+          false を書いてしまうと常に開いてしまう。 %>
       <div data-controller="modal"
-           data-modal-open-value="<%= post.errors.any? %>">
+           <%= "data-modal-open-value=true".html_safe if post.errors.any? %>>
         <button type="button" class="btn btn--small btn--primary"
                 data-action="modal#open">＋ 新しく募集する</button>
 

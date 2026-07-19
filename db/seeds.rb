@@ -34,6 +34,20 @@ end
 dup_team_slugs = team_slugs.tally.select { |_, n| n > 1 }.keys
 errors << "teams: slug が重複しています（#{dup_team_slugs.join(", ")}）" if dup_team_slugs.any?
 
+# 同名の選手が複数いると、seed が同じ1人として扱ってしまい所属が上書きされる。
+# 実際には別人か、あるいは移籍データの重複なので、必ず知らせる。
+dup_player_names = players.map { |p| p["name"] }.tally.select { |_, n| n > 1 }.keys
+if dup_player_names.any?
+  errors << "players: 同じ選手名が複数あります（#{dup_player_names.join(", ")}）"
+end
+
+# 同じチーム内で背番号が重複していないか
+players.group_by { |p| p["team"] }.each do |team_slug, ps|
+  nums = ps.map { |p| p["jersey_number"] }.compact
+  dups = nums.tally.select { |_, n| n > 1 }.keys
+  errors << "#{team_slug}: 背番号が重複しています（#{dups.join(", ")}）" if dups.any?
+end
+
 players.each do |p|
   errors << "players: name が未記入の選手があります" if p["name"].blank?
   # 選手の team は、teams に書いた slug を指していなければならない
@@ -79,13 +93,17 @@ ActiveRecord::Base.transaction do
     b.position = 1
   end
 
-  # 弾(Topic)。slug で探して、無ければ作る。あれば名前や説明を更新
+  # 弾(Topic)。slug で探して、無ければ作る。あれば名前や説明を更新。
+  #
+  # YAML はリリース順（古い順）で書く＝新しい弾は末尾に追記するだけでよい。
+  # 一方、画面では新しい弾を先に見せたいので、position は逆順に振る。
+  # （最後の要素＝最新が position 1 になり、Topic.ordered で先頭に来る）
   topics_by_slug = {}
   sets.each_with_index do |s, i|
     topic = board.topics.find_or_initialize_by(slug: s["slug"])
     topic.name = s["name"]
     topic.description = s["description"]
-    topic.position = i + 1
+    topic.position = sets.size - i
     topic.save!
     topics_by_slug[s["slug"]] = topic
   end
@@ -104,6 +122,8 @@ ActiveRecord::Base.transaction do
   players.each do |p|
     player = Player.find_or_initialize_by(name: p["name"])
     player.team = teams_by_slug.fetch(p["team"])  # slug からチームを引いて紐づける
+    player.jersey_number = p["jersey_number"]
+    player.position = p["position"]
     player.save!
 
     (p["cards"] || []).each do |c|

@@ -1,117 +1,588 @@
 # ============================================================
 # チーム・選手・カードのマスタデータ
 #
-# このファイルが「情報の唯一の置き場所」。編集して
-#
 #     docker compose exec web bin/rails db:seed
 #
-# を実行すると、内容がデータベースに反映される。
-# ここに書いたカードが、募集フォームの「欲しいカード」の選択肢になる。
 # ============================================================
 #
 # 【ファイルの構成】
+#   sets    … 弾。リリース順（古い順）で書く。新しい弾は末尾に追記する
+#   teams   … クラブチーム。ここに書いた順で画面に並ぶ
+#   players … 選手と、その選手が持つカード
 #
-#   sets    … 弾そのものの情報（名前・説明・画像）。弾が増えたら追記する
-#   teams   … クラブチームの情報（名前・画像）。チームが増えたら追記する
-#   players … 選手と、その選手が持つカード。カードが増えたらここに追記する
+# 【並び順のきまり】
+#   弾   : YAML は古い順。画面では新しい順で表示される（seed が逆順に並べ替える）
+#   チーム: YAML に書いた順がそのまま画面の順になる
 #
-# 【なぜ選手が大きなくくりなのか】
-#
-# 1人の選手のカードは、いろいろな弾に散らばっている。
-# 選手を軸にまとめておくと「この選手のカードは今いくつあるか」が一目で分かる。
-# 弾ごとに選手を並べると、選手名を何度も書くことになり、必ずどこかがズレる。
-#
-# 【レア度は弾ごとに違ってよい】
-#
-# レア度は選手ではなくカードの属性なので、cards の中に書く。
-# 同じ選手が「記録達成ではSR、クリスマスではR」でも、そのまま書ける。
-#
-# 【同じ選手が同じ弾に複数のカードを持つ場合】
-#
-# 記録達成カードのように、1つの弾の中に同じ選手のカードが何種類もあることがある
-# （得点記録、アシスト記録…）。その場合は cards の name で区別する。
-# 1つの弾に1種類しかない選手なら name は省略してよい。
-#
+# 【レア度・カード名】
+#   レア度は 1〜5 の数字（画面では★に変換）。基本は 4〜5 を扱う
+#   同じ選手が同じ弾に複数カードを持つ場合は cards の name で区別する
 # ------------------------------------------------------------
 
 # ============================================================
-# 弾（カードセット）
-#
-#   name        必須。弾の名前。画面にそのまま表示される
-#   slug        必須。英数字のみ。players の cards から参照する名札。
-#               弾の画像ファイル名にも使う（app/assets/images/sets/<slug>.jpg）
-#   description 任意。弾の説明。省略可
-#
-# ↓↓↓ サンプル。実在の弾に書き換えてください ↓↓↓
+# 弾（カードセット）※リリースが古い順。新しい弾は末尾に追記
+#   name  必須。画面に表示される弾の名前
+#   slug  必須。英数字のみ。画像ファイル名にも使う
+#         （app/assets/images/sets/<slug>.jpg）
 # ============================================================
 sets:
-  - name: 記録達成カード
-    slug: record
-    description: 通算得点やアシストなどの記録達成を記念したカード
-
-  - name: アワードカード
-    slug: award
-    description: シーズンの各賞受賞者を記念したカード
-
-  - name: クリスマスカード
-    slug: christmas
-    description: クリスマス限定の特別デザインカード
+  - { name: 2025-26シーズン, slug: season-2025-26 }
+  - { name: Beginning, slug: beginning }
+  - { name: 開幕戦, slug: opening-game }
+  - { name: 夢を、語れ。, slug: yume-wo-katare }
+  - { name: ENERGY, slug: energy }
+  - { name: HALLOWEEN, slug: halloween }
+  - { name: オータム, slug: autumn }
+  - { name: 犬の日, slug: dog-day }
+  - { name: ARENA, slug: arena }
+  - { name: Sanrio characters, slug: sanrio-characters }
+  - { name: 入場, slug: entrance }
+  - { name: マスコット, slug: mascot }
+  - { name: キャプテン, slug: captain }
+  - { name: 背番号, slug: jersey-number }
+  - { name: 今年の一文字, slug: kanji-of-the-year }
+  - { name: クリスマス, slug: christmas }
+  - { name: オールスター, slug: all-star }
+  - { name: 年賀状, slug: nengajo }
+  - { name: おみくじ, slug: omikuji }
+  - { name: オールスター vol.2, slug: all-star-2 }
+  - { name: オールスター vol.3, slug: all-star-3 }
+  - { name: オールスター vol.4, slug: all-star-4 }
+  - { name: オールスター vol.5, slug: all-star-5 }
+  - { name: 年男, slug: toshiotoko }
+  - { name: オールスター vol.6, slug: all-star-6 }
+  - { name: バレンタインCP, slug: valentine-cp }
+  - { name: オールスター vol.7, slug: all-star-7 }
+  - { name: オールスター vol.8, slug: all-star-8 }
+  - { name: 獅子奮迅, slug: shishifunjin }
+  - { name: AKATSUKI JAPAN, slug: akatsuki-japan }
+  - { name: Sanrio characters vol.2, slug: sanrio-characters-2 }
+  - { name: AKATSUKI JAPAN vol.2, slug: akatsuki-japan-2 }
+  - { name: 1 on 1, slug: one-on-one }
+  - { name: "バレンタインデ&ホワイトデー", slug: valentine-white-day }
+  - { name: マスコットオブザイヤー, slug: mascot-of-the-year }
+  - { name: SMILE, slug: smile }
+  - { name: 桜, slug: sakura }
+  - { name: AKATSUKI JAPAN vol.3, slug: akatsuki-japan-3 }
+  - { name: ホワイトデーSP, slug: white-day-sp }
+  - { name: DUNK, slug: dunk }
+  - { name: ZOOM UP, slug: zoom-up }
+  - { name: FIRE, slug: fire }
+  - { name: ベンチシーン, slug: bench-scene }
+  - { name: NEON LIGHT, slug: neon-light }
+  - { name: INNER FLAME, slug: inner-flame }
+  - { name: COURTSIDE EXPRESS, slug: courtside-express }
+  - { name: 推し活, slug: oshikatsu }
+  - { name: 西地区優勝, slug: west-champion }
+  - { name: 東地区優勝, slug: east-champion }
+  - { name: B2 PLAYOFFS, slug: b2-playoffs }
+  - { name: こどもの日, slug: kodomo-no-hi }
+  - { name: CHAMPIONSHIP, slug: championship }
+  - { name: EASL, slug: easl }
+  - { name: B2 CHAMPIONS, slug: b2-champions }
+  - { name: FINALS, slug: finals }
+  - { name: Throwback B.LEAGUE AWARD SHOW, slug: throwback-award-show }
+  - { name: CHAMPIONS, slug: champions }
+  - { name: MASCOT PARTY, slug: mascot-party }
+  - { name: PLAYBACK, slug: playback }
+  - { name: ONE TEAM, slug: one-team }
+  - { name: AWARD, slug: award }
+  - { name: LEADING SCORERS, slug: leading-scorers }
+  - { name: CHAMPIONS OFFSHOT, slug: champions-offshot }
+  - { name: AWARD SHOW, slug: award-show }
+  - { name: BREAK, slug: break }
+  - { name: AKATSUKI JAPAN vol.4, slug: akatsuki-japan-4 }
+  - { name: LEADERS, slug: leaders }
+  - { name: 記録達成, slug: record }
+  - { name: オールタイムベストプレーヤー, slug: all-time-best-player }
+  - { name: ラストユニフォーム, slug: last-uniform }
+  - { name: 七夕, slug: tanabata }
+  - { name: 手書きデコ, slug: handwritten-deco }
+  - { name: SNAPSHOT, slug: snapshot }
+  - { name: FINALE, slug: finale }
+  - { name: ICONIC MOMENTS, slug: iconic-moments }
+  - { name: EMOTIONAL, slug: emotional }
+  - { name: OCEAN, slug: ocean }
 
 # ============================================================
-# クラブチーム
-#
-#   name  必須。チーム名。画面にそのまま表示される
-#   slug  必須。英数字のみ。players の team から参照する名札。
-#         チームのロゴ画像のファイル名にも使う（app/assets/images/teams/<slug>.png）
-#
-# ↓↓↓ サンプル。実在のチームに書き換えてください ↓↓↓
+# クラブチーム ※この順で画面に並ぶ
+#   name  必須。画面に表示されるチーム名
+#   slug  必須。英数字のみ。ロゴ画像のファイル名にも使う
+#         （app/assets/images/teams/<slug>.png）
 # ============================================================
 teams:
-  - name: サンプルチームX
-    slug: team-x
-
-  - name: サンプルチームY
-    slug: team-y
+  - { name: レバンガ北海道, slug: levanga-hokkaido }
+  - { name: 仙台89ERS, slug: sendai-89ers }
+  - { name: 秋田ノーザンハピネッツ, slug: akita-northern-happinets }
+  - { name: 茨城ロボッツ, slug: ibaraki-robots }
+  - { name: 宇都宮ブレックス, slug: utsunomiya-brex }
+  - { name: 群馬クレインサンダーズ, slug: gunma-crane-thunders }
+  - { name: 越谷アルファーズ, slug: koshigaya-alphas }
+  - { name: アルティーリ千葉, slug: altiri-chiba }
+  - { name: 千葉ジェッツ, slug: chiba-jets }
+  - { name: アルバルク東京, slug: alvark-tokyo }
+  - { name: サンロッカーズ渋谷, slug: sunrockers-shibuya }
+  - { name: 川崎ブレイブサンダース, slug: kawasaki-brave-thunders }
+  - { name: 横浜ビー・コルセアーズ, slug: yokohama-b-corsairs }
+  - { name: 富山グラウジーズ, slug: toyama-grouses }
+  - { name: 三遠ネオフェニックス, slug: sanen-neophoenix }
+  - { name: シーホース三河, slug: seahorses-mikawa }
+  - { name: ファイティングイーグルス名古屋, slug: fighting-eagles-nagoya }
+  - { name: 名古屋ダイヤモンドドルフィンズ, slug: nagoya-diamond-dolphins }
+  - { name: 滋賀レイクス, slug: shiga-lakes }
+  - { name: 京都ハンナリーズ, slug: kyoto-hannaryz }
+  - { name: 大阪エヴェッサ, slug: osaka-evessa }
+  - { name: 島根スサノオマジック, slug: shimane-susanoo-magic }
+  - { name: 広島ドラゴンフライズ, slug: hiroshima-dragonflies }
+  - { name: 佐賀バルーナーズ, slug: saga-ballooners }
+  - { name: 長崎ヴェルカ, slug: nagasaki-velca }
+  - { name: 琉球ゴールデンキングス, slug: ryukyu-golden-kings }
+  - { name: 青森ワッツ, slug: aomori-wats }
+  - { name: 岩手ビッグブルズ, slug: iwate-big-bulls }
+  - { name: 山形ワイヴァンズ, slug: yamagata-wyverns }
+  - { name: 福島ファイヤーボンズ, slug: fukushima-firebonds }
+  - { name: 横浜エクセレンス, slug: yokohama-excellence }
+  - { name: 福井ブローウィンズ, slug: fukui-blowinds }
+  - { name: 信州ブレイブウォリアーズ, slug: shinshu-brave-warriors }
+  - { name: ベルテックス静岡, slug: veltex-shizuoka }
+  - { name: 神戸ストークス, slug: kobe-storks }
+  - { name: バンビシャス奈良, slug: bambitious-nara }
+  - { name: 愛媛オレンジバイキングス, slug: ehime-orange-vikings }
+  - { name: ライジングゼファーズ福岡, slug: rizing-zephyr-fukuoka }
+  - { name: 熊本ヴォルターズ, slug: kumamoto-volters }
+  - { name: 鹿児島レブナイズ, slug: kagoshima-rebnise }
 
 # ============================================================
 # 選手と、その選手のカード
+#   name    必須。選手名（この表記が「正」になる）
+#   team    必須。上の teams の slug を指定
+#   cards   任意。その選手のカード
+#     set     必須。上の sets の slug を指定
+#     name    条件つき。同じ弾に複数カードがあるとき必須
+#     rarity  必須。1〜5 の数字
 #
-#   name    必須。選手名。ここに書いた表記が「正」になる
-#   team    必須。上の teams に書いた slug を指定する（所属クラブ）。
-#           移籍したらここを書き換える
-#   cards   その選手のカード。持っていなければ空でよい
-#     set     必須。上の sets に書いた slug を指定する
-#     name    条件つき。カード名（得点記録 など）。同じ弾に複数あるとき必須
-#     rarity  必須。レア度を 1〜5 の数字で書く（画面では ★ に変換）。基本は 4〜5
-#
-# ↓↓↓ サンプル。実在の選手に書き換えてください ↓↓↓
+#   jersey_number 任意。背番号。チーム内はこの順で並ぶ
+#   position      任意。ポジション（例: SG/SF）
 # ============================================================
 players:
-  - name: サンプル選手A
-    team: team-x
-    cards:
-      # 同じ記録達成カード弾に2種類ある例。name で区別する
-      - set: record
-        name: 得点記録
-        rarity: 5
-      - set: record
-        name: アシスト記録
-        rarity: 4
-      - set: award
-        rarity: 5
-      # 1種類しかない弾なので name は省略している
-      - set: christmas
-        rarity: 4
+  # --- レバンガ北海道 ---
+  - { name: 関野剛平, team: levanga-hokkaido, jersey_number: 1, position: SG/SF }
+  - { name: ドワイト・ラモス, team: levanga-hokkaido, jersey_number: 2, position: SG/SF }
+  - { name: ケビン・ジョーンズ, team: levanga-hokkaido, jersey_number: 5, position: PF }
+  - { name: 菊地広人, team: levanga-hokkaido, jersey_number: 6, position: PG/SG }
+  - { name: 木林優, team: levanga-hokkaido, jersey_number: 8, position: PF }
+  - { name: 市場脩斗, team: levanga-hokkaido, jersey_number: 12, position: PG/SG }
+  - { name: 星野京介, team: levanga-hokkaido, jersey_number: 14, position: SG }
+  - { name: 島谷怜, team: levanga-hokkaido, jersey_number: 15, position: PG }
+  - { name: 内藤耀悠, team: levanga-hokkaido, jersey_number: 18, position: SF }
+  - { name: ジョン・ハーラー, team: levanga-hokkaido, jersey_number: 21, position: C/PF }
+  - { name: マックス・ヒサタケ, team: levanga-hokkaido, jersey_number: 29, position: PF }
+  - { name: 富永啓生, team: levanga-hokkaido, jersey_number: 30, position: SG }
+  - { name: 盛實海翔, team: levanga-hokkaido, jersey_number: 34, position: SG }
+  - { name: 西村優真, team: levanga-hokkaido, jersey_number: 40, position: SG/SF }
 
-  - name: サンプル選手B
-    team: team-y
-    cards:
-      - set: record
-        name: リバウンド記録
-        rarity: 4
+  # --- 仙台89ERS ---
+  - { name: 岡島和真, team: sendai-89ers, jersey_number: 3, position: PG }
+  - { name: 船生誠也, team: sendai-89ers, jersey_number: 7, position: PG/SG }
+  - { name: ジャレット・カルバー, team: sendai-89ers, jersey_number: 8, position: SG/SF }
+  - { name: セルジオ・エルダーウィッチ, team: sendai-89ers, jersey_number: 9, position: SG }
+  - { name: 荒谷裕秀, team: sendai-89ers, jersey_number: 11, position: SG/SF }
+  - { name: 杉浦佑成, team: sendai-89ers, jersey_number: 14, position: SF }
+  - { name: 渡辺翔太, team: sendai-89ers, jersey_number: 15, position: PG }
+  - { name: ブーバカー・トゥーレ, team: sendai-89ers, jersey_number: 21, position: C }
+  - { name: 半澤凌太, team: sendai-89ers, jersey_number: 23, position: SF }
+  - { name: 新沼康生, team: sendai-89ers, jersey_number: 24, position: SF }
+  - { name: ネイサン・ブース, team: sendai-89ers, jersey_number: 45, position: C/PF }
+  - { name: 井上宗一郎, team: sendai-89ers, jersey_number: 75, position: PF }
+  - { name: 阿部真冴橙, team: sendai-89ers, jersey_number: 96, position: PG/SG }
 
-  - name: サンプル選手C
-    team: team-x
-    cards:
-      - set: award
-        rarity: 5
+  # --- 秋田ノーザンハピネッツ ---
+  - { name: ジャメール・マクリーン, team: akita-northern-happinets, jersey_number: 1, position: C/PF }
+  - { name: 栗原翼, team: akita-northern-happinets, jersey_number: 2, position: PG/SG }
+  - { name: 田口成浩, team: akita-northern-happinets, jersey_number: 5, position: SG }
+  - { name: 赤穂雷太, team: akita-northern-happinets, jersey_number: 6, position: SG/SF }
+  - { name: 堀田尚秀, team: akita-northern-happinets, jersey_number: 7, position: SG }
+  - { name: ヤニー・ウェッツェル, team: akita-northern-happinets, jersey_number: 10, position: C/PF }
+  - { name: 元田大陽, team: akita-northern-happinets, jersey_number: 12, position: SG }
+  - { name: 菅原暉, team: akita-northern-happinets, jersey_number: 14, position: PG }
+  - { name: 中山拓哉, team: akita-northern-happinets, jersey_number: 17, position: PG/SG }
+  - { name: 岩屋頼, team: akita-northern-happinets, jersey_number: 18, position: PG }
+  - { name: アリ・メザー, team: akita-northern-happinets, jersey_number: 22, position: PG }
+  - { name: 髙比良寛治, team: akita-northern-happinets, jersey_number: 24, position: SG }
+  - { name: アンジェロ・チョル, team: akita-northern-happinets, jersey_number: 27, position: PF }
+  - { name: 土屋アリスター時生, team: akita-northern-happinets, jersey_number: 77, position: PF }
+
+  # --- 茨城ロボッツ ---
+  - { name: ロバート・フランクス, team: ibaraki-robots, jersey_number: 0, position: SF/PF }
+  - { name: 小島元基, team: ibaraki-robots, jersey_number: 1, position: PG }
+  - { name: 長谷川暢, team: ibaraki-robots, jersey_number: 3, position: PG }
+  - { name: 駒沢颯, team: ibaraki-robots, jersey_number: 7, position: PG }
+  - { name: ヤンジェミン, team: ibaraki-robots, jersey_number: 9, position: SF }
+  - { name: 陳岡流羽, team: ibaraki-robots, jersey_number: 10, position: PG/SG }
+  - { name: 赤間賢人, team: ibaraki-robots, jersey_number: 12, position: SG }
+  - { name: 中村功平, team: ibaraki-robots, jersey_number: 13, position: PG/SG }
+  - { name: 久岡幸太郎, team: ibaraki-robots, jersey_number: 14, position: PG }
+  - { name: エリック・ジェイコブセン, team: ibaraki-robots, jersey_number: 21, position: C/PF }
+  - { name: 平尾充庸, team: ibaraki-robots, jersey_number: 25, position: PG }
+  - { name: 鶴巻啓太, team: ibaraki-robots, jersey_number: 29, position: SG/SF }
+  - { name: ティム・シュナイダー, team: ibaraki-robots, jersey_number: 30, position: PF }
+  - { name: 村越圭佑, team: ibaraki-robots, jersey_number: 92, position: PF }
+
+  # --- 宇都宮ブレックス ---
+  - { name: 田臥勇太, team: utsunomiya-brex, jersey_number: 0, position: PG }
+  - { name: 比江島慎, team: utsunomiya-brex, jersey_number: 6, position: SG }
+  - { name: 小川敦也, team: utsunomiya-brex, jersey_number: 7, position: PG }
+  - { name: 遠藤祐亮, team: utsunomiya-brex, jersey_number: 9, position: SG }
+  - { name: 竹内公輔, team: utsunomiya-brex, jersey_number: 10, position: C/PF }
+  - { name: 青木ブレイク, team: utsunomiya-brex, jersey_number: 11, position: PF }
+  - { name: 高島紳司, team: utsunomiya-brex, jersey_number: 12, position: SG }
+  - { name: 渡邉裕規, team: utsunomiya-brex, jersey_number: 13, position: PG }
+  - { name: 石川裕大, team: utsunomiya-brex, jersey_number: 15, position: PG }
+  - { name: 星川開聖, team: utsunomiya-brex, jersey_number: 17, position: SF }
+  - { name: 鵤誠司, team: utsunomiya-brex, jersey_number: 18, position: PG }
+  - { name: D.J・ニュービル, team: utsunomiya-brex, jersey_number: 25, position: PG/SG }
+  - { name: ギャビン・エドワーズ, team: utsunomiya-brex, jersey_number: 33, position: PF }
+  - { name: グラント・ジェレット, team: utsunomiya-brex, jersey_number: 34, position: PF }
+  - { name: アイザック・フォトゥ, team: utsunomiya-brex, jersey_number: 42, position: PF }
+
+  # --- 群馬クレインサンダーズ ---
+  - { name: 藤井祐眞, team: gunma-crane-thunders, jersey_number: 0, position: PG/SG }
+  - { name: コー・フリッピン, team: gunma-crane-thunders, jersey_number: 1, position: PG/SG }
+  - { name: トレイ・ジョーンズ, team: gunma-crane-thunders, jersey_number: 4, position: SF }
+  - { name: 中村拓人, team: gunma-crane-thunders, jersey_number: 6, position: PG }
+  - { name: ケリー・ブラックシアー・ジュニア, team: gunma-crane-thunders, jersey_number: 8, position: C/PF }
+  - { name: 辻直人, team: gunma-crane-thunders, jersey_number: 9, position: SG }
+  - { name: 佐藤誠人, team: gunma-crane-thunders, jersey_number: 14, position: SF }
+  - { name: エージェー・エドゥ, team: gunma-crane-thunders, jersey_number: 15, position: C/PF }
+  - { name: 淺野ケニー, team: gunma-crane-thunders, jersey_number: 16, position: SF }
+  - { name: 細川一輝, team: gunma-crane-thunders, jersey_number: 29, position: SG }
+  - { name: ヨハネス・ティーマン, team: gunma-crane-thunders, jersey_number: 32, position: PF }
+  - { name: 谷口大智, team: gunma-crane-thunders, jersey_number: 55, position: C/PF }
+
+  # --- 越谷アルファーズ ---
+  - { name: ジャレル・マーティン, team: koshigaya-alphas, jersey_number: 1, position: PF }
+  - { name: 四家魁人, team: koshigaya-alphas, jersey_number: 4, position: PG }
+  - { name: アンソニー・クレモンズ, team: koshigaya-alphas, jersey_number: 5, position: PG }
+  - { name: 松山駿, team: koshigaya-alphas, jersey_number: 7, position: PG/SG }
+  - { name: ジャワラジョゼフ, team: koshigaya-alphas, jersey_number: 8, position: PF }
+  - { name: 三ツ井利也, team: koshigaya-alphas, jersey_number: 10, position: SF }
+  - { name: カイ・ソット, team: koshigaya-alphas, jersey_number: 11, position: C }
+  - { name: 池田祐一, team: koshigaya-alphas, jersey_number: 12, position: PG }
+  - { name: 堀陽稀, team: koshigaya-alphas, jersey_number: 13, position: SG/SF }
+  - { name: 大庭岳輝, team: koshigaya-alphas, jersey_number: 14, position: SG }
+  - { name: 鎌田裕也, team: koshigaya-alphas, jersey_number: 18, position: C/PF }
+  - { name: ジョーダン・ナタイ, team: koshigaya-alphas, jersey_number: 20, position: SF/PF }
+  - { name: 菅原佳依, team: koshigaya-alphas, jersey_number: 28, position: SF }
+  - { name: 喜多川修平, team: koshigaya-alphas, jersey_number: 31, position: SF }
+  - { name: セクー・ドゥムブヤ, team: koshigaya-alphas, jersey_number: 45, position: SF/PF }
+
+  # --- アルティーリ千葉 ---
+  - { name: 木田貴明, team: altiri-chiba, jersey_number: 0, position: SF }
+  - { name: マリアル・シャヨク, team: altiri-chiba, jersey_number: 1, position: SG/SF }
+  - { name: 黒川虎徹, team: altiri-chiba, jersey_number: 3, position: PG }
+  - { name: 前田怜緒, team: altiri-chiba, jersey_number: 5, position: SG/SF }
+  - { name: デレク・パードン, team: altiri-chiba, jersey_number: 7, position: C/PF }
+  - { name: 長谷川智也, team: altiri-chiba, jersey_number: 8, position: SG }
+  - { name: 杉本慶, team: altiri-chiba, jersey_number: 11, position: PG }
+  - { name: 大崎裕太, team: altiri-chiba, jersey_number: 16, position: PG/SG }
+  - { name: ブランドン・アシュリー, team: altiri-chiba, jersey_number: 21, position: C/PF }
+  - { name: トレイ・ポーター, team: altiri-chiba, jersey_number: 22, position: C/PF }
+  - { name: 大塚裕土, team: altiri-chiba, jersey_number: 24, position: SG }
+  - { name: 熊谷尚也, team: altiri-chiba, jersey_number: 27, position: SF }
+  - { name: エヴァンスルーク, team: altiri-chiba, jersey_number: 33, position: PF }
+  - { name: 渡邉伶音, team: altiri-chiba, jersey_number: 42, position: SF/PF }
+
+  # --- 千葉ジェッツ ---
+  - { name: 渡邊雄太, team: chiba-jets, jersey_number: 1, position: SF/PF }
+  - { name: 富樫勇樹, team: chiba-jets, jersey_number: 2, position: PG }
+  - { name: 田代直希, team: chiba-jets, jersey_number: 4, position: SG/SF }
+  - { name: 瀬川琉久, team: chiba-jets, jersey_number: 5, position: PG }
+  - { name: ナシール・リトル, team: chiba-jets, jersey_number: 8, position: SF/PF }
+  - { name: 二上耀, team: chiba-jets, jersey_number: 9, position: SG }
+  - { name: ディー・ジェイ・ホグ, team: chiba-jets, jersey_number: 10, position: SF/PF }
+  - { name: 西村文男, team: chiba-jets, jersey_number: 11, position: PG }
+  - { name: 金近廉, team: chiba-jets, jersey_number: 12, position: SF }
+  - { name: 深水虎太郎, team: chiba-jets, jersey_number: 13, position: SF }
+  - { name: ギャリソン・ブルックス, team: chiba-jets, jersey_number: 15, position: C/PF }
+  - { name: 荒尾岳, team: chiba-jets, jersey_number: 25, position: PF }
+  - { name: 原修太, team: chiba-jets, jersey_number: 31, position: SG/SF }
+  - { name: ジョン・ムーニー, team: chiba-jets, jersey_number: 33, position: C/PF }
+  - { name: クエンティン・ミロラ・ブラウン, team: chiba-jets, jersey_number: 42, position: C }
+  - { name: 加藤ダニエル, team: chiba-jets, jersey_number: 44, position: C/PF }
+
+  # --- アルバルク東京 ---
+  - { name: ブランドン・デイヴィス, team: alvark-tokyo, jersey_number: 0, position: C }
+  - { name: 大倉颯太, team: alvark-tokyo, jersey_number: 2, position: PG/SG }
+  - { name: テーブス海, team: alvark-tokyo, jersey_number: 3, position: PG }
+  - { name: 中村浩陸, team: alvark-tokyo, jersey_number: 5, position: PG/SG }
+  - { name: 安藤周人, team: alvark-tokyo, jersey_number: 9, position: SG }
+  - { name: ザック・バランスキー, team: alvark-tokyo, jersey_number: 10, position: SF/PF }
+  - { name: セバスチャン・サイズ, team: alvark-tokyo, jersey_number: 11, position: C/PF }
+  - { name: 菊地祥平, team: alvark-tokyo, jersey_number: 13, position: SF }
+  - { name: マーカス・フォスター, team: alvark-tokyo, jersey_number: 17, position: SG }
+  - { name: 平岩玄, team: alvark-tokyo, jersey_number: 21, position: C }
+  - { name: ライアン・ロシター, team: alvark-tokyo, jersey_number: 22, position: C/PF }
+  - { name: 福澤晃平, team: alvark-tokyo, jersey_number: 25, position: PG/SG }
+  - { name: 小酒部泰暉, team: alvark-tokyo, jersey_number: 75, position: SG }
+
+  # --- サンロッカーズ渋谷 ---
+  - { name: ディディ・ロウザダ, team: sunrockers-shibuya, jersey_number: 0, position: SF }
+  - { name: ドンテ・グランタム, team: sunrockers-shibuya, jersey_number: 1, position: PF }
+  - { name: ジャン・ローレンス・ハーパージュニア, team: sunrockers-shibuya, jersey_number: 3, position: PG }
+  - { name: トロイ・マーフィージュニア, team: sunrockers-shibuya, jersey_number: 4, position: SG/SF }
+  - { name: ジョシュ・ホーキンソン, team: sunrockers-shibuya, jersey_number: 8, position: C/PF }
+  - { name: ベンドラメ礼生, team: sunrockers-shibuya, jersey_number: 9, position: PG/SG }
+  - { name: 野﨑零也, team: sunrockers-shibuya, jersey_number: 12, position: SG }
+  - { name: 田中大貴, team: sunrockers-shibuya, jersey_number: 13, position: SG }
+  - { name: 狩野富成, team: sunrockers-shibuya, jersey_number: 14, position: C }
+  - { name: 大庭圭太郎, team: sunrockers-shibuya, jersey_number: 18, position: PG }
+  - { name: 山内盛久, team: sunrockers-shibuya, jersey_number: 32, position: PG }
+  - { name: トーマス・ウェルシュ, team: sunrockers-shibuya, jersey_number: 40, position: C }
+  - { name: 永吉佑也, team: sunrockers-shibuya, jersey_number: 43, position: C/PF }
+  - { name: 大森康瑛, team: sunrockers-shibuya, jersey_number: 77, position: SF }
+
+  # --- 川崎ブレイブサンダース ---
+  - { name: オマール・ジャマレディン, team: kawasaki-brave-thunders, jersey_number: 1, position: SG/SF }
+  - { name: 伊久江ロイ英輝, team: kawasaki-brave-thunders, jersey_number: 2, position: SF/PF }
+  - { name: 水野幹太, team: kawasaki-brave-thunders, jersey_number: 3, position: PG/SG }
+  - { name: エマニュエル・テリー, team: kawasaki-brave-thunders, jersey_number: 5, position: C/PF }
+  - { name: 篠山竜青, team: kawasaki-brave-thunders, jersey_number: 7, position: PG }
+  - { name: 野本建吾, team: kawasaki-brave-thunders, jersey_number: 10, position: PF }
+  - { name: 米須玲音, team: kawasaki-brave-thunders, jersey_number: 11, position: PG }
+  - { name: 津山尚大, team: kawasaki-brave-thunders, jersey_number: 13, position: PG/SG }
+  - { name: ドゥシャン・リスティッチ, team: kawasaki-brave-thunders, jersey_number: 14, position: C }
+  - { name: 飯田遼, team: kawasaki-brave-thunders, jersey_number: 17, position: SG/SF }
+  - { name: ロスコ・アレン, team: kawasaki-brave-thunders, jersey_number: 25, position: SF/PF }
+  - { name: 長谷川技, team: kawasaki-brave-thunders, jersey_number: 33, position: SF }
+  - { name: 山内ジャヘル琉人, team: kawasaki-brave-thunders, jersey_number: 45, position: SG }
+  - { name: 岡田大河, team: kawasaki-brave-thunders, jersey_number: 55, position: PG }
+
+  # --- 横浜ビー・コルセアーズ ---
+  - { name: 安藤誓哉, team: yokohama-b-corsairs, jersey_number: 3, position: PG }
+  - { name: ダミアン・イングリス, team: yokohama-b-corsairs, jersey_number: 4, position: C/PF }
+  - { name: 新井楽人, team: yokohama-b-corsairs, jersey_number: 6, position: SG/SF }
+  - { name: 谷口光貴, team: yokohama-b-corsairs, jersey_number: 7, position: SG/SF }
+  - { name: ゲイリー・クラーク, team: yokohama-b-corsairs, jersey_number: 8, position: PF }
+  - { name: 前野幹太, team: yokohama-b-corsairs, jersey_number: 10, position: SF/PF }
+  - { name: 佐藤凪, team: yokohama-b-corsairs, jersey_number: 11, position: PG }
+  - { name: キーファー・ラベナ, team: yokohama-b-corsairs, jersey_number: 15, position: PG/SG }
+  - { name: 森井健太, team: yokohama-b-corsairs, jersey_number: 18, position: PG }
+  - { name: マイク・コッツァー, team: yokohama-b-corsairs, jersey_number: 21, position: C/PF }
+  - { name: キング開, team: yokohama-b-corsairs, jersey_number: 23, position: PG/SG }
+  - { name: 松崎裕樹, team: yokohama-b-corsairs, jersey_number: 24, position: SG/SF }
+  - { name: 須藤昂矢, team: yokohama-b-corsairs, jersey_number: 30, position: SG }
+  - { name: 兪龍海, team: yokohama-b-corsairs, jersey_number: 51, position: SF }
+  - { name: 江原行佐, team: yokohama-b-corsairs, jersey_number: 77, position: SF }
+
+  # --- 富山グラウジーズ ---
+  - { name: 藤永佳昭, team: toyama-grouses, jersey_number: 2, position: PG }
+  - { name: 岡田雄三, team: toyama-grouses, jersey_number: 3, position: PG }
+  - { name: ウィリアムスニカ, team: toyama-grouses, jersey_number: 6, position: C }
+  - { name: 宮本一樹, team: toyama-grouses, jersey_number: 7, position: SF/PF }
+  - { name: トレイ・ケル, team: toyama-grouses, jersey_number: 8, position: SG }
+  - { name: 水戸健史, team: toyama-grouses, jersey_number: 9, position: SG }
+  - { name: 宇都直輝, team: toyama-grouses, jersey_number: 11, position: PG }
+  - { name: ブロック・モータム, team: toyama-grouses, jersey_number: 12, position: PF }
+  - { name: マシュー・アキノ, team: toyama-grouses, jersey_number: 13, position: PF }
+  - { name: 泉登翔, team: toyama-grouses, jersey_number: 14, position: SG }
+  - { name: 田中晴瑛, team: toyama-grouses, jersey_number: 17, position: PG }
+  - { name: 鎌田隼, team: toyama-grouses, jersey_number: 21, position: SG/SF }
+  - { name: ヤニス・モラン, team: toyama-grouses, jersey_number: 24, position: C/PF }
+  - { name: 葛原大智, team: toyama-grouses, jersey_number: 25, position: SG/SF }
+  - { name: 野﨑由之, team: toyama-grouses, jersey_number: 28, position: SG }
+
+  # --- 三遠ネオフェニックス ---
+  - { name: ヤンテ・メイテン, team: sanen-neophoenix, jersey_number: 1, position: PF }
+  - { name: デイビッド・ヌワバ, team: sanen-neophoenix, jersey_number: 2, position: SG/SF }
+  - { name: 大浦颯太, team: sanen-neophoenix, jersey_number: 5, position: PG }
+  - { name: キャメロン・ジャクソン, team: sanen-neophoenix, jersey_number: 7, position: C/PF }
+  - { name: 吉井裕鷹, team: sanen-neophoenix, jersey_number: 10, position: SF }
+  - { name: 浅井英矢, team: sanen-neophoenix, jersey_number: 11, position: SF }
+  - { name: 湧川颯斗, team: sanen-neophoenix, jersey_number: 14, position: PG }
+  - { name: 河田チリジ, team: sanen-neophoenix, jersey_number: 15, position: C }
+  - { name: 根本大, team: sanen-neophoenix, jersey_number: 20, position: PG }
+  - { name: 鈴木悠介, team: sanen-neophoenix, jersey_number: 21, position: PF }
+  - { name: 佐々木隆成, team: sanen-neophoenix, jersey_number: 24, position: PG/SG }
+  - { name: 津屋一球, team: sanen-neophoenix, jersey_number: 28, position: SG }
+  - { name: 児玉ジュニア, team: sanen-neophoenix, jersey_number: 33, position: PG/SG }
+
+  # --- シーホース三河 ---
+  - { name: トーマス・ケネディ, team: seahorses-mikawa, jersey_number: 1, position: SF/PF }
+  - { name: 元澤誠, team: seahorses-mikawa, jersey_number: 5, position: SG/SF }
+  - { name: 長野誠史, team: seahorses-mikawa, jersey_number: 7, position: PG }
+  - { name: ジェイク・レイマン, team: seahorses-mikawa, jersey_number: 10, position: SF/PF }
+  - { name: 久保田義章, team: seahorses-mikawa, jersey_number: 11, position: PG }
+  - { name: 須田侑太郎, team: seahorses-mikawa, jersey_number: 13, position: SG/SF }
+  - { name: 角野亮伍, team: seahorses-mikawa, jersey_number: 18, position: SG/SF }
+  - { name: 西田優大, team: seahorses-mikawa, jersey_number: 19, position: SG/SF }
+  - { name: 石井講祐, team: seahorses-mikawa, jersey_number: 27, position: SG }
+  - { name: アーロン・ホワイト, team: seahorses-mikawa, jersey_number: 30, position: C/PF }
+  - { name: シェーファーアヴィ幸樹, team: seahorses-mikawa, jersey_number: 32, position: C }
+  - { name: ダバンテ・ガードナー, team: seahorses-mikawa, jersey_number: 54, position: C/PF }
+
+  # --- ファイティングイーグルス名古屋 ---
+  - { name: ジャモルコ・ピケット, team: fighting-eagles-nagoya, jersey_number: 0, position: SF/PF }
+  - { name: マーク・バートン, team: fighting-eagles-nagoya, jersey_number: 1, position: PG/SG }
+  - { name: 並里成, team: fighting-eagles-nagoya, jersey_number: 3, position: PG }
+  - { name: 針間大知, team: fighting-eagles-nagoya, jersey_number: 5, position: SG }
+  - { name: 須藤タイレル拓, team: fighting-eagles-nagoya, jersey_number: 6, position: PG/SG }
+  - { name: 伊藤治輝, team: fighting-eagles-nagoya, jersey_number: 7, position: PF }
+  - { name: 宇都宮陸, team: fighting-eagles-nagoya, jersey_number: 9, position: PG }
+  - { name: 杉本天昇, team: fighting-eagles-nagoya, jersey_number: 10, position: SG }
+  - { name: 月岡熙, team: fighting-eagles-nagoya, jersey_number: 11, position: PG }
+  - { name: 平松克樹, team: fighting-eagles-nagoya, jersey_number: 12, position: PG }
+  - { name: マイロ・マーフィー, team: fighting-eagles-nagoya, jersey_number: 15, position: PG/SG }
+  - { name: 神田壮一郎, team: fighting-eagles-nagoya, jersey_number: 17, position: SG/SF }
+  - { name: フランシス・ロペス, team: fighting-eagles-nagoya, jersey_number: 20, position: SF }
+  - { name: 笹山貴哉, team: fighting-eagles-nagoya, jersey_number: 21, position: PG }
+  - { name: ジェレミー・ジョーンズ, team: fighting-eagles-nagoya, jersey_number: 22, position: SF }
+  - { name: 保岡龍斗, team: fighting-eagles-nagoya, jersey_number: 23, position: SG/SF }
+  - { name: アンドリュー・ランダル, team: fighting-eagles-nagoya, jersey_number: 33, position: SF }
+  - { name: ショーン・オマラ, team: fighting-eagles-nagoya, jersey_number: 54, position: C }
+
+  # --- 名古屋ダイヤモンドドルフィンズ ---
+  - { name: 齋藤拓実, team: nagoya-diamond-dolphins, jersey_number: 2, position: PG }
+  - { name: 加藤嵩都, team: nagoya-diamond-dolphins, jersey_number: 3, position: PG }
+  - { name: 小澤飛悠, team: nagoya-diamond-dolphins, jersey_number: 4, position: SF }
+  - { name: アイザイア・マーフィー, team: nagoya-diamond-dolphins, jersey_number: 5, position: PG/SG }
+  - { name: 今西優斗, team: nagoya-diamond-dolphins, jersey_number: 7, position: PG }
+  - { name: 張本天傑, team: nagoya-diamond-dolphins, jersey_number: 8, position: SF/PF }
+  - { name: アーロン・ヘンリー, team: nagoya-diamond-dolphins, jersey_number: 11, position: SF }
+  - { name: 中東泰斗, team: nagoya-diamond-dolphins, jersey_number: 12, position: SG }
+  - { name: 佐藤卓磨, team: nagoya-diamond-dolphins, jersey_number: 14, position: SG/SF }
+  - { name: アラン・ウィリアムズ, team: nagoya-diamond-dolphins, jersey_number: 15, position: C }
+  - { name: ジェイク幸輝・ホルツ, team: nagoya-diamond-dolphins, jersey_number: 23, position: SF }
+  - { name: 今村佳太, team: nagoya-diamond-dolphins, jersey_number: 30, position: SG/SF }
+  - { name: カイル・リチャードソン, team: nagoya-diamond-dolphins, jersey_number: 34, position: C/PF }
+  - { name: スコット・エサトン, team: nagoya-diamond-dolphins, jersey_number: 43, position: C/PF }
+
+  # --- 滋賀レイクス ---
+  - { name: ザック・オーガスト, team: shiga-lakes, jersey_number: 0, position: C/PF }
+  - { name: 岩下准平, team: shiga-lakes, jersey_number: 2, position: PG }
+  - { name: ライアン・クリーナー, team: shiga-lakes, jersey_number: 4, position: PF }
+  - { name: 岡田泰希, team: shiga-lakes, jersey_number: 6, position: PG/SG }
+  - { name: 游艾喆, team: shiga-lakes, jersey_number: 7, position: PG }
+  - { name: 佐藤瑠一シャンドレイ, team: shiga-lakes, jersey_number: 11, position: SG/SF }
+  - { name: 坂井レオ, team: shiga-lakes, jersey_number: 13, position: C/PF }
+  - { name: 西田陽成, team: shiga-lakes, jersey_number: 14, position: SG }
+  - { name: 野本大智, team: shiga-lakes, jersey_number: 16, position: PG }
+  - { name: 常田耕平, team: shiga-lakes, jersey_number: 17, position: PG }
+  - { name: トーマス・ウィンブッシュ, team: shiga-lakes, jersey_number: 20, position: SF/PF }
+  - { name: 田原隆徳, team: shiga-lakes, jersey_number: 21, position: PG }
+  - { name: 市岡ショーン, team: shiga-lakes, jersey_number: 22, position: C/PF }
+  - { name: 江原信太朗, team: shiga-lakes, jersey_number: 25, position: SF }
+  - { name: 長谷川比源, team: shiga-lakes, jersey_number: 34, position: SF/PF }
+
+  # --- 京都ハンナリーズ ---
+  - { name: 小野龍猛, team: kyoto-hannaryz, jersey_number: 0, position: SF }
+  - { name: 澁田怜音, team: kyoto-hannaryz, jersey_number: 3, position: PG }
+  - { name: 西部秀馬, team: kyoto-hannaryz, jersey_number: 7, position: SG/SF }
+  - { name: チャールズ・ジャクソン, team: kyoto-hannaryz, jersey_number: 10, position: C }
+  - { name: 小川麻斗, team: kyoto-hannaryz, jersey_number: 12, position: PG }
+  - { name: 前田悟, team: kyoto-hannaryz, jersey_number: 13, position: SG }
+  - { name: 川嶋勇人, team: kyoto-hannaryz, jersey_number: 15, position: SG }
+  - { name: 渡辺竜之佑, team: kyoto-hannaryz, jersey_number: 16, position: PG/SG }
+  - { name: ラシードファラーズ, team: kyoto-hannaryz, jersey_number: 24, position: SF/PF }
+  - { name: アンジェロ・カロイアロ, team: kyoto-hannaryz, jersey_number: 32, position: SF/PF }
+  - { name: アイラ・ブラウン, team: kyoto-hannaryz, jersey_number: 33, position: SF/PF }
+  - { name: ジョーダン・ヒース, team: kyoto-hannaryz, jersey_number: 35, position: C/PF }
+  - { name: ホール百音アレックス, team: kyoto-hannaryz, jersey_number: 39, position: SF }
+  - { name: 古川孝敏, team: kyoto-hannaryz, jersey_number: 51, position: SG/SF }
+
+  # --- 大阪エヴェッサ ---
+  - { name: レイ・パークスジュニア, team: osaka-evessa, jersey_number: 1, position: SG }
+  - { name: 青木保憲, team: osaka-evessa, jersey_number: 4, position: PG }
+  - { name: マット・ボンズ, team: osaka-evessa, jersey_number: 5, position: PF }
+  - { name: 高橋快成, team: osaka-evessa, jersey_number: 7, position: PG }
+  - { name: 植松義也, team: osaka-evessa, jersey_number: 8, position: SF/PF }
+  - { name: ライアン・ルーサー, team: osaka-evessa, jersey_number: 11, position: C/PF }
+  - { name: 竹内譲次, team: osaka-evessa, jersey_number: 15, position: C/PF }
+  - { name: 合田怜, team: osaka-evessa, jersey_number: 20, position: PG/SG }
+  - { name: 木下誠, team: osaka-evessa, jersey_number: 31, position: PG/SG }
+  - { name: 鈴木達也, team: osaka-evessa, jersey_number: 35, position: PG }
+  - { name: ヴォーディミル・ゲルン, team: osaka-evessa, jersey_number: 52, position: C/PF }
+  - { name: 坂本聖芽, team: osaka-evessa, jersey_number: 60, position: PG/SG }
+  - { name: 牧隼利, team: osaka-evessa, jersey_number: 88, position: PG/SG }
+
+  # --- 島根スサノオマジック ---
+  - { name: コティ・クラーク, team: shimane-susanoo-magic, jersey_number: 1, position: PF }
+  - { name: ニック・ケイ, team: shimane-susanoo-magic, jersey_number: 4, position: C/PF }
+  - { name: 新井翔太, team: shimane-susanoo-magic, jersey_number: 5, position: PG }
+  - { name: 北川弘, team: shimane-susanoo-magic, jersey_number: 6, position: PG }
+  - { name: 介川アンソニー翔, team: shimane-susanoo-magic, jersey_number: 7, position: SF/PF }
+  - { name: 中村太地, team: shimane-susanoo-magic, jersey_number: 11, position: PG/SG }
+  - { name: ジェームズ・マイケル・マカドゥ, team: shimane-susanoo-magic, jersey_number: 14, position: C/PF }
+  - { name: 白濱僚祐, team: shimane-susanoo-magic, jersey_number: 15, position: SG/SF }
+  - { name: 横地聖真, team: shimane-susanoo-magic, jersey_number: 17, position: SF }
+  - { name: 上田隼輔, team: shimane-susanoo-magic, jersey_number: 20, position: SF }
+  - { name: 納見悠仁, team: shimane-susanoo-magic, jersey_number: 21, position: PG/SG }
+  - { name: 飯尾文哉, team: shimane-susanoo-magic, jersey_number: 22, position: SG }
+  - { name: 岡本飛竜, team: shimane-susanoo-magic, jersey_number: 24, position: PG }
+  - { name: ダマムッサ, team: shimane-susanoo-magic, jersey_number: 25, position: C/PF }
+  - { name: 岡田侑大, team: shimane-susanoo-magic, jersey_number: 77, position: PG/SG }
+
+  # --- 広島ドラゴンフライズ ---
+  - { name: 寺嶋良, team: hiroshima-dragonflies, jersey_number: 0, position: PG }
+  - { name: 市川真人, team: hiroshima-dragonflies, jersey_number: 1, position: C/PF }
+  - { name: 伊藤達哉, team: hiroshima-dragonflies, jersey_number: 3, position: PG }
+  - { name: ロバーツケイン, team: hiroshima-dragonflies, jersey_number: 4, position: PG/SG }
+  - { name: クリストファー・スミス, team: hiroshima-dragonflies, jersey_number: 8, position: SG/SF }
+  - { name: 上澤俊喜, team: hiroshima-dragonflies, jersey_number: 10, position: PG }
+  - { name: ドウェイン・エバンス, team: hiroshima-dragonflies, jersey_number: 13, position: SF/PF }
+  - { name: 佐古竜誠, team: hiroshima-dragonflies, jersey_number: 14, position: PG }
+  - { name: 渡部琉, team: hiroshima-dragonflies, jersey_number: 21, position: SF }
+  - { name: コフィ・コーバーン, team: hiroshima-dragonflies, jersey_number: 23, position: C }
+  - { name: メイヨニック, team: hiroshima-dragonflies, jersey_number: 24, position: C/PF }
+  - { name: 山崎稜, team: hiroshima-dragonflies, jersey_number: 30, position: SG }
+  - { name: 晴山ケビン, team: hiroshima-dragonflies, jersey_number: 32, position: SF }
+  - { name: 三谷桂司朗, team: hiroshima-dragonflies, jersey_number: 34, position: SF }
+  - { name: 佐藤涼成, team: hiroshima-dragonflies, jersey_number: 88, position: PG }
+
+  # --- 佐賀バルーナーズ ---
+  - { name: レイナルド・ガルシア, team: saga-ballooners, jersey_number: 2, position: PG }
+  - { name: 山下泰弘, team: saga-ballooners, jersey_number: 5, position: PG }
+  - { name: 橋本晃佑, team: saga-ballooners, jersey_number: 7, position: PF }
+  - { name: 武富楓太, team: saga-ballooners, jersey_number: 11, position: PG }
+  - { name: 阿部諒, team: saga-ballooners, jersey_number: 13, position: SG }
+  - { name: 金丸晃輔, team: saga-ballooners, jersey_number: 14, position: SF }
+  - { name: 内尾聡理, team: saga-ballooners, jersey_number: 18, position: PG/SG }
+  - { name: 岸田篤生, team: saga-ballooners, jersey_number: 20, position: PG }
+  - { name: 富山仁貴, team: saga-ballooners, jersey_number: 21, position: SF/PF }
+  - { name: タナー・グローヴス, team: saga-ballooners, jersey_number: 22, position: C/PF }
+  - { name: デイビッド・ダジンスキー, team: saga-ballooners, jersey_number: 23, position: C/PF }
+  - { name: 角田太輝, team: saga-ballooners, jersey_number: 25, position: SG }
+  - { name: 井上諒汰, team: saga-ballooners, jersey_number: 34, position: SF }
+  - { name: ジョシュ・ハレルソン, team: saga-ballooners, jersey_number: 55, position: C/PF }
+
+  # --- 長崎ヴェルカ ---
+  - { name: 松本健児リオン, team: nagasaki-velca, jersey_number: 1, position: SG }
+  - { name: 狩俣昌也, team: nagasaki-velca, jersey_number: 4, position: PG }
+  - { name: イヒョンジュン, team: nagasaki-velca, jersey_number: 5, position: SG/SF }
+  - { name: 森田雄次, team: nagasaki-velca, jersey_number: 6, position: PG }
+  - { name: ジャレル・ブラントリー, team: nagasaki-velca, jersey_number: 7, position: PF }
+  - { name: 菅澤紀行, team: nagasaki-velca, jersey_number: 10, position: PF }
+  - { name: 熊谷航, team: nagasaki-velca, jersey_number: 11, position: PG }
+  - { name: 星川堅信, team: nagasaki-velca, jersey_number: 13, position: SF }
+  - { name: スタンリー・ジョンソン, team: nagasaki-velca, jersey_number: 14, position: SF }
+  - { name: 山口颯斗, team: nagasaki-velca, jersey_number: 17, position: SG/SF }
+  - { name: 馬場雄大, team: nagasaki-velca, jersey_number: 18, position: SG/SF }
+  - { name: アキル・ミッチェル, team: nagasaki-velca, jersey_number: 25, position: C/PF }
+  - { name: 田中流嘉州, team: nagasaki-velca, jersey_number: 32, position: SF/PF }
+  - { name: 川真田紘也, team: nagasaki-velca, jersey_number: 99, position: C }
+
+  # --- 琉球ゴールデンキングス ---
+  - { name: 小針幸也, team: ryukyu-golden-kings, jersey_number: 2, position: PG }
+  - { name: ヴィック・ロー, team: ryukyu-golden-kings, jersey_number: 4, position: SF/PF }
+  - { name: 佐土原遼, team: ryukyu-golden-kings, jersey_number: 8, position: SF/PF }
+  - { name: 荒川颯, team: ryukyu-golden-kings, jersey_number: 10, position: PG/SG }
+  - { name: 岸本隆一, team: ryukyu-golden-kings, jersey_number: 14, position: PG/SG }
+  - { name: 松脇圭志, team: ryukyu-golden-kings, jersey_number: 15, position: SG }
+  - { name: 崎濱秀斗, team: ryukyu-golden-kings, jersey_number: 17, position: PG }
+  - { name: 脇真大, team: ryukyu-golden-kings, jersey_number: 18, position: SG }
+  - { name: デイミアン・ドットソン, team: ryukyu-golden-kings, jersey_number: 21, position: SG }
+  - { name: ウィタカケンタ, team: ryukyu-golden-kings, jersey_number: 27, position: C/PF }
+  - { name: 小野寺祥太, team: ryukyu-golden-kings, jersey_number: 34, position: PG/SG }
+  - { name: ジャック・クーリー, team: ryukyu-golden-kings, jersey_number: 45, position: C }
+  - { name: 平良彰吾, team: ryukyu-golden-kings, jersey_number: 47, position: PG }
+  - { name: アレックス・カーク, team: ryukyu-golden-kings, jersey_number: 53, position: C }
+  - { name: 佐取龍之介, team: ryukyu-golden-kings, jersey_number: 77, position: SG/SF }

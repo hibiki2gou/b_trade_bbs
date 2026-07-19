@@ -1,8 +1,10 @@
 # Team = クラブチーム。弾(Topic)と対になる存在で、こちらを入口にしても
 # 募集を辿れるようにする。
 class Team < ApplicationRecord
-  # このチームに所属する選手。チームを消したら選手も消える
-  has_many :players, -> { order(:name) }, dependent: :destroy
+  # このチームに所属する選手。背番号順に並べる（背番号なしは最後）。
+  # チームを消したら選手も消える
+  has_many :players, -> { order(Arel.sql("jersey_number IS NULL, jersey_number")) },
+           dependent: :destroy
   # 選手を通じて、このチームのカードを辿れる。使い方: team.cards
   has_many :cards, through: :players
 

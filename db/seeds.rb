@@ -58,7 +58,6 @@ players.each do |p|
   elsif !team_slugs.include?(p["team"])
     errors << "#{p["name"]}: チーム \"#{p["team"]}\" は teams にありません"
   end
-
 end
 
 # --- ラインナップ（弾ごとの収録カード）の検証 ---

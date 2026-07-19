@@ -323,6 +323,7 @@ players:
   - { name: 平岩玄, team: alvark-tokyo, jersey_number: 21, position: C }
   - { name: ライアン・ロシター, team: alvark-tokyo, jersey_number: 22, position: C/PF }
   - { name: 福澤晃平, team: alvark-tokyo, jersey_number: 25, position: PG/SG }
+  - { name: チェイス・フィーラー, team: alvark-tokyo, jersey_number: 60, position: PF }
   - { name: 小酒部泰暉, team: alvark-tokyo, jersey_number: 75, position: SG }
 
   # --- サンロッカーズ渋谷 ---
@@ -586,3 +587,46 @@ players:
   - { name: 平良彰吾, team: ryukyu-golden-kings, jersey_number: 47, position: PG }
   - { name: アレックス・カーク, team: ryukyu-golden-kings, jersey_number: 53, position: C }
   - { name: 佐取龍之介, team: ryukyu-golden-kings, jersey_number: 77, position: SG/SF }
+
+# ============================================================
+# ラインナップ（弾ごとの収録カード）
+#
+#   set    必須。上の sets の slug
+#   cards  その弾に収録されているカード
+#     player 必須。上の players に登録した選手名（表記が一致していること）
+#     rarity 必須。レア度 1〜5
+#     name   条件つき。同じ弾に同じ選手のカードが複数あるときだけ必要
+#              （例: 記録達成の「得点記録」「アシスト記録」）
+#
+# 新しい弾のラインナップは、このリストの末尾に追記していく。
+# ============================================================
+lineups:
+  - set: ocean
+    cards:
+      # ★5
+      - { player: 中山拓哉, rarity: 5 }
+      - { player: 藤井祐眞, rarity: 5 }
+      - { player: 池田祐一, rarity: 5 }
+      - { player: 平岩玄, rarity: 5 }
+      - { player: 宮本一樹, rarity: 5 }
+      - { player: フランシス・ロペス, rarity: 5 }
+      - { player: ザック・オーガスト, rarity: 5 }
+      - { player: 角田太輝, rarity: 5 }
+      - { player: 馬場雄大, rarity: 5 }
+      # ★4
+      - { player: 島谷怜, rarity: 4 }
+      - { player: セルジオ・エルダーウィッチ, rarity: 4 }
+      - { player: 陳岡流羽, rarity: 4 }
+      - { player: 竹内公輔, rarity: 4 }
+      - { player: 黒川虎徹, rarity: 4 }
+      - { player: 田代直希, rarity: 4 }
+      - { player: 山内ジャヘル琉人, rarity: 4 }
+      - { player: キング開, rarity: 4 }
+      - { player: 津屋一球, rarity: 4 }
+      - { player: 須田侑太郎, rarity: 4 }
+      - { player: 今村佳太, rarity: 4 }
+      - { player: 川嶋勇人, rarity: 4 }
+      - { player: 植松義也, rarity: 4 }
+      - { player: 中村太地, rarity: 4 }
+      - { player: 上澤俊喜, rarity: 4 }
+      - { player: ジャック・クーリー, rarity: 4 }

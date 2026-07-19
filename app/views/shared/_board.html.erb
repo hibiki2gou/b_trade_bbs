@@ -26,21 +26,6 @@
   </div>
 </div>
 
-<%# 募集フォームは上部に置き、開閉式にする。投稿が増えても下までスクロールせず、
-    「募集する」を押せばその場で開く。投稿に失敗したときは自動で開く（open）。 %>
-<% unless showing_completed %>
-  <details class="new-post" <%= "open" if post.errors.any? %>>
-    <summary class="new-post__summary">＋ このカードで募集する</summary>
-    <div class="new-post__body">
-      <%= render "posts/form", post: post, wanted_options: wanted_options,
-                               offered_options: offered_options,
-                               cancel_path: open_path,
-                               board_type: record.model_name.param_key,
-                               board_id: record.id %>
-    </div>
-  </details>
-<% end %>
-
 <%# 収録カード一覧。<details> はブラウザ標準の開閉パーツ（JS不要）。
     「どんなカードがあるか把握したい人」向け。 %>
 <% if cards.any? %>
@@ -57,6 +42,21 @@
         </li>
       <% end %>
     </ul>
+  </details>
+<% end %>
+
+<%# 募集フォームは開閉式。投稿が増えても下までスクロールせず、
+    「募集する」を押せばその場で開く。投稿に失敗したときは自動で開く（open）。 %>
+<% unless showing_completed %>
+  <details class="new-post" <%= "open" if post.errors.any? %>>
+    <summary class="new-post__summary">＋ このカードで募集する</summary>
+    <div class="new-post__body">
+      <%= render "posts/form", post: post, wanted_options: wanted_options,
+                               offered_options: offered_options,
+                               cancel_path: open_path,
+                               board_type: record.model_name.param_key,
+                               board_id: record.id %>
+    </div>
   </details>
 <% end %>
 

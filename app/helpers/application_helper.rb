@@ -14,6 +14,14 @@ module ApplicationHelper
     content_tag :div, record.name, class: "thumb__placeholder"
   end
 
+  # ヘッダーのロゴ。app/assets/images/logo.png があれば画像を、
+  # 無ければサイト名のテキストを出す（画像を置く前でも表示が崩れない）。
+  def board_thumbnail_logo
+    image_tag "logo.png", alt: "TRADE COURT", class: "site-header__logo-img"
+  rescue Propshaft::MissingAssetError
+    content_tag :span, "TRADE COURT", class: "site-header__logo-text"
+  end
+
   # レア度の数字(1〜5)を ★ で表す。card.stars と同じだが、
   # ビューから rarity 数値を直接渡したいとき用。
   def rarity_stars(rarity)

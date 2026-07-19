@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "B-Trade BBS" %></title>
+    <title><%= content_for(:title) || "TRADE COURT" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="App">
@@ -26,8 +26,11 @@
   <body>
     <header class="site-header">
       <div class="container site-header__inner">
-        <%= link_to "B-Trade BBS", root_path, class: "site-header__logo" %>
-        <p class="site-header__tagline">Bリーグカード トレード掲示板</p>
+        <%# ロゴにサイト名と説明の両方が入っているので、テキストは添えない。
+            画像が用意できていない間はテキストで代替する。 %>
+        <%= link_to root_path, class: "site-header__logo" do %>
+          <%= board_thumbnail_logo %>
+        <% end %>
       </div>
     </header>
 
@@ -50,7 +53,7 @@
 
     <footer class="site-footer">
       <div class="container">
-        <p>B-Trade BBS — Bリーグカードのトレード相手を見つける掲示板</p>
+        <p>TRADE COURT — Bリーグカードのトレード相手を見つける掲示板</p>
       </div>
     </footer>
   </body>

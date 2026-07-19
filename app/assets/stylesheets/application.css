@@ -36,30 +36,30 @@ a { color: inherit; }
 }
 
 /* ---- ヘッダー / フッター ---- */
-/* サイト名は常に画面上部に貼り付ける（スクロールしても消えない） */
+/* サイト名は常に画面上部に貼り付ける（スクロールしても消えない）。
+   ロゴが黒背景・白文字なので、ヘッダーも黒にしてなじませる。 */
 .site-header {
-  border-bottom: 2px solid var(--ink);
-  background: var(--bg);
+  background: var(--ink);
+  color: #fff;
   position: sticky;
   top: 0;
   z-index: 30;
 }
+/* ロゴ画像の有無で高さが変わらないよう、ヘッダーの高さを固定する。
+   （下に貼り付ける弾の見出しの位置がずれないようにするため） */
 .site-header__inner {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 16px;
-  padding: 16px;
+  padding: 12px 16px;
+  min-height: 88px;
 }
-.site-header__logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-}
-.site-header__tagline {
-  margin: 0;
-  color: var(--ink-soft);
-  font-size: 0.85rem;
+.site-header__logo { display: inline-flex; align-items: center; text-decoration: none; }
+/* ロゴ画像。高さを決めて幅は自動（縦横比を保つ） */
+.site-header__logo-img { height: 64px; width: auto; display: block; }
+/* 画像が無いときの代替テキスト（ヘッダーが黒なので白文字） */
+.site-header__logo-text {
+  font-size: 1.8rem; font-weight: 800; letter-spacing: 0.04em; color: #fff;
 }
 .site-footer {
   margin-top: 48px;
@@ -73,7 +73,7 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
 
 /* ---- 通知（右上のトースト）---- */
 .toasts {
-  position: fixed; top: 76px; right: 16px; z-index: 50;
+  position: fixed; top: 100px; right: 16px; z-index: 50;
   display: flex; flex-direction: column; gap: 8px;
   max-width: min(360px, calc(100vw - 32px));
 }
@@ -161,7 +161,7 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
    スクロールしても「どの弾を見ているか」が分かる。 */
 .board-header--sticky {
   position: sticky;
-  top: 61px;              /* サイトヘッダーの高さぶん下げる */
+  top: 88px;              /* サイトヘッダーの高さ（min-height）ぶん下げる */
   background: var(--bg);
   z-index: 20;
 }

@@ -14,11 +14,15 @@
                           :team  … チーム名（弾の掲示板。チーム順に並ぶので目印になる）
                           :topic … 弾名（チームの掲示板。弾をまたぐため） %>
 
-<%# ブラウザの「戻る」(:back)ではなく、一覧ページへ確実に飛ぶ。
-    投稿後は履歴が増えていて :back では一覧まで戻れないため。 %>
-<p class="back"><%= link_to "← 一覧へもどる", index_path %></p>
+<%# 弾/チームの見出しは画面上部に貼り付ける（sticky）。
+    スクロールしても「今どの弾を見ているか」が分かるようにするため。
+    「一覧へもどる」と2つのボタンもこの中にまとめる。 %>
+<div class="board-header board-header--sticky">
+  <%# ブラウザの「戻る」(:back)ではなく、一覧ページへ確実に飛ぶ。
+      投稿後は履歴が増えていて :back では一覧まで戻れないため。 %>
+  <%= link_to "←", index_path, class: "board-header__back",
+        title: "一覧へもどる", aria: { label: "一覧へもどる" } %>
 
-<div class="board-header">
   <div class="board-header__thumb"><%= board_thumbnail(record) %></div>
   <div class="board-header__text">
     <h1><%= record.name %></h1>
@@ -26,41 +30,69 @@
       <p class="board-header__desc"><%= record.description %></p>
     <% end %>
   </div>
+
+  <div class="board-header__actions">
+    <%# --- 収録カード一覧のモーダル --- %>
+    <% if cards.any? %>
+      <div data-controller="modal">
+        <button type="button" class="btn btn--small"
+                data-action="modal#open">収録カード一覧（<%= cards.size %>）</button>
+
+        <dialog class="modal" data-modal-target="dialog"
+                data-action="click->modal#closeOnBackdrop">
+          <div class="modal__head">
+            <h2 class="modal__title"><%= record.name %> の収録カード（<%= cards.size %>枚）</h2>
+            <button type="button" class="modal__close"
+                    data-action="modal#close" aria-label="閉じる">✕</button>
+          </div>
+          <div class="modal__body">
+            <ul class="cardlist__items">
+              <% cards.each do |c| %>
+                <li class="cardlist__item">
+                  <span class="cardlist__name"><%= c.label %></span>
+                  <span class="stars"><%= c.stars %></span>
+                  <span class="cardlist__meta">
+                    <%= card_context == :team ? c.team.name : c.topic.name %>
+                  </span>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </dialog>
+      </div>
+    <% end %>
+
+    <%# --- 募集フォームのモーダル。投稿に失敗したときは開いた状態で再表示する --- %>
+    <% unless showing_completed %>
+      <%# 投稿に失敗したときだけ open 属性を出す。
+          Stimulus の Boolean は「属性があること」を真とみなすため、
+          false を書いてしまうと常に開いてしまう。 %>
+      <div data-controller="modal"
+           <%= "data-modal-open-value=true".html_safe if post.errors.any? %>>
+        <button type="button" class="btn btn--small btn--primary"
+                data-action="modal#open">＋ 新しく募集する</button>
+
+        <dialog class="modal" data-modal-target="dialog"
+                data-action="click->modal#closeOnBackdrop">
+          <div class="modal__head">
+            <h2 class="modal__title"><%= record.name %> で募集する</h2>
+            <button type="button" class="modal__close"
+                    data-action="modal#close" aria-label="閉じる">✕</button>
+          </div>
+          <%# フォームのモーダルは、余白とスクロールをフォーム側で管理する
+              （ボタン列を下部に固定するため） %>
+          <div class="modal__body modal__body--form">
+            <%= render "posts/form", post: post, wanted_options: wanted_options,
+                                     offered_options: offered_options,
+                                     cancel_path: open_path,
+                                     board_type: record.model_name.param_key,
+                                     board_id: record.id %>
+          </div>
+        </dialog>
+      </div>
+    <% end %>
+  </div>
 </div>
-
-<%# 収録カード一覧。<details> はブラウザ標準の開閉パーツ（JS不要）。
-    「どんなカードがあるか把握したい人」向け。 %>
-<% if cards.any? %>
-  <details class="cardlist">
-    <summary class="cardlist__summary">収録カード一覧（<%= cards.size %>枚）</summary>
-    <ul class="cardlist__items">
-      <% cards.each do |c| %>
-        <li class="cardlist__item">
-          <span class="cardlist__name"><%= c.label %></span>
-          <span class="stars"><%= c.stars %></span>
-          <span class="cardlist__meta">
-            <%= card_context == :team ? c.team.name : c.topic.name %>
-          </span>
-        </li>
-      <% end %>
-    </ul>
-  </details>
-<% end %>
-
-<%# 募集フォームは開閉式。投稿が増えても下までスクロールせず、
-    「募集する」を押せばその場で開く。投稿に失敗したときは自動で開く（open）。 %>
-<% unless showing_completed %>
-  <details class="new-post" <%= "open" if post.errors.any? %>>
-    <summary class="new-post__summary">＋ 新しく募集する</summary>
-    <div class="new-post__body">
-      <%= render "posts/form", post: post, wanted_options: wanted_options,
-                               offered_options: offered_options,
-                               cancel_path: open_path,
-                               board_type: record.model_name.param_key,
-                               board_id: record.id %>
-    </div>
-  </details>
-<% end %>
 
 <nav class="tabs">
   <%= link_to "募集中", open_path,

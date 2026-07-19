@@ -36,26 +36,30 @@ a { color: inherit; }
 }
 
 /* ---- ヘッダー / フッター ---- */
+/* サイト名は常に画面上部に貼り付ける（スクロールしても消えない）。
+   ロゴが黒背景・白文字なので、ヘッダーも黒にしてなじませる。 */
 .site-header {
-  border-bottom: 2px solid var(--ink);
-  background: var(--bg);
+  background: var(--ink);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 30;
 }
+/* ロゴ画像の有無で高さが変わらないよう、ヘッダーの高さを固定する。
+   （下に貼り付ける弾の見出しの位置がずれないようにするため） */
 .site-header__inner {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 16px;
-  padding: 16px;
+  padding: 12px 16px;
+  min-height: 88px;
 }
-.site-header__logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-}
-.site-header__tagline {
-  margin: 0;
-  color: var(--ink-soft);
-  font-size: 0.85rem;
+.site-header__logo { display: inline-flex; align-items: center; text-decoration: none; }
+/* ロゴ画像。高さを決めて幅は自動（縦横比を保つ） */
+.site-header__logo-img { height: 64px; width: auto; display: block; }
+/* 画像が無いときの代替テキスト（ヘッダーが黒なので白文字） */
+.site-header__logo-text {
+  font-size: 1.8rem; font-weight: 800; letter-spacing: 0.04em; color: #fff;
 }
 .site-footer {
   margin-top: 48px;
@@ -67,15 +71,25 @@ a { color: inherit; }
 
 main.container { padding-top: 24px; padding-bottom: 24px; }
 
-/* ---- フラッシュメッセージ ---- */
-.flash {
-  padding: 12px 16px;
-  border-radius: var(--radius);
-  margin-bottom: 16px;
-  font-weight: 600;
+/* ---- 通知（右上のトースト）---- */
+.toasts {
+  position: fixed; top: 100px; right: 16px; z-index: 50;
+  display: flex; flex-direction: column; gap: 8px;
+  max-width: min(360px, calc(100vw - 32px));
 }
-.flash--notice { background: #111; color: #fff; }
-.flash--alert  { background: #fff; color: #111; border: 2px solid #111; }
+.toast {
+  padding: 12px 16px; border-radius: var(--radius);
+  font-weight: 700; font-size: 0.92rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,.18);
+  animation: toast-in .22s ease-out;
+}
+.toast--notice { background: var(--ink); color: #fff; }
+.toast--alert  { background: #fff; color: var(--ink); border: 2px solid var(--ink); }
+.toasts.is-leaving { opacity: 0; transform: translateY(-6px); transition: .3s ease; }
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 .lead { color: var(--ink-soft); }
 
@@ -143,6 +157,29 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
   padding: 16px 0;
   border-bottom: 2px solid var(--ink);
 }
+/* 弾/チームの見出しをサイトヘッダーのすぐ下に貼り付ける。
+   スクロールしても「どの弾を見ているか」が分かる。 */
+.board-header--sticky {
+  position: sticky;
+  top: 88px;              /* サイトヘッダーの高さ（min-height）ぶん下げる */
+  background: var(--bg);
+  z-index: 20;
+}
+.board-header--sticky .board-header__thumb { width: 72px; flex-basis: 72px; }
+.board-header--sticky h1 { font-size: 1.25rem; }
+/* 見出しの右にボタンを並べる（収録カード一覧 / 新しく募集する） */
+.board-header__actions {
+  margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+}
+.board-header__text { min-width: 0; }
+/* 一覧へもどる（ヘッダーの左端に丸ボタンとして置く） */
+.board-header__back {
+  flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--line); background: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  text-decoration: none; font-weight: 700; font-size: 1.05rem;
+}
+.board-header__back:hover { background: var(--surface); border-color: var(--ink); }
 .board-header__thumb {
   width: 120px; flex: 0 0 120px; aspect-ratio: 16/9;
   border-radius: var(--radius); overflow: hidden; background: var(--surface);
@@ -176,14 +213,39 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
 .badge { font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
 .badge--done { background: var(--ink); color: #fff; }
 
-.post__row { display: flex; gap: 10px; align-items: baseline; margin: 4px 0; }
+/* 「欲しい」「出せる」は間隔をあけ、区切り線で分ける（詰まって見えないように） */
+.post__row {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 0;
+}
+.post__row + .post__row { border-top: 1px dashed var(--line); }
+.post__tag { margin-top: 2px; }
 .post__tag {
   flex: 0 0 auto; font-size: 0.75rem; font-weight: 800;
   padding: 2px 8px; border-radius: 4px; border: 1px solid var(--ink);
 }
 .post__tag--want { background: var(--ink); color: #fff; }
 .post__tag--give { background: #fff; color: var(--ink); }
-.post__cards { font-weight: 600; }
+.post__cards { font-weight: 600; flex: 1; }
+
+/* 募集の中のカード表示（レア度ごとに区切り、クラブ順に並ぶ） */
+.cardgroup { display: flex; flex-direction: column; gap: 6px; }
+.cardgroup__row { display: flex; align-items: flex-start; gap: 8px; }
+.cardgroup__rarity {
+  flex: 0 0 auto; font-size: 0.8rem; letter-spacing: -1px;
+  padding-top: 3px; color: var(--ink);
+}
+.cardgroup__items { display: flex; flex-wrap: wrap; gap: 6px; }
+.cardchip {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  border: 1px solid var(--line); border-radius: 6px;
+  padding: 3px 8px; background: #fff; font-weight: 600; font-size: 0.9rem;
+}
+.cardchip__player { font-weight: 700; }
+.cardchip__team, .cardchip__set {
+  font-size: 0.72rem; font-weight: 500; color: var(--ink-soft); white-space: nowrap;
+}
+.cardchip__set { border-left: 1px solid var(--line); padding-left: 6px; }
 .stars { letter-spacing: 1px; }
 .muted { color: var(--ink-soft); font-weight: 400; }
 .post__note { margin: 8px 0 0; color: var(--ink-soft); white-space: pre-wrap; }
@@ -228,6 +290,18 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
 /* 投稿ボタンは右揃え（キャンセルの右に「投稿する」が来る） */
 .form-actions { display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-top: 8px; }
 
+/* モーダルの中では、ボタンを下部に貼り付けて常に押せるようにする。
+   本文をスクロールしても右下に残る。
+   （負の margin で本文の padding を打ち消し、モーダルの幅いっぱいに敷く） */
+/* スクロール領域の外にあるので、中身の長さに関わらず常に下部に出る */
+.modal .form-actions {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 14px 18px;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+}
+
 /* 必須マーク */
 .required {
   font-size: 0.68rem; font-weight: 700; color: #fff; background: var(--ink);
@@ -265,22 +339,51 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
 
 .empty { color: var(--ink-soft); padding: 24px 0; }
 
-/* 収録カード一覧（開閉式） */
-.cardlist {
-  border: 1px solid var(--line); border-radius: var(--radius);
-  margin-top: 16px; background: var(--bg);
+/* ---- モーダル（収録カード一覧 / 募集フォーム）---- */
+/* 高さを最初から固定しておく。検索の候補が出てもモーダルの大きさが
+   変わらないので、画面が跳ねない。
+   ※ display は「開いているとき」だけ指定すること。
+      .modal { display: flex } と書くと、閉じた <dialog> をブラウザが
+      隠す（display:none）動作を上書きしてしまい、常に表示されてしまう。 */
+.modal {
+  border: none; border-radius: var(--radius); padding: 0;
+  width: min(760px, calc(100vw - 32px));
+  height: min(680px, calc(100vh - 64px));
+  box-shadow: 0 20px 60px rgba(0,0,0,.28);
+  color: var(--ink); background: var(--bg);
 }
-.cardlist__summary {
-  cursor: pointer; padding: 12px 16px; font-weight: 700;
-  list-style: none; user-select: none;
+.modal[open] { display: flex; flex-direction: column; }
+.modal::backdrop { background: rgba(0,0,0,.5); }
+.modal__head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px; border-bottom: 2px solid var(--ink);
+  background: var(--bg); flex: 0 0 auto;
 }
-.cardlist__summary::before { content: "▶ "; font-size: 0.8em; }
-.cardlist[open] .cardlist__summary::before { content: "▼ "; }
-.cardlist__summary::-webkit-details-marker { display: none; }
-.cardlist__items {
-  list-style: none; margin: 0; padding: 0 16px 12px;
-  border-top: 1px solid var(--line);
+.modal__title { margin: 0; font-size: 1.05rem; }
+.modal__close {
+  margin-left: auto; border: 1px solid var(--line); background: #fff;
+  width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+  font-size: 0.9rem; line-height: 1;
 }
+.modal__close:hover { background: var(--surface); }
+/* 残りの高さいっぱいを使い、あふれたらここだけスクロールする */
+.modal__body {
+  padding: 18px; overflow-y: auto; flex: 1 1 auto;
+  display: flex; flex-direction: column;
+  min-height: 0;  /* これが無いと中身が縮まず、モーダルからはみ出す */
+}
+/* フォームのモーダルは、余白とスクロールをフォーム側で管理する。
+   （本文＝スクロール領域、ボタン列＝下部に固定、の2段構成にするため） */
+.modal__body--form { padding: 0; overflow: hidden; }
+.modal .post-form {
+  display: flex; flex-direction: column;
+  flex: 1 1 auto; min-height: 0;
+}
+/* フォームの中身だけがスクロールする */
+.post-form__body { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 18px; }
+
+/* 収録カード一覧（モーダルの中身） */
+.cardlist__items { list-style: none; margin: 0; padding: 0; }
 .cardlist__item {
   display: flex; align-items: center; gap: 10px;
   padding: 8px 0; border-bottom: 1px solid var(--line);

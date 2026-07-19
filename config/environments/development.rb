@@ -61,6 +61,12 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
+  # 画像などのアセット一覧を毎回読み直す。
+  # これが無いと、アプリを動かしたまま画像を追加しても気づかれず、
+  # 再起動するまで表示されない（エラーも出ないので分かりにくい）。
+  config.assets.server = true
+  config.public_file_server.enabled = true
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

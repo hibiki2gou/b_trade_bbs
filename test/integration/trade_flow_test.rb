@@ -61,6 +61,15 @@ class TradeFlowTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "投稿に成功すると、右上のトースト通知が出る" do
+    post posts_path, params: {
+      board_type: "topic", board_id: @topic.id,
+      post: { wanted_card_ids: [ @wanted1.id ], nickname: "太郎" }
+    }
+    follow_redirect!
+    assert_select ".toasts .toast--notice", text: /募集を投稿しました/
+  end
+
   test "投稿に失敗すると、掲示板を再表示してフォーム内にエラーを出す" do
     post posts_path, params: {
       board_type: "topic", board_id: @topic.id,
@@ -69,7 +78,7 @@ class TradeFlowTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
     assert_select ".form-errors", true, "フォーム内にエラー欄が出る"
     assert_select "form.post-form"
-    # 失敗時は開閉フォームが自動で開いている（エラーが見えるように）
-    assert_select "details.new-post[open]"
+    # 失敗時はフォームのモーダルが自動で開くよう指定されている
+    assert_select "[data-modal-open-value='true']"
   end
 end

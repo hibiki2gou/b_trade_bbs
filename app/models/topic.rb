@@ -5,8 +5,11 @@ class Topic < ApplicationRecord
 
   # この弾に収録されているカード。弾を消したらカードも消える
   has_many :cards, dependent: :destroy
-  # この弾スレッドへの募集。弾を消したら募集も消える
-  has_many :posts, dependent: :destroy
+
+  # ※ かつて has_many :posts があったが、欲しいカードを複数化したときに
+  #    posts.topic_id を廃止したため削除した。
+  #    この弾の募集は「欲しいカードがこの弾に属する募集」なので、
+  #    Post.wanting_topic(topic) で取得する。
 
   validates :name, presence: true
   validates :slug, presence: true,

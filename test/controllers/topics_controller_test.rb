@@ -32,6 +32,17 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".cardlist__item", text: /選手A（得点記録）/
   end
 
+  test "モーダルの display 指定は開いているときだけに限定されている" do
+    # .modal { display: flex } と無条件に書くと、閉じた <dialog> をブラウザが
+    # 隠す動作（display:none）を上書きしてしまい、常に表示されてしまう。
+    css = Rails.root.join("app/assets/stylesheets/application.css").read
+    modal_block = css[/^\.modal \{[^}]*\}/m]
+    assert_no_match(/display:/, modal_block.to_s,
+                    ".modal に無条件の display を書くと閉じても消えなくなる")
+    assert_match(/\.modal\[open\][^{]*\{[^}]*display:\s*flex/m, css,
+                 "display は .modal[open] に限定して指定すること")
+  end
+
   test "通常表示ではモーダルを自動で開く指定が出ない" do
     # data-modal-open-value="false" と書くと Stimulus は「属性がある＝真」と
     # 解釈して勝手に開いてしまう。属性そのものが出ないことを確かめる。

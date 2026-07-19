@@ -329,15 +329,18 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
 
 /* ---- モーダル（収録カード一覧 / 募集フォーム）---- */
 /* 高さを最初から固定しておく。検索の候補が出てもモーダルの大きさが
-   変わらないので、画面が跳ねない。 */
+   変わらないので、画面が跳ねない。
+   ※ display は「開いているとき」だけ指定すること。
+      .modal { display: flex } と書くと、閉じた <dialog> をブラウザが
+      隠す（display:none）動作を上書きしてしまい、常に表示されてしまう。 */
 .modal {
   border: none; border-radius: var(--radius); padding: 0;
   width: min(760px, calc(100vw - 32px));
   height: min(680px, calc(100vh - 64px));
   box-shadow: 0 20px 60px rgba(0,0,0,.28);
   color: var(--ink); background: var(--bg);
-  display: flex; flex-direction: column;
 }
+.modal[open] { display: flex; flex-direction: column; }
 .modal::backdrop { background: rgba(0,0,0,.5); }
 .modal__head {
   display: flex; align-items: center; gap: 12px;

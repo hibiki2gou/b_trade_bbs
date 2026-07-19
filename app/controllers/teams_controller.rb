@@ -16,7 +16,9 @@ class TeamsController < ApplicationController
     @posts = posts.recent.includes(wanted_cards: :player, offered_cards: :player)
 
     # このチームのカード一覧（弾をまたぐので弾名も見せる）。
-    @cards = @team.cards.includes(:player, :topic).sort_by(&:picker_label)
+    # 弾の並び順（新しい順）→ 背番号順。背番号なしは最後にする。
+    @cards = @team.cards.includes(:topic, :player)
+                  .sort_by { |c| [ c.topic.position, c.player.jersey_number || 999 ] }
 
     # 投稿フォーム用。
     @post = Post.new

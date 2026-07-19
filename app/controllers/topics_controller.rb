@@ -17,7 +17,9 @@ class TopicsController < ApplicationController
     @posts = posts.recent.includes(wanted_cards: :player, offered_cards: :player)
 
     # この弾の収録カード一覧（把握用に掲示板で表示する）。
-    @cards = @topic.cards.includes(:player).sort_by(&:label)
+    # チームの並び順 → 背番号順。背番号なしは最後にする。
+    @cards = @topic.cards.includes(player: :team)
+                   .sort_by { |c| [ c.player.team.position, c.player.jersey_number || 999 ] }
 
     # 投稿フォーム用。
     @post = Post.new

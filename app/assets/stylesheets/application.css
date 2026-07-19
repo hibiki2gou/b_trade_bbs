@@ -287,9 +287,10 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
 }
 .cardlist__item:last-child { border-bottom: none; }
 .cardlist__name { font-weight: 600; }
-.cardlist__topic {
+.cardlist__meta {
   margin-left: auto; font-size: 0.78rem; color: var(--ink-soft);
   border: 1px solid var(--line); border-radius: 4px; padding: 1px 8px;
+  white-space: nowrap;
 }
 
 /* ---- スマホ ---- */

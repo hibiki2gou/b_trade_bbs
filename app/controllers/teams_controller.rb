@@ -15,10 +15,13 @@ class TeamsController < ApplicationController
     posts = @showing_completed ? posts.completed_posts : posts.open_posts
     @posts = posts.recent.includes(wanted_cards: :player, offered_cards: :player)
 
+    # このチームのカード一覧（弾をまたぐので弾名も見せる）。
+    @cards = @team.cards.includes(:player, :topic).sort_by(&:picker_label)
+
     # 投稿フォーム用。
     @post = Post.new
     # 欲しいカードの選択肢はこのチームのカード（弾をまたぐ）。
-    @wanted_options = @team.cards.includes(:player, :topic).sort_by(&:picker_label)
+    @wanted_options = @cards
     # 出せるカードの選択肢は全カード（全弾から選べる）。
     @offered_options = Card.includes(:player, :topic).to_a.sort_by(&:picker_label)
   end

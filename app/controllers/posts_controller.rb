@@ -44,13 +44,15 @@ class PostsController < ApplicationController
       @team = Team.find(params[:board_id])
       @posts = Post.wanting_team(@team).open_posts
                    .recent.includes(wanted_cards: :player, offered_cards: :player)
-      @wanted_options = @team.cards.includes(:player, :topic).sort_by(&:picker_label)
+      @cards = @team.cards.includes(:player, :topic).sort_by(&:picker_label)
+      @wanted_options = @cards
       render "teams/show", status: :unprocessable_entity
     elsif params[:board_id].present?
       @topic = Topic.find(params[:board_id])
       @posts = Post.wanting_topic(@topic).open_posts
                    .recent.includes(wanted_cards: :player, offered_cards: :player)
-      @wanted_options = @topic.cards.includes(:player).sort_by(&:label)
+      @cards = @topic.cards.includes(:player).sort_by(&:label)
+      @wanted_options = @cards
       render "topics/show", status: :unprocessable_entity
     else
       # 投稿元が分からない場合の保険

@@ -8,7 +8,9 @@
       showing_completed … 成立済みを表示中か（true/false）
       open_path         … 「募集中」タブのリンク先
       completed_path    … 「成立済み」タブのリンク先
-      index_path        … 「一覧へもどる」のリンク先（弾一覧 or チーム一覧） %>
+      index_path        … 「一覧へもどる」のリンク先（弾一覧 or チーム一覧）
+      cards             … この弾/チームの収録カード（一覧表示用）
+      show_topic_in_cards … カード一覧に弾名を出すか（チームは弾をまたぐので true） %>
 
 <%# ブラウザの「戻る」(:back)ではなく、一覧ページへ確実に飛ぶ。
     投稿後は履歴が増えていて :back では一覧まで戻れないため。 %>
@@ -23,6 +25,25 @@
     <% end %>
   </div>
 </div>
+
+<%# 収録カード一覧。<details> はブラウザ標準の開閉パーツ（JS不要）。
+    「どんなカードがあるか把握したい人」向け。 %>
+<% if cards.any? %>
+  <details class="cardlist">
+    <summary class="cardlist__summary">収録カード一覧（<%= cards.size %>枚）</summary>
+    <ul class="cardlist__items">
+      <% cards.each do |c| %>
+        <li class="cardlist__item">
+          <span class="cardlist__name"><%= c.label %></span>
+          <span class="stars"><%= c.stars %></span>
+          <% if show_topic_in_cards %>
+            <span class="cardlist__topic"><%= c.topic.name %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </details>
+<% end %>
 
 <nav class="tabs">
   <%= link_to "募集中", open_path,

@@ -9,4 +9,6 @@
       showing_completed: @showing_completed,
       open_path: topic_path(@topic),
       completed_path: topic_path(@topic, status: :completed),
-      index_path: topics_path %>
+      index_path: topics_path,
+      cards: @cards,
+      show_topic_in_cards: false %>

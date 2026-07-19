@@ -26,33 +26,36 @@
           placeholder: "お名前（ニックネーム）" %>
   </div>
 
+  <%# 欲しいカード：検索して複数選べる（出せるカードと同じ仕組み）。
+      送信名は post[wanted_card_ids][]。1枚以上はサーバー側で必須チェック。 %>
   <div class="field">
-    <%= f.label :wanted_card_id do %>欲しいカード <span class="required">必須</span><% end %>
-    <%= f.collection_select :wanted_card_id, wanted_options, :id, :picker_label,
-          { prompt: "カードを選んでください" }, { class: "input", required: true } %>
-  </div>
-
-  <div class="field">
-    <%= f.label :offered_card_ids, "出せるカード（選手名で検索して選ぶ）" %>
-
-    <%# data-controller で、この <div> を card-picker コントローラの担当にする。
-        data-card-picker-cards-value に、全カードを JSON で渡す（JSの検索対象）。 %>
+    <%= f.label :wanted_card_ids do %>欲しいカード <span class="required">必須</span><% end %>
     <div data-controller="card-picker"
-         data-card-picker-cards-value="<%= offered_options.map { |c|
+         data-card-picker-name-value="post[wanted_card_ids][]"
+         data-card-picker-cards-value="<%= wanted_options.map { |c|
            { id: c.id, label: c.picker_label, search: c.search_text } }.to_json %>">
-
-      <%# 検索の入力欄。target=query、入力されたら filter を呼ぶ。 %>
       <input type="text" class="input" placeholder="選手名を入力…（例: サンプル）"
              data-card-picker-target="query"
              data-action="input->card-picker#filter">
-
-      <%# 候補リスト（最初は hidden で隠れている）。JSがここに <li> を入れる。 %>
       <ul class="picker" data-card-picker-target="results" hidden></ul>
-
-      <%# 選んだカードのタグ置き場。JSがここに chip を入れる。 %>
       <div class="picker__chips" data-card-picker-target="chips"></div>
     </div>
+    <p class="field__hint">欲しいカードを検索して、1枚以上選んでください。</p>
+  </div>
 
+  <%# 出せるカード：検索して複数選べる。送信名は post[offered_card_ids][]。 %>
+  <div class="field">
+    <%= f.label :offered_card_ids, "出せるカード（選手名で検索して選ぶ）" %>
+    <div data-controller="card-picker"
+         data-card-picker-name-value="post[offered_card_ids][]"
+         data-card-picker-cards-value="<%= offered_options.map { |c|
+           { id: c.id, label: c.picker_label, search: c.search_text } }.to_json %>">
+      <input type="text" class="input" placeholder="選手名を入力…（例: サンプル）"
+             data-card-picker-target="query"
+             data-action="input->card-picker#filter">
+      <ul class="picker" data-card-picker-target="results" hidden></ul>
+      <div class="picker__chips" data-card-picker-target="chips"></div>
+    </div>
     <p class="field__hint">出せるカードが無ければ選ばなくてもOK（備考で「交渉」と書けます）。</p>
   </div>
 

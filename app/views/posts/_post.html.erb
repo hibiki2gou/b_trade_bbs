@@ -11,8 +11,9 @@
   <div class="post__row">
     <span class="post__tag post__tag--want">欲しい</span>
     <span class="post__cards">
-      <%= post.wanted_card.label %>
-      <span class="stars"><%= post.wanted_card.stars %></span>
+      <% post.wanted_cards.each_with_index do |c, i| %>
+        <%= "、" if i.positive? %><%= c.label %> <span class="stars"><%= c.stars %></span>
+      <% end %>
     </span>
   </div>
 

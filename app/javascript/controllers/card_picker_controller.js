@@ -1,11 +1,14 @@
 import { Controller } from "@hotwired/stimulus"
 
-// 出せるカードを「名前で検索して選ぶ」ための動きを担当するコントローラ。
+// カードを「名前で検索して選ぶ」ための動きを担当するコントローラ。
+// 「欲しいカード」でも「出せるカード」でも使い回せる（送信名を name で切り替える）。
 export default class extends Controller {
   // HTML 側の目印。data-card-picker-target="query" などと対応する。
   static targets = ["query", "results", "chips"]
-  // HTML から渡されるデータ。全カードの一覧（id・ラベル・検索用テキスト）。
-  static values = { cards: Array }
+  // HTML から渡されるデータ。
+  //   cards … カードの一覧（id・ラベル・検索用テキスト）
+  //   name  … 送信するときの input の名前（例: post[wanted_card_ids][]）
+  static values = { cards: Array, name: String }
 
   // このコントローラが動き始めたとき最初に1回だけ走る。
   connect() {
@@ -59,10 +62,11 @@ export default class extends Controller {
     const text = document.createElement("span")
     text.textContent = label
 
-    // これがサーバーに送られる本体。名前は post[offered_card_ids][]。
+    // これがサーバーに送られる本体。名前は HTML から渡された name を使う
+    // （欲しい: post[wanted_card_ids][] / 出せる: post[offered_card_ids][]）。
     const hidden = document.createElement("input")
     hidden.type = "hidden"
-    hidden.name = "post[offered_card_ids][]"
+    hidden.name = this.nameValue
     hidden.value = id
 
     const remove = document.createElement("button")

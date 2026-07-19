@@ -26,9 +26,9 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a.back-link, .back a[href=?]", topics_path, text: /一覧へもどる/
   end
 
-  test "弾の掲示板に収録カード一覧が出る" do
+  test "弾の掲示板に収録カード一覧がモーダルで用意される" do
     get topic_url(@topic)
-    assert_select "details.cardlist"
+    assert_select "dialog.modal"
     assert_select ".cardlist__item", text: /選手A（得点記録）/
   end
 end

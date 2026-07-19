@@ -10,7 +10,9 @@
       completed_path    … 「成立済み」タブのリンク先
       index_path        … 「一覧へもどる」のリンク先（弾一覧 or チーム一覧）
       cards             … この弾/チームの収録カード（一覧表示用）
-      show_topic_in_cards … カード一覧に弾名を出すか（チームは弾をまたぐので true） %>
+      card_context      … カード一覧の右に何を出すか
+                          :team  … チーム名（弾の掲示板。チーム順に並ぶので目印になる）
+                          :topic … 弾名（チームの掲示板。弾をまたぐため） %>
 
 <%# ブラウザの「戻る」(:back)ではなく、一覧ページへ確実に飛ぶ。
     投稿後は履歴が増えていて :back では一覧まで戻れないため。 %>
@@ -36,9 +38,9 @@
         <li class="cardlist__item">
           <span class="cardlist__name"><%= c.label %></span>
           <span class="stars"><%= c.stars %></span>
-          <% if show_topic_in_cards %>
-            <span class="cardlist__topic"><%= c.topic.name %></span>
-          <% end %>
+          <span class="cardlist__meta">
+            <%= card_context == :team ? c.team.name : c.topic.name %>
+          </span>
         </li>
       <% end %>
     </ul>

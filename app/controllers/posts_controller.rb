@@ -44,14 +44,16 @@ class PostsController < ApplicationController
       @team = Team.find(params[:board_id])
       @posts = Post.wanting_team(@team).open_posts
                    .recent.includes(wanted_cards: :player, offered_cards: :player)
-      @cards = @team.cards.includes(:player, :topic).sort_by(&:picker_label)
+      @cards = @team.cards.includes(:topic, :player)
+                    .sort_by { |c| [ c.topic.position, c.player.jersey_number || 999 ] }
       @wanted_options = @cards
       render "teams/show", status: :unprocessable_entity
     elsif params[:board_id].present?
       @topic = Topic.find(params[:board_id])
       @posts = Post.wanting_topic(@topic).open_posts
                    .recent.includes(wanted_cards: :player, offered_cards: :player)
-      @cards = @topic.cards.includes(:player).sort_by(&:label)
+      @cards = @topic.cards.includes(player: :team)
+                     .sort_by { |c| [ c.player.team.position, c.player.jersey_number || 999 ] }
       @wanted_options = @cards
       render "topics/show", status: :unprocessable_entity
     else

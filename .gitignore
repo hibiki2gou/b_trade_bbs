@@ -36,3 +36,10 @@
 # Claude Code の作業用ディレクトリ。このアプリのコードではないので追跡しない。
 /.claude/
 
+# 弾・チームの画像は公式素材（著作権あり）なので git に入れない。
+# ディレクトリ自体は .keep で残す（画像はローカルに置けば表示される）。
+/app/assets/images/sets/*
+!/app/assets/images/sets/.keep
+/app/assets/images/teams/*
+!/app/assets/images/teams/.keep
+

@@ -31,15 +31,20 @@
       </div>
     </header>
 
-    <main class="container">
-      <%# フラッシュメッセージ（投稿しました 等の通知） %>
-      <% if notice.present? %>
-        <p class="flash flash--notice"><%= notice %></p>
-      <% end %>
-      <% if alert.present? %>
-        <p class="flash flash--alert"><%= alert %></p>
-      <% end %>
+    <%# 通知は画面右上にトーストとして出す（ページの流れを崩さないため）。
+        数秒で自動的に消える（toast Stimulus コントローラ）。 %>
+    <% if notice.present? || alert.present? %>
+      <div class="toasts" data-controller="toast">
+        <% if notice.present? %>
+          <div class="toast toast--notice"><%= notice %></div>
+        <% end %>
+        <% if alert.present? %>
+          <div class="toast toast--alert"><%= alert %></div>
+        <% end %>
+      </div>
+    <% end %>
 
+    <main class="container">
       <%= yield %>
     </main>
 

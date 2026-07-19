@@ -11,20 +11,16 @@
   <div class="post__row">
     <span class="post__tag post__tag--want">欲しい</span>
     <span class="post__cards">
-      <% post.wanted_cards.each_with_index do |c, i| %>
-        <%= "、" if i.positive? %><%= c.label %> <span class="stars"><%= c.stars %></span>
-      <% end %>
+      <%= render "posts/card_group", cards: post.wanted_cards.to_a,
+                                     empty_text: "（未指定）" %>
     </span>
   </div>
 
   <div class="post__row">
     <span class="post__tag post__tag--give">出せる</span>
     <span class="post__cards">
-      <% if post.offered_cards.any? %>
-        <%= post.offered_cards.map(&:label).join("、") %>
-      <% else %>
-        <span class="muted">交渉で相談</span>
-      <% end %>
+      <%= render "posts/card_group", cards: post.offered_cards.to_a,
+                                     empty_text: "交渉で相談" %>
     </span>
   </div>
 

@@ -61,6 +61,15 @@ class TradeFlowTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "投稿に成功すると、右上のトースト通知が出る" do
+    post posts_path, params: {
+      board_type: "topic", board_id: @topic.id,
+      post: { wanted_card_ids: [ @wanted1.id ], nickname: "太郎" }
+    }
+    follow_redirect!
+    assert_select ".toasts .toast--notice", text: /募集を投稿しました/
+  end
+
   test "投稿に失敗すると、掲示板を再表示してフォーム内にエラーを出す" do
     post posts_path, params: {
       board_type: "topic", board_id: @topic.id,

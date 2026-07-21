@@ -563,6 +563,7 @@ players:
   - { name: イヒョンジュン, team: nagasaki-velca, jersey_number: 5, position: SG/SF }
   - { name: 森田雄次, team: nagasaki-velca, jersey_number: 6, position: PG }
   - { name: ジャレル・ブラントリー, team: nagasaki-velca, jersey_number: 7, position: PF }
+  - { name: 森川正明, team: nagasaki-velca, jersey_number: 9 }
   - { name: 菅澤紀行, team: nagasaki-velca, jersey_number: 10, position: PF }
   - { name: 熊谷航, team: nagasaki-velca, jersey_number: 11, position: PG }
   - { name: 星川堅信, team: nagasaki-velca, jersey_number: 13, position: SF }
@@ -589,6 +590,36 @@ players:
   - { name: 平良彰吾, team: ryukyu-golden-kings, jersey_number: 47, position: PG }
   - { name: アレックス・カーク, team: ryukyu-golden-kings, jersey_number: 53, position: C }
   - { name: 佐取龍之介, team: ryukyu-golden-kings, jersey_number: 77, position: SG/SF }
+
+  # B2 クラブの選手。いまはカードに出てくる分だけを登録している。
+  # ポジションは資料が揃っていないので未記入（省略可）。
+  - { name: 寺嶋恭之介, team: aomori-wats, jersey_number: 91 }
+  - { name: 後藤翔平, team: iwate-big-bulls, jersey_number: 1 }
+  - { name: 吉田健太郎, team: yamagata-wyverns, jersey_number: 37 }
+  - { name: 笠井康平, team: fukushima-firebonds, jersey_number: 13 }
+  - { name: 大橋大空, team: yokohama-excellence, jersey_number: 13 }
+  - { name: 満田丈太郎, team: fukui-blowinds, jersey_number: 21 }
+  - { name: ウェイン・マーシャル, team: shinshu-brave-warriors, jersey_number: 50 }
+  - { name: 加納誠也, team: veltex-shizuoka, jersey_number: 41 }
+  - { name: 梅村帝武, team: kobe-storks, jersey_number: 2 }
+  - { name: 寺園脩斗, team: kobe-storks, jersey_number: 4 }
+  - { name: アイザック・バッツ, team: kobe-storks, jersey_number: 5 }
+  - { name: 八村阿蓮, team: kobe-storks, jersey_number: 8 }
+  - { name: 谷直樹, team: kobe-storks, jersey_number: 9 }
+  - { name: 木村圭吾, team: kobe-storks, jersey_number: 12 }
+  - { name: 道原紀晃, team: kobe-storks, jersey_number: 13 }
+  - { name: ジミー・セーレム, team: kobe-storks, jersey_number: 22 }
+  - { name: ヨーリ・チャイルズ, team: kobe-storks, jersey_number: 23 }
+  - { name: 中島三千哉, team: kobe-storks, jersey_number: 24 }
+  - { name: 金田龍弥, team: kobe-storks, jersey_number: 30 }
+  - { name: ルーク・メイ, team: kobe-storks, jersey_number: 32 }
+  - { name: 笹倉怜寿, team: kobe-storks, jersey_number: 33 }
+  - { name: 野溝利一, team: kobe-storks, jersey_number: 90 }
+  - { name: 古牧昌也, team: bambitious-nara, jersey_number: 7 }
+  - { name: マイケル・パーカー, team: ehime-orange-vikings, jersey_number: 3 }
+  - { name: 寒竹隼人, team: rizing-zephyr-fukuoka, jersey_number: 12 }
+  - { name: 磯野寛晃, team: kumamoto-volters, jersey_number: 5 }
+  - { name: 藤本巧太, team: kagoshima-rebnise, jersey_number: 9 }
 
 # ============================================================
 # ラインナップ（弾ごとの収録カード）
@@ -834,3 +865,614 @@ lineups:
       - { team: rizing-zephyr-fukuoka, name: ライジングゼファー福岡, rarity: 4 }
       - { team: kumamoto-volters, name: 熊本ヴォルターズ, rarity: 4 }
       - { team: kagoshima-rebnise, name: 鹿児島レブナイズ, rarity: 4 }
+  - set: season-2025-26
+    # 秋田ノーザンハピネッツの★4が1枚未取得（103/104枚）
+    cards:
+      - { player: 狩俣昌也, rarity: 4 }
+      - { player: ジャレル・ブラントリー, rarity: 4 }
+      - { player: スタンリー・ジョンソン, rarity: 4 }
+      - { player: ヴィック・ロー, rarity: 4 }
+      - { player: 荒川颯, rarity: 4 }
+      - { player: 脇真大, rarity: 4 }
+      - { player: ドワイト・ラモス, rarity: 5 }
+      - { player: 渡辺翔太, rarity: 5 }
+      - { player: 赤穂雷太, rarity: 5 }
+      - { player: 平尾充庸, rarity: 5 }
+      - { player: 比江島慎, rarity: 5 }
+      - { player: 辻直人, rarity: 5 }
+      - { player: 松山駿, rarity: 5 }
+      - { player: ブランドン・アシュリー, rarity: 5 }
+      - { player: 富樫勇樹, rarity: 5 }
+      - { player: 安藤周人, rarity: 5 }
+      - { player: ジョシュ・ホーキンソン, rarity: 5 }
+      - { player: 篠山竜青, rarity: 5 }
+      - { player: キング開, rarity: 5 }
+      - { player: 宇都直輝, rarity: 5 }
+      - { player: 吉井裕鷹, rarity: 5 }
+      - { player: 西田優大, rarity: 5 }
+      - { player: 並里成, rarity: 5 }
+      - { player: 齋藤拓実, rarity: 5 }
+      - { player: 長谷川比源, rarity: 5 }
+      - { player: アンジェロ・カロイアロ, rarity: 5 }
+      - { player: 牧隼利, rarity: 5 }
+      - { player: ニック・ケイ, rarity: 5 }
+      - { player: ドウェイン・エバンス, rarity: 5 }
+      - { player: 金丸晃輔, rarity: 5 }
+      - { player: 馬場雄大, rarity: 5 }
+      - { player: 岸本隆一, rarity: 5 }
+      - { player: 星野京介, rarity: 4 }
+      - { player: 島谷怜, rarity: 4 }
+      - { player: 富永啓生, rarity: 4 }
+      - { player: 船生誠也, rarity: 4 }
+      - { player: ネイサン・ブース, rarity: 4 }
+      - { player: 井上宗一郎, rarity: 4 }
+      - { player: 田口成浩, rarity: 4 }
+      - { player: 中山拓哉, rarity: 4 }
+      - { player: ヤンジェミン, rarity: 4 }
+      - { player: 中村功平, rarity: 4 }
+      - { player: 久岡幸太郎, rarity: 4 }
+      - { player: 竹内公輔, rarity: 4 }
+      - { player: D.J・ニュービル, rarity: 4 }
+      - { player: アイザック・フォトゥ, rarity: 4 }
+      - { player: 藤井祐眞, rarity: 4 }
+      - { player: コー・フリッピン, rarity: 4 }
+      - { player: トレイ・ジョーンズ, rarity: 4 }
+      - { player: ジャレル・マーティン, rarity: 4 }
+      - { player: 四家魁人, rarity: 4 }
+      - { player: アンソニー・クレモンズ, rarity: 4 }
+      - { player: 黒川虎徹, rarity: 4 }
+      - { player: 前田怜緒, rarity: 4 }
+      - { player: デレク・パードン, rarity: 4 }
+      - { player: 渡邊雄太, rarity: 4 }
+      - { player: 瀬川琉久, rarity: 4 }
+      - { player: 金近廉, rarity: 4 }
+      - { player: テーブス海, rarity: 4 }
+      - { player: ザック・バランスキー, rarity: 4 }
+      - { player: 小酒部泰暉, rarity: 4 }
+      - { player: ジャン・ローレンス・ハーパージュニア, rarity: 4 }
+      - { player: ベンドラメ礼生, rarity: 4 }
+      - { player: 田中大貴, rarity: 4 }
+      - { player: 津山尚大, rarity: 4 }
+      - { player: ロスコ・アレン, rarity: 4 }
+      - { player: 山内ジャヘル琉人, rarity: 4 }
+      - { player: 安藤誓哉, rarity: 4 }
+      - { player: キーファー・ラベナ, rarity: 4 }
+      - { player: 松崎裕樹, rarity: 4 }
+      - { player: 藤永佳昭, rarity: 4 }
+      - { player: 水戸健史, rarity: 4 }
+      - { player: ブロック・モータム, rarity: 4 }
+      - { player: ヤンテ・メイテン, rarity: 4 }
+      - { player: デイビッド・ヌワバ, rarity: 4 }
+      - { player: 大浦颯太, rarity: 4 }
+      - { player: 久保田義章, rarity: 4 }
+      - { player: 須田侑太郎, rarity: 4 }
+      - { player: ダバンテ・ガードナー, rarity: 4 }
+      - { player: 杉本天昇, rarity: 4 }
+      - { player: 笹山貴哉, rarity: 4 }
+      - { player: ショーン・オマラ, rarity: 4 }
+      - { player: 中東泰斗, rarity: 4 }
+      - { player: 今村佳太, rarity: 4 }
+      - { player: スコット・エサトン, rarity: 4 }
+      - { player: 游艾喆, rarity: 4 }
+      - { player: 常田耕平, rarity: 4 }
+      - { player: 市岡ショーン, rarity: 4 }
+      - { player: 澁田怜音, rarity: 4 }
+      - { player: チャールズ・ジャクソン, rarity: 4 }
+      - { player: 前田悟, rarity: 4 }
+      - { player: レイ・パークスジュニア, rarity: 4 }
+      - { player: マット・ボンズ, rarity: 4 }
+      - { player: ライアン・ルーサー, rarity: 4 }
+      - { player: コティ・クラーク, rarity: 4 }
+      - { player: 納見悠仁, rarity: 4 }
+      - { player: 岡田侑大, rarity: 4 }
+      - { player: ロバーツケイン, rarity: 4 }
+      - { player: メイヨニック, rarity: 4 }
+      - { player: 山崎稜, rarity: 4 }
+      - { player: レイナルド・ガルシア, rarity: 4 }
+      - { player: 内尾聡理, rarity: 4 }
+      - { player: デイビッド・ダジンスキー, rarity: 4 }
+  - set: yume-wo-katare
+    cards:
+      - { player: 田口成浩, rarity: 5 }
+      - { player: 比江島慎, rarity: 5 }
+      - { player: 瀬川琉久, rarity: 5 }
+      - { player: ジョシュ・ホーキンソン, rarity: 5 }
+      - { player: 安藤誓哉, rarity: 5 }
+      - { player: 齋藤拓実, rarity: 5 }
+      - { player: ザック・オーガスト, rarity: 5 }
+      - { player: マット・ボンズ, rarity: 5 }
+      - { player: 脇真大, rarity: 5 }
+      - { player: 盛實海翔, rarity: 4 }
+      - { player: 渡辺翔太, rarity: 4 }
+      - { player: 駒沢颯, rarity: 4 }
+      - { player: 藤井祐眞, rarity: 4 }
+      - { player: 松山駿, rarity: 4 }
+      - { player: 前田怜緒, rarity: 4 }
+      - { player: テーブス海, rarity: 4 }
+      - { player: 篠山竜青, rarity: 4 }
+      - { player: 藤永佳昭, rarity: 4 }
+      - { player: 吉井裕鷹, rarity: 4 }
+      - { player: ダバンテ・ガードナー, rarity: 4 }
+      - { player: 平松克樹, rarity: 4 }
+      - { player: アンジェロ・カロイアロ, rarity: 4 }
+      - { player: ニック・ケイ, rarity: 4 }
+      - { player: ドウェイン・エバンス, rarity: 4 }
+      - { player: 角田太輝, rarity: 4 }
+      - { player: 山口颯斗, rarity: 4 }
+  - set: energy
+    cards:
+      - { player: 富永啓生, rarity: 5 }
+      - { player: 長谷川暢, rarity: 5 }
+      - { player: D.J・ニュービル, rarity: 5 }
+      - { player: 中村拓人, rarity: 5 }
+      - { player: 渡邊雄太, rarity: 5 }
+      - { player: ヤンテ・メイテン, rarity: 5 }
+      - { player: 西田優大, rarity: 5 }
+      - { player: 岡田侑大, rarity: 5 }
+      - { player: ジャック・クーリー, rarity: 5 }
+      - { player: ネイサン・ブース, rarity: 4 }
+      - { player: アリ・メザー, rarity: 4 }
+      - { player: アンソニー・クレモンズ, rarity: 4 }
+      - { player: デレク・パードン, rarity: 4 }
+      - { player: セバスチャン・サイズ, rarity: 4 }
+      - { player: ベンドラメ礼生, rarity: 4 }
+      - { player: 山内ジャヘル琉人, rarity: 4 }
+      - { player: キング開, rarity: 4 }
+      - { player: 岡田雄三, rarity: 4 }
+      - { player: 並里成, rarity: 4 }
+      - { player: 加藤嵩都, rarity: 4 }
+      - { player: ライアン・クリーナー, rarity: 4 }
+      - { player: 古川孝敏, rarity: 4 }
+      - { player: 青木保憲, rarity: 4 }
+      - { player: 伊藤達哉, rarity: 4 }
+      - { player: 角田太輝, rarity: 4 }
+      - { player: スタンリー・ジョンソン, rarity: 4 }
+  - set: entrance
+    cards:
+      - { players: [関野剛平, ドワイト・ラモス], team: levanga-hokkaido,
+          name: 関野 剛平 & ドワイト・ラモス, rarity: 5 }
+      - { player: 小島元基, rarity: 5 }
+      - { player: 比江島慎, rarity: 5 }
+      - { player: 安藤周人, rarity: 5 }
+      - { player: 篠山竜青, rarity: 5 }
+      - { player: 齋藤拓実, rarity: 5 }
+      - { players: [マット・ボンズ, ヴォーディミル・ゲルン], team: osaka-evessa,
+          name: マット・ボンズ & ヴォーディミル・ゲルン, rarity: 5 }
+      - { player: 川真田紘也, rarity: 5 }
+      - { players: [アレックス・カーク, 小野寺祥太], team: ryukyu-golden-kings,
+          name: アレックス・カーク & 小野寺 祥太, rarity: 5 }
+      - { player: 渡辺翔太, rarity: 4 }
+      - { player: 赤穂雷太, rarity: 4 }
+      - { player: 中村拓人, rarity: 4 }
+      - { player: セクー・ドゥムブヤ, rarity: 4 }
+      - { player: エヴァンスルーク, rarity: 4 }
+      - { player: 渡邊雄太, rarity: 4 }
+      - { player: 田中大貴, rarity: 4 }
+      - { player: 前野幹太, rarity: 4 }
+      - { player: 岡田雄三, rarity: 4 }
+      - { player: 津屋一球, rarity: 4 }
+      - { player: 須田侑太郎, rarity: 4 }
+      - { player: 杉本天昇, rarity: 4 }
+      - { player: トーマス・ウィンブッシュ, rarity: 4 }
+      - { player: 渡辺竜之佑, rarity: 4 }
+      - { player: ニック・ケイ, rarity: 4 }
+      - { player: クリストファー・スミス, rarity: 4 }
+      - { player: デイビッド・ダジンスキー, rarity: 4 }
+  - set: captain
+    cards:
+      - { player: 田臥勇太, rarity: 5 }
+      - { player: 辻直人, rarity: 5 }
+      - { player: ザック・バランスキー, rarity: 5 }
+      - { player: 前田悟, rarity: 5 }
+      - { player: 竹内譲次, rarity: 5 }
+      - { player: ニック・ケイ, rarity: 5 }
+      - { player: 上澤俊喜, rarity: 5 }
+      - { player: 大塚裕土, rarity: 5 }
+      - { player: ジョン・ムーニー, rarity: 5 }
+      - { player: ベンドラメ礼生, rarity: 5 }
+      - { player: 篠山竜青, rarity: 5 }
+      - { player: 西田優大, rarity: 5 }
+      - { player: 今村佳太, rarity: 5 }
+      - { player: ヴィック・ロー, rarity: 5 }
+      - { player: 渡辺翔太, rarity: 4 }
+      - { player: 田口成浩, rarity: 4 }
+      - { player: 喜多川修平, rarity: 4 }
+      - { player: 佐々木隆成, rarity: 4 }
+      - { player: 野本大智, rarity: 4 }
+      - { player: 狩俣昌也, rarity: 4 }
+      - { player: 吉田健太郎, rarity: 4 }
+      - { player: 笠井康平, rarity: 4 }
+      - { player: 加納誠也, rarity: 4 }
+      - { player: 寺園脩斗, rarity: 4 }
+      - { player: 古牧昌也, rarity: 4 }
+      - { player: 寒竹隼人, rarity: 4 }
+      - { player: 磯野寛晃, rarity: 4 }
+      - { player: ケビン・ジョーンズ, rarity: 4 }
+      - { player: 長谷川暢, rarity: 4 }
+      - { player: 森井健太, rarity: 4 }
+      - { player: 藤永佳昭, rarity: 4 }
+      - { player: 並里成, rarity: 4 }
+      - { player: 井上諒汰, rarity: 4 }
+      - { player: 寺嶋恭之介, rarity: 4 }
+      - { player: 後藤翔平, rarity: 4 }
+      - { player: 大橋大空, rarity: 4 }
+      - { player: 満田丈太郎, rarity: 4 }
+      - { player: ウェイン・マーシャル, rarity: 4 }
+      - { player: マイケル・パーカー, rarity: 4 }
+      - { player: 藤本巧太, rarity: 4 }
+  - set: jersey-number
+    cards:
+      - { player: 半澤凌太, rarity: 5 }
+      - { player: 赤穂雷太, rarity: 5 }
+      - { player: 藤井祐眞, rarity: 5 }
+      - { player: 瀬川琉久, rarity: 5 }
+      - { player: 田中大貴, rarity: 5 }
+      - { player: 久保田義章, rarity: 5 }
+      - { player: 中東泰斗, rarity: 5 }
+      - { player: マット・ボンズ, rarity: 5 }
+      - { player: 角田太輝, rarity: 5 }
+      - { player: ケビン・ジョーンズ, rarity: 4 }
+      - { player: 小島元基, rarity: 4 }
+      - { player: 高島紳司, rarity: 4 }
+      - { player: ジャレル・マーティン, rarity: 4 }
+      - { player: 大崎裕太, rarity: 4 }
+      - { player: ライアン・ロシター, rarity: 4 }
+      - { player: 野本建吾, rarity: 4 }
+      - { player: 須藤昂矢, rarity: 4 }
+      - { player: 鎌田隼, rarity: 4 }
+      - { player: 吉井裕鷹, rarity: 4 }
+      - { player: ジャモルコ・ピケット, rarity: 4 }
+      - { player: 西田陽成, rarity: 4 }
+      - { player: 渡辺竜之佑, rarity: 4 }
+      - { player: 中村太地, rarity: 4 }
+      - { player: 佐藤涼成, rarity: 4 }
+      - { player: 松本健児リオン, rarity: 4 }
+      - { player: 小針幸也, rarity: 4 }
+  - set: shishifunjin
+    cards:
+      - { player: ヤニー・ウェッツェル, rarity: 5 }
+      - { player: 比江島慎, rarity: 5 }
+      - { player: 池田祐一, rarity: 5 }
+      - { player: トレイ・ポーター, rarity: 5 }
+      - { player: 宇都直輝, rarity: 5 }
+      - { player: 根本大, rarity: 5 }
+      - { player: ジャモルコ・ピケット, rarity: 5 }
+      - { player: 游艾喆, rarity: 5 }
+      - { player: 澁田怜音, rarity: 5 }
+      - { player: 関野剛平, rarity: 4 }
+      - { player: 半澤凌太, rarity: 4 }
+      - { player: 長谷川暢, rarity: 4 }
+      - { player: トレイ・ジョーンズ, rarity: 4 }
+      - { player: 渡邊雄太, rarity: 4 }
+      - { player: 安藤周人, rarity: 4 }
+      - { player: ジャン・ローレンス・ハーパージュニア, rarity: 4 }
+      - { player: 長谷川技, rarity: 4 }
+      - { player: ダミアン・イングリス, rarity: 4 }
+      - { player: 角野亮伍, rarity: 4 }
+      - { player: カイル・リチャードソン, rarity: 4 }
+      - { player: 合田怜, rarity: 4 }
+      - { player: 岡田侑大, rarity: 4 }
+      - { player: 伊藤達哉, rarity: 4 }
+      - { player: デイビッド・ダジンスキー, rarity: 4 }
+      - { player: 山口颯斗, rarity: 4 }
+      - { player: アレックス・カーク, rarity: 4 }
+  - set: smile
+    # 長崎ヴェルカの★4が未取得（25/26枚）
+    cards:
+      - { player: D.J・ニュービル, rarity: 5 }
+      - { player: ケリー・ブラックシアー・ジュニア, rarity: 5 }
+      - { player: 渡邊雄太, rarity: 5 }
+      - { player: ジャン・ローレンス・ハーパージュニア, rarity: 5 }
+      - { player: 安藤誓哉, rarity: 5 }
+      - { player: 大浦颯太, rarity: 5 }
+      - { player: シェーファーアヴィ幸樹, rarity: 5 }
+      - { player: アイザイア・マーフィー, rarity: 5 }
+      - { player: アレックス・カーク, rarity: 5 }
+      - { player: 関野剛平, rarity: 4 }
+      - { player: 新沼康生, rarity: 4 }
+      - { player: アリ・メザー, rarity: 4 }
+      - { player: 陳岡流羽, rarity: 4 }
+      - { player: ジャレル・マーティン, rarity: 4 }
+      - { player: 黒川虎徹, rarity: 4 }
+      - { player: 安藤周人, rarity: 4 }
+      - { player: 山内ジャヘル琉人, rarity: 4 }
+      - { player: 宇都直輝, rarity: 4 }
+      - { player: ジャモルコ・ピケット, rarity: 4 }
+      - { player: 常田耕平, rarity: 4 }
+      - { player: アンジェロ・カロイアロ, rarity: 4 }
+      - { player: 鈴木達也, rarity: 4 }
+      - { player: 介川アンソニー翔, rarity: 4 }
+      - { player: コフィ・コーバーン, rarity: 4 }
+      - { player: 角田太輝, rarity: 4 }
+  - set: dunk
+    # レバンガ北海道の★4が未取得（25/26枚）
+    cards:
+      - { player: カイ・ソット, rarity: 5 }
+      - { player: ジョン・ムーニー, rarity: 5 }
+      - { player: ジョシュ・ホーキンソン, rarity: 5 }
+      - { player: ゲイリー・クラーク, rarity: 5 }
+      - { player: デイビッド・ヌワバ, rarity: 5 }
+      - { player: 須藤タイレル拓, rarity: 5 }
+      - { player: チャールズ・ジャクソン, rarity: 5 }
+      - { player: ジェームズ・マイケル・マカドゥ, rarity: 5 }
+      - { player: 川真田紘也, rarity: 5 }
+      - { player: ジャレット・カルバー, rarity: 4 }
+      - { player: ジャメール・マクリーン, rarity: 4 }
+      - { player: ロバート・フランクス, rarity: 4 }
+      - { player: ギャビン・エドワーズ, rarity: 4 }
+      - { player: エージェー・エドゥ, rarity: 4 }
+      - { player: トレイ・ポーター, rarity: 4 }
+      - { player: ライアン・ロシター, rarity: 4 }
+      - { player: エマニュエル・テリー, rarity: 4 }
+      - { player: ウィリアムスニカ, rarity: 4 }
+      - { player: アーロン・ホワイト, rarity: 4 }
+      - { player: アーロン・ヘンリー, rarity: 4 }
+      - { player: ザック・オーガスト, rarity: 4 }
+      - { player: ライアン・ルーサー, rarity: 4 }
+      - { player: ドウェイン・エバンス, rarity: 4 }
+      - { player: デイビッド・ダジンスキー, rarity: 4 }
+      - { player: アレックス・カーク, rarity: 4 }
+  - set: zoom-up
+    cards:
+      - { player: 小川敦也, rarity: 5 }
+      - { player: 藤井祐眞, rarity: 5 }
+      - { player: 金近廉, rarity: 5 }
+      - { player: 大倉颯太, rarity: 5 }
+      - { player: シェーファーアヴィ幸樹, rarity: 5 }
+      - { player: 加藤嵩都, rarity: 5 }
+      - { player: 野本大智, rarity: 5 }
+      - { player: 狩俣昌也, rarity: 5 }
+      - { player: 荒川颯, rarity: 5 }
+      - { player: ドワイト・ラモス, rarity: 4 }
+      - { player: 新沼康生, rarity: 4 }
+      - { player: 土屋アリスター時生, rarity: 4 }
+      - { player: 中村功平, rarity: 4 }
+      - { player: 四家魁人, rarity: 4 }
+      - { player: 黒川虎徹, rarity: 4 }
+      - { player: 大森康瑛, rarity: 4 }
+      - { player: 米須玲音, rarity: 4 }
+      - { player: 兪龍海, rarity: 4 }
+      - { player: 田中晴瑛, rarity: 4 }
+      - { player: 湧川颯斗, rarity: 4 }
+      - { player: 保岡龍斗, rarity: 4 }
+      - { player: 澁田怜音, rarity: 4 }
+      - { player: 牧隼利, rarity: 4 }
+      - { player: 介川アンソニー翔, rarity: 4 }
+      - { player: 三谷桂司朗, rarity: 4 }
+      - { player: 富山仁貴, rarity: 4 }
+  - set: bench-scene
+    cards:
+      - { team: levanga-hokkaido, name: レバンガ北海道, rarity: 5 }
+      - { team: utsunomiya-brex, name: 宇都宮ブレックス, rarity: 5 }
+      - { team: gunma-crane-thunders, name: 群馬クレインサンダーズ, rarity: 5 }
+      - { team: chiba-jets, name: 千葉ジェッツ, rarity: 5 }
+      - { team: alvark-tokyo, name: アルバルク東京, rarity: 5 }
+      - { team: seahorses-mikawa, name: シーホース三河, rarity: 5 }
+      - { team: nagoya-diamond-dolphins, name: 名古屋ダイヤモンドドルフィンズ, rarity: 5 }
+      - { team: nagasaki-velca, name: 長崎ヴェルカ, rarity: 5 }
+      - { team: ryukyu-golden-kings, name: 琉球ゴールデンキングス, rarity: 5 }
+      - { team: sendai-89ers, name: 仙台89ERS, rarity: 4 }
+      - { team: akita-northern-happinets, name: 秋田ノーザンハピネッツ, rarity: 4 }
+      - { team: ibaraki-robots, name: 茨城ロボッツ, rarity: 4 }
+      - { team: koshigaya-alphas, name: 越谷アルファーズ, rarity: 4 }
+      - { team: altiri-chiba, name: アルティーリ千葉, rarity: 4 }
+      - { team: sunrockers-shibuya, name: サンロッカーズ渋谷, rarity: 4 }
+      - { team: kawasaki-brave-thunders, name: 川崎ブレイブサンダース, rarity: 4 }
+      - { team: yokohama-b-corsairs, name: 横浜ビー・コルセアーズ, rarity: 4 }
+      - { team: toyama-grouses, name: 富山グラウジーズ, rarity: 4 }
+      - { team: sanen-neophoenix, name: 三遠ネオフェニックス, rarity: 4 }
+      - { team: fighting-eagles-nagoya, name: ファイティングイーグルス名古屋, rarity: 4 }
+      - { team: shiga-lakes, name: 滋賀レイクス, rarity: 4 }
+      - { team: kyoto-hannaryz, name: 京都ハンナリーズ, rarity: 4 }
+      - { team: osaka-evessa, name: 大阪エヴェッサ, rarity: 4 }
+      - { team: shimane-susanoo-magic, name: 島根スサノオマジック, rarity: 4 }
+      - { team: hiroshima-dragonflies, name: 広島ドラゴンフライズ, rarity: 4 }
+      - { team: saga-ballooners, name: 佐賀バルーナーズ, rarity: 4 }
+  - set: neon-light
+    cards:
+      - { player: 井上宗一郎, rarity: 5 }
+      - { player: 陳岡流羽, rarity: 5 }
+      - { player: 大庭岳輝, rarity: 5 }
+      - { player: 瀬川琉久, rarity: 5 }
+      - { player: 水戸健史, rarity: 5 }
+      - { player: 杉本天昇, rarity: 5 }
+      - { player: 前田悟, rarity: 5 }
+      - { player: 合田怜, rarity: 5 }
+      - { player: 佐土原遼, rarity: 5 }
+      - { player: 市場脩斗, rarity: 4 }
+      - { player: 菅原暉, rarity: 4 }
+      - { player: 田臥勇太, rarity: 4 }
+      - { player: 佐藤誠人, rarity: 4 }
+      - { player: 木田貴明, rarity: 4 }
+      - { player: 福澤晃平, rarity: 4 }
+      - { player: トロイ・マーフィージュニア, rarity: 4 }
+      - { player: 野本建吾, rarity: 4 }
+      - { player: 佐藤凪, rarity: 4 }
+      - { player: キャメロン・ジャクソン, rarity: 4 }
+      - { player: 長野誠史, rarity: 4 }
+      - { player: 小澤飛悠, rarity: 4 }
+      - { player: 岡田泰希, rarity: 4 }
+      - { player: 白濱僚祐, rarity: 4 }
+      - { player: 山崎稜, rarity: 4 }
+      - { player: 岸田篤生, rarity: 4 }
+      - { player: 森田雄次, rarity: 4 }
+  - set: inner-flame
+    cards:
+      - { player: 荒谷裕秀, rarity: 5 }
+      - { player: エリック・ジェイコブセン, rarity: 5 }
+      - { player: 池田祐一, rarity: 5 }
+      - { player: 飯田遼, rarity: 5 }
+      - { player: キーファー・ラベナ, rarity: 5 }
+      - { player: ジェレミー・ジョーンズ, rarity: 5 }
+      - { player: 小川麻斗, rarity: 5 }
+      - { player: 佐藤涼成, rarity: 5 }
+      - { player: 井上諒汰, rarity: 5 }
+      - { player: 関野剛平, rarity: 4 }
+      - { player: 栗原翼, rarity: 4 }
+      - { player: 比江島慎, rarity: 4 }
+      - { player: ヨハネス・ティーマン, rarity: 4 }
+      - { player: トレイ・ポーター, rarity: 4 }
+      - { player: 荒尾岳, rarity: 4 }
+      - { player: 中村浩陸, rarity: 4 }
+      - { player: 山内盛久, rarity: 4 }
+      - { player: 宮本一樹, rarity: 4 }
+      - { player: 津屋一球, rarity: 4 }
+      - { player: 石井講祐, rarity: 4 }
+      - { player: 中東泰斗, rarity: 4 }
+      - { player: トーマス・ウィンブッシュ, rarity: 4 }
+      - { player: 植松義也, rarity: 4 }
+      - { player: 飯尾文哉, rarity: 4 }
+      - { player: 星川堅信, rarity: 4 }
+      - { player: デイミアン・ドットソン, rarity: 4 }
+  - set: courtside-express
+    cards:
+      - { player: 元田大陽, rarity: 5 }
+      - { player: 駒沢颯, rarity: 5 }
+      - { player: ディー・ジェイ・ホグ, rarity: 5 }
+      - { player: 安藤周人, rarity: 5 }
+      - { player: ベンドラメ礼生, rarity: 5 }
+      - { player: キング開, rarity: 5 }
+      - { player: ジャモルコ・ピケット, rarity: 5 }
+      - { player: トーマス・ウィンブッシュ, rarity: 5 }
+      - { player: 山口颯斗, rarity: 5 }
+      - { player: 盛實海翔, rarity: 4 }
+      - { player: 半澤凌太, rarity: 4 }
+      - { player: アイザック・フォトゥ, rarity: 4 }
+      - { player: 細川一輝, rarity: 4 }
+      - { player: 喜多川修平, rarity: 4 }
+      - { player: 前田怜緒, rarity: 4 }
+      - { player: 飯田遼, rarity: 4 }
+      - { player: ウィリアムスニカ, rarity: 4 }
+      - { player: 津屋一球, rarity: 4 }
+      - { player: アーロン・ホワイト, rarity: 4 }
+      - { player: 加藤嵩都, rarity: 4 }
+      - { player: 澁田怜音, rarity: 4 }
+      - { player: 坂本聖芽, rarity: 4 }
+      - { player: 納見悠仁, rarity: 4 }
+      - { player: 上澤俊喜, rarity: 4 }
+      - { player: 井上諒汰, rarity: 4 }
+      - { player: 脇真大, rarity: 4 }
+  - set: oshikatsu
+    cards:
+      - { player: 阿部真冴橙, rarity: 5 }
+      - { player: 四家魁人, rarity: 5 }
+      - { player: 大塚裕土, rarity: 5 }
+      - { player: 瀬川琉久, rarity: 5 }
+      - { player: 大森康瑛, rarity: 5 }
+      - { player: 浅井英矢, rarity: 5 }
+      - { player: 加藤嵩都, rarity: 5 }
+      - { player: ラシードファラーズ, rarity: 5 }
+      - { player: 小針幸也, rarity: 5 }
+      - { player: 菊地広人, rarity: 4 }
+      - { player: 菅原暉, rarity: 4 }
+      - { player: ヤンジェミン, rarity: 4 }
+      - { player: 遠藤祐亮, rarity: 4 }
+      - { player: 中村拓人, rarity: 4 }
+      - { player: 小酒部泰暉, rarity: 4 }
+      - { player: 飯田遼, rarity: 4 }
+      - { player: マイク・コッツァー, rarity: 4 }
+      - { player: 宮本一樹, rarity: 4 }
+      - { player: 須田侑太郎, rarity: 4 }
+      - { player: 並里成, rarity: 4 }
+      - { player: 田原隆徳, rarity: 4 }
+      - { player: 坂本聖芽, rarity: 4 }
+      - { player: 飯尾文哉, rarity: 4 }
+      - { player: 渡部琉, rarity: 4 }
+      - { player: 内尾聡理, rarity: 4 }
+      - { player: 川真田紘也, rarity: 4 }
+  - set: west-champion
+    cards:
+      - { player: 松本健児リオン, rarity: 5 }
+      - { player: 狩俣昌也, rarity: 5 }
+      - { player: スタンリー・ジョンソン, rarity: 5 }
+      - { player: 馬場雄大, rarity: 5 }
+      - { player: 川真田紘也, rarity: 5 }
+      - { player: イヒョンジュン, rarity: 4 }
+      - { player: 森田雄次, rarity: 4 }
+      - { player: ジャレル・ブラントリー, rarity: 4 }
+      - { player: 森川正明, rarity: 4 }
+      - { player: 菅澤紀行, rarity: 4 }
+      - { player: 熊谷航, rarity: 4 }
+      - { player: 星川堅信, rarity: 4 }
+      - { player: 山口颯斗, rarity: 4 }
+      - { player: アキル・ミッチェル, rarity: 4 }
+      - { player: 田中流嘉州, rarity: 4 }
+  - set: east-champion
+    cards:
+      - { player: 比江島慎, rarity: 5 }
+      - { player: 小川敦也, rarity: 5 }
+      - { player: 青木ブレイク, rarity: 5 }
+      - { player: D.J・ニュービル, rarity: 5 }
+      - { player: アイザック・フォトゥ, rarity: 5 }
+      - { player: 田臥勇太, rarity: 4 }
+      - { player: 遠藤祐亮, rarity: 4 }
+      - { player: 竹内公輔, rarity: 4 }
+      - { player: 高島紳司, rarity: 4 }
+      - { player: 渡邉裕規, rarity: 4 }
+      - { player: 石川裕大, rarity: 4 }
+      - { player: 星川開聖, rarity: 4 }
+      - { player: 鵤誠司, rarity: 4 }
+      - { player: ギャビン・エドワーズ, rarity: 4 }
+      - { player: グラント・ジェレット, rarity: 4 }
+  - set: b2-champions
+    # 神戸ストークスの★4が1枚未取得（14/15枚）
+    cards:
+      - { player: 寺園脩斗, rarity: 5 }
+      - { player: アイザック・バッツ, rarity: 5 }
+      - { player: 木村圭吾, rarity: 5 }
+      - { player: ヨーリ・チャイルズ, rarity: 5 }
+      - { player: 金田龍弥, rarity: 5 }
+      - { player: 梅村帝武, rarity: 4 }
+      - { player: 八村阿蓮, rarity: 4 }
+      - { player: 谷直樹, rarity: 4 }
+      - { player: 道原紀晃, rarity: 4 }
+      - { player: ジミー・セーレム, rarity: 4 }
+      - { player: 中島三千哉, rarity: 4 }
+      - { player: ルーク・メイ, rarity: 4 }
+      - { player: 笹倉怜寿, rarity: 4 }
+      - { player: 野溝利一, rarity: 4 }
+  - set: champions
+    cards:
+      - { player: イヒョンジュン, rarity: 5 }
+      - { player: ジャレル・ブラントリー, rarity: 5 }
+      - { player: 熊谷航, rarity: 5 }
+      - { player: スタンリー・ジョンソン, rarity: 5 }
+      - { player: 馬場雄大, rarity: 5 }
+      - { player: 松本健児リオン, rarity: 4 }
+      - { player: 狩俣昌也, rarity: 4 }
+      - { player: 森田雄次, rarity: 4 }
+      - { player: 森川正明, rarity: 4 }
+      - { player: 菅澤紀行, rarity: 4 }
+      - { player: 星川堅信, rarity: 4 }
+      - { player: 山口颯斗, rarity: 4 }
+      - { player: アキル・ミッチェル, rarity: 4 }
+      - { player: 田中流嘉州, rarity: 4 }
+      - { player: 川真田紘也, rarity: 4 }
+  - set: one-team
+    cards:
+      - { team: sendai-89ers, name: 仙台89ERS, rarity: 5 }
+      - { team: akita-northern-happinets, name: 秋田ノーザンハピネッツ, rarity: 5 }
+      - { team: altiri-chiba, name: アルティーリ千葉, rarity: 5 }
+      - { team: sunrockers-shibuya, name: サンロッカーズ渋谷, rarity: 5 }
+      - { team: yokohama-b-corsairs, name: 横浜ビー・コルセアーズ, rarity: 5 }
+      - { team: seahorses-mikawa, name: シーホース三河, rarity: 5 }
+      - { team: kyoto-hannaryz, name: 京都ハンナリーズ, rarity: 5 }
+      - { team: osaka-evessa, name: 大阪エヴェッサ, rarity: 5 }
+      - { team: saga-ballooners, name: 佐賀バルーナーズ, rarity: 5 }
+      - { team: levanga-hokkaido, name: レバンガ北海道, rarity: 4 }
+      - { team: ibaraki-robots, name: 茨城ロボッツ, rarity: 4 }
+      - { team: utsunomiya-brex, name: 宇都宮ブレックス, rarity: 4 }
+      - { team: gunma-crane-thunders, name: 群馬クレインサンダーズ, rarity: 4 }
+      - { team: koshigaya-alphas, name: 越谷アルファーズ, rarity: 4 }
+      - { team: chiba-jets, name: 千葉ジェッツ, rarity: 4 }
+      - { team: alvark-tokyo, name: アルバルク東京, rarity: 4 }
+      - { team: kawasaki-brave-thunders, name: 川崎ブレイブサンダース, rarity: 4 }
+      - { team: toyama-grouses, name: 富山グラウジーズ, rarity: 4 }
+      - { team: sanen-neophoenix, name: 三遠ネオフェニックス, rarity: 4 }
+      - { team: fighting-eagles-nagoya, name: ファイティングイーグルス名古屋, rarity: 4 }
+      - { team: nagoya-diamond-dolphins, name: 名古屋ダイヤモンドドルフィンズ, rarity: 4 }
+      - { team: shiga-lakes, name: 滋賀レイクス, rarity: 4 }
+      - { team: shimane-susanoo-magic, name: 島根スサノオマジック, rarity: 4 }
+      - { team: hiroshima-dragonflies, name: 広島ドラゴンフライズ, rarity: 4 }
+      - { team: nagasaki-velca, name: 長崎ヴェルカ, rarity: 4 }
+      - { team: ryukyu-golden-kings, name: 琉球ゴールデンキングス, rarity: 4 }

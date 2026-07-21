@@ -4,8 +4,10 @@ class Player < ApplicationRecord
   # belongs_to は既定で「存在必須」を検査するので、team の presence 検証は不要。
   belongs_to :team
 
-  # この選手のカード。選手を消したらカードも消える
-  has_many :cards, dependent: :destroy
+  # この選手が写っているカード（中間テーブル経由）。
+  # 1枚に複数の選手が写ることがあるため多対多。
+  has_many :card_players, dependent: :destroy
+  has_many :cards, through: :card_players
   # カードを通じて、この選手が登場する弾を辿れる。
   # 使い方: player.topics （重複を除くため distinct）
   has_many :topics, -> { distinct }, through: :cards

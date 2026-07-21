@@ -5,8 +5,11 @@ class Team < ApplicationRecord
   # チームを消したら選手も消える
   has_many :players, -> { order(Arel.sql("jersey_number IS NULL, jersey_number")) },
            dependent: :destroy
-  # 選手を通じて、このチームのカードを辿れる。使い方: team.cards
-  has_many :cards, through: :players
+  # このチームのカード。
+  # 選手からたどるのではなく、カードが直接チームを持つ。
+  # これにより、選手が写っていないクラブカードや、
+  # 別チームの選手を扱う B.LEAGUE のカードも扱える。
+  has_many :cards, dependent: :restrict_with_error
 
   validates :name, presence: true
   validates :slug, presence: true,

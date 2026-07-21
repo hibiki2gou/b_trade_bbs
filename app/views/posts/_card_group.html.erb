@@ -10,7 +10,7 @@
       <div class="cardgroup__row">
         <span class="cardgroup__rarity"><%= "★" * rarity %></span>
         <span class="cardgroup__items">
-          <% group.sort_by { |c| [ c.team.position, c.player.jersey_number || 999 ] }.each do |c| %>
+          <% group.sort_by { |c| [ c.team.position, c.sort_number ] }.each do |c| %>
             <span class="cardchip">
               <span class="cardchip__player"><%= c.label %></span>
               <span class="cardchip__team"><%= c.team.name %></span>

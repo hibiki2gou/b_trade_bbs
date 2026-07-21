@@ -6,7 +6,7 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
     @topic = board.topics.create!(name: "弾A", slug: "set-a", position: 1)
     team = Team.create!(name: "チームA", slug: "team-a", position: 1)
     player = Player.create!(name: "選手A", team: team)
-    @card = Card.create!(topic: @topic, player: player, name: "得点記録", rarity: 5)
+    @card = Card.create!(topic: @topic, team: team, players: [ player ], name: "得点記録", rarity: 5)
   end
 
   test "弾一覧が表示できる" do

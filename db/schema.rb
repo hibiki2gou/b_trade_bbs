@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_19_111149) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_21_134516) do
   create_table "boards", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -21,15 +21,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_19_111149) do
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
 
+  create_table "card_players", force: :cascade do |t|
+    t.integer "card_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "player_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["card_id", "player_id"], name: "index_card_players_on_card_id_and_player_id", unique: true
+    t.index ["card_id"], name: "index_card_players_on_card_id"
+    t.index ["player_id"], name: "index_card_players_on_player_id"
+  end
+
   create_table "cards", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string "key", null: false
     t.string "name", default: "", null: false
-    t.integer "player_id", null: false
     t.integer "rarity", null: false
+    t.integer "team_id", null: false
     t.integer "topic_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["player_id"], name: "index_cards_on_player_id"
-    t.index ["topic_id", "player_id", "name"], name: "index_cards_on_topic_id_and_player_id_and_name", unique: true
+    t.index ["team_id"], name: "index_cards_on_team_id"
+    t.index ["topic_id", "key"], name: "index_cards_on_topic_id_and_key", unique: true
     t.index ["topic_id"], name: "index_cards_on_topic_id"
   end
 
@@ -96,7 +107,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_19_111149) do
     t.index ["post_id"], name: "index_wishes_on_post_id"
   end
 
-  add_foreign_key "cards", "players"
+  add_foreign_key "card_players", "cards"
+  add_foreign_key "card_players", "players"
+  add_foreign_key "cards", "teams"
   add_foreign_key "cards", "topics"
   add_foreign_key "offers", "cards"
   add_foreign_key "offers", "posts"

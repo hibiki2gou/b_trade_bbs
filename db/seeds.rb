@@ -19,6 +19,14 @@ set_slugs    = sets.map    { |s| s["slug"] }
 team_slugs   = teams.map   { |t| t["slug"] }
 player_names = players.map { |p| p["name"] }
 
+# カード1件に写っている選手名を取り出す。
+#   player:  中山拓哉            … 1人
+#   players: [青木保憲, 渡辺翔太] … 複数
+#   どちらも無ければクラブカード（選手0人）
+def card_player_names(card)
+  Array(card["players"] || card["player"]).compact
+end
+
 # --- 2. 書き間違いを検証する（DBに触る前に全部チェック）-----------------
 errors = []
 
@@ -70,23 +78,40 @@ lineups.each do |lu|
 
   cards = lu["cards"] || []
   cards.each do |c|
-    # 選手名は players に登録済みのものと一致していなければならない
-    unless player_names.include?(c["player"])
-      errors << "#{slug}: 選手 \"#{c["player"]}\" は players にいません（表記ゆれの可能性）"
+    # 写っている選手。player（1人）でも players（複数）でも書ける。
+    # クラブカードはどちらも書かない
+    names = card_player_names(c)
+    label = names.presence&.join("・") || c["name"] || c["team"]
+
+    names.each do |n|
+      unless player_names.include?(n)
+        errors << "#{slug}: 選手 \"#{n}\" は players にいません（表記ゆれの可能性）"
+      end
     end
+
+    # チームは明記されていればそれを使う。
+    # 選手1人なら省略でき、その場合はその選手の所属チームになる
+    if c["team"].present? && !team_slugs.include?(c["team"])
+      errors << "#{slug}: #{label} のチーム \"#{c["team"]}\" は teams にありません"
+    elsif c["team"].blank? && names.size != 1
+      errors << "#{slug}: #{label} は選手が#{names.size}人なので team の指定が必要です"
+    end
+
+    # 選手が1人でないカードは、表示に使う name が必要
+    if names.size != 1 && c["name"].blank?
+      errors << "#{slug}: 選手が#{names.size}人のカードには name が必要です（#{label}）"
+    end
+
     r = c["rarity"]
     unless r.is_a?(Integer) && (1..5).cover?(r)
-      errors << "#{slug}: #{c["player"]} のレア度 \"#{r}\" は 1〜5 の数字で書いてください"
+      errors << "#{slug}: #{label} のレア度 \"#{r}\" は 1〜5 の数字で書いてください"
     end
   end
 
-  # 同じ弾に同じ選手が複数いるならカード名で区別する必要がある
-  cards.group_by { |c| c["player"] }.each do |player_name, cs|
-    next if cs.size == 1
-    names = cs.map { |c| c["name"] }
-    errors << "#{slug}: #{player_name} のカードが複数あるので name が必要です" if names.any?(&:blank?)
-    dups = names.compact.tally.select { |_, n| n > 1 }.keys
-    errors << "#{slug}: #{player_name} の name が重複しています（#{dups.join(", ")}）" if dups.any?
+  # 同じ弾の中で、同じ内容のカードが重複していないか
+  keys = cards.map { |c| [ card_player_names(c).sort, c["team"], c["name"].to_s ] }
+  keys.tally.select { |_, n| n > 1 }.each_key do |k|
+    errors << "#{slug}: 同じ内容のカードが複数あります（#{k[0].join("・")} #{k[2]}）"
   end
 end
 
@@ -172,10 +197,28 @@ ActiveRecord::Base.transaction do
   lineups.each do |lu|
     topic = topics_by_slug.fetch(lu["set"])
     (lu["cards"] || []).each do |c|
-      player = players_by_name.fetch(c["player"])
-      # カードの identity は 弾×選手×カード名。name 未記入は "" として扱う
-      card = Card.find_or_initialize_by(topic: topic, player: player, name: c["name"].to_s)
+      card_players = card_player_names(c).map { |n| players_by_name.fetch(n) }
+
+      # チームは、書いてあればそれを使う。
+      # 省略された場合（選手1人のとき）は、その選手の所属クラブ
+      team = if c["team"].present?
+               teams_by_slug.fetch(c["team"])
+      else
+               card_players.first.team
+      end
+
+      # 同じ内容のカードが既にあれば使い回す（何度実行しても増えない）
+      key = if card_players.any?
+              "players:#{card_players.map(&:id).sort.join(',')}:#{c["name"]}"
+      else
+              "team:#{team.id}:#{c["name"]}"
+      end
+
+      card = Card.find_or_initialize_by(topic: topic, key: key)
+      card.team = team
+      card.name = c["name"].to_s
       card.rarity = c["rarity"]
+      card.players = card_players
       card.save!
     end
   end

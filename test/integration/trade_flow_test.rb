@@ -8,9 +8,9 @@ class TradeFlowTest < ActionDispatch::IntegrationTest
     @topic = board.topics.create!(name: "弾A", slug: "set-a", position: 1)
     @team  = Team.create!(name: "チームA", slug: "team-a", position: 1)
     player = Player.create!(name: "選手A", team: @team)
-    @wanted1 = Card.create!(topic: @topic, player: player, rarity: 5)
-    @wanted2 = Card.create!(topic: @topic, player: player, name: "アシスト記録", rarity: 4)
-    @offered = Card.create!(topic: @topic, player: player, name: "得点記録", rarity: 4)
+    @wanted1 = Card.create!(topic: @topic, team: @team, players: [ player ], rarity: 5)
+    @wanted2 = Card.create!(topic: @topic, team: @team, players: [ player ], name: "アシスト記録", rarity: 4)
+    @offered = Card.create!(topic: @topic, team: @team, players: [ player ], name: "得点記録", rarity: 4)
   end
 
   test "募集を投稿すると、欲しいカード（複数）と出せるカードが紐づく" do

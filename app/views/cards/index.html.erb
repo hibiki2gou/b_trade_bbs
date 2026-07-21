@@ -1,0 +1,42 @@
+<% content_for :title, "カードを探す - TRADE COURT" %>
+
+<%= render "shared/switch", active: :cards %>
+
+<p class="lead">全弾の収録カードを横断して探せます。選手名・クラブ名・弾名でも引っかかります。</p>
+
+<%# 絞り込みフォーム。GET なので、絞り込んだ状態の URL をそのまま共有できる。 %>
+<%= form_with url: cards_path, method: :get, class: "filters" do |f| %>
+  <div class="filters__row">
+    <%= f.text_field :q, value: @query, placeholder: "選手名・カード名で探す",
+                     class: "filters__search", "aria-label": "キーワード" %>
+  </div>
+  <div class="filters__row">
+    <%= f.select :topic_id,
+                 options_from_collection_for_select(@topics, :id, :name, @topic_id),
+                 { include_blank: "すべての弾" }, class: "filters__select", "aria-label": "弾" %>
+    <%= f.select :team_id,
+                 options_from_collection_for_select(@teams, :id, :name, @team_id),
+                 { include_blank: "すべてのクラブ" }, class: "filters__select", "aria-label": "クラブ" %>
+    <%= f.select :rarity,
+                 options_for_select((1..5).to_a.reverse.map { |r| [ "★" * r, r ] }, @rarity),
+                 { include_blank: "すべてのレア度" }, class: "filters__select", "aria-label": "レア度" %>
+    <%= f.submit "絞り込む", class: "btn" %>
+    <%= link_to "条件をクリア", cards_path, class: "filters__clear" %>
+  </div>
+<% end %>
+
+<p class="cards__count"><strong><%= @total %></strong> 枚</p>
+
+<% if @cards.empty? %>
+  <p class="muted">条件に合うカードがありませんでした。</p>
+<% else %>
+  <% @cards_by_topic.each do |topic, cards| %>
+    <section class="cards__section">
+      <h2 class="cards__heading">
+        <%= link_to topic.name, topic_path(topic) %>
+        <span class="muted"><%= cards.size %>枚</span>
+      </h2>
+      <%= render "posts/card_group", cards: cards, empty_text: "", show_set: false %>
+    </section>
+  <% end %>
+<% end %>

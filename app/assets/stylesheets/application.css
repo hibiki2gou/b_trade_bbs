@@ -252,6 +252,40 @@ main.container { padding-top: 24px; padding-bottom: 24px; }
 .post__actions { margin-top: 10px; }
 .post__complete-form { display: inline; }
 
+/* ---- カード一覧（/cards）---- */
+/* 絞り込みフォーム。狭い画面では縦に積まれる（flex-wrap） */
+.filters {
+  margin: 16px 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.filters__row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+}
+.filters__row + .filters__row { margin-top: 8px; }
+.filters__search {
+  flex: 1 1 100%;
+  padding: 10px 12px; font-size: 1rem;
+  border: 1px solid var(--line); border-radius: 8px; background: #fff;
+}
+.filters__select {
+  flex: 1 1 140px;
+  padding: 8px 10px; font-size: 0.9rem;
+  border: 1px solid var(--line); border-radius: 8px; background: #fff;
+}
+.filters__clear { font-size: 0.85rem; color: var(--ink-soft); }
+
+.cards__count { margin: 12px 0 0; color: var(--ink-soft); font-size: 0.9rem; }
+.cards__section { margin-top: 20px; }
+.cards__heading {
+  display: flex; align-items: baseline; gap: 8px;
+  margin: 0 0 8px; padding-bottom: 6px;
+  font-size: 1rem; border-bottom: 1px solid var(--line);
+}
+.cards__heading .muted { font-size: 0.8rem; }
+
 /* ---- 投稿フォーム ---- */
 /* 募集フォーム（開閉式） */
 .new-post {

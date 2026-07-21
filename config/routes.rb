@@ -10,6 +10,11 @@ Rails.application.routes.draw do
   #   show  … チームごとの掲示板 GET /teams/:id
   resources :teams, only: [ :index, :show ]
 
+  # カード（Card）の一覧。全弾のカードを横断して探せるページ。
+  #   index … カード一覧  GET /cards （cards_path）
+  # 絞り込みは ?topic_id=&team_id=&rarity=&q= をつけて表現する。
+  resources :cards, only: [ :index ]
+
   # 募集（Post）。
   #   create   … 募集を投稿する          POST  /posts
   #   complete … トレード成立にする（member=特定の1件に対する操作）

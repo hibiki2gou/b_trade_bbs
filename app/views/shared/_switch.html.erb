@@ -1,11 +1,15 @@
-<%# 「弾で見る / チームで見る」の切り替えボタン。
-    locals: active（:topics か :teams） %>
+<%# 「弾で見る / チームで見る / カードを探す」の切り替えボタン。
+    locals: active（:topics か :teams か :cards） %>
 <nav class="switch">
-  <% if active == :topics %>
-    <span class="switch__btn switch__btn--active">弾で見る</span>
-    <%= link_to "チームで見る", teams_path, class: "switch__btn" %>
-  <% else %>
-    <%= link_to "弾で見る", topics_path, class: "switch__btn" %>
-    <span class="switch__btn switch__btn--active">チームで見る</span>
+  <% [
+       [ :topics, "弾で見る",     topics_path ],
+       [ :teams,  "チームで見る", teams_path  ],
+       [ :cards,  "カードを探す", cards_path  ]
+     ].each do |key, label, path| %>
+    <% if active == key %>
+      <span class="switch__btn switch__btn--active"><%= label %></span>
+    <% else %>
+      <%= link_to label, path, class: "switch__btn" %>
+    <% end %>
   <% end %>
 </nav>

@@ -1,6 +1,8 @@
 <%# 募集の「欲しい」「出せる」のカードを表示する共通部品。
     レア度ごとに区切り、その中はクラブの並び順（→背番号）で並べる。
-    locals: cards（Card の配列）, empty_text（0枚のときに出す文言） %>
+    locals: cards（Card の配列）, empty_text（0枚のときに出す文言）
+           show_set（省略可・既定 true。すでに弾ごとに分けている画面では false） %>
+<% show_set = local_assigns.fetch(:show_set, true) %>
 <% if cards.empty? %>
   <span class="muted"><%= empty_text %></span>
 <% else %>
@@ -14,7 +16,9 @@
             <span class="cardchip">
               <span class="cardchip__player"><%= c.label %></span>
               <span class="cardchip__team"><%= c.team.name %></span>
-              <span class="cardchip__set"><%= c.topic.name %></span>
+              <% if show_set %>
+                <span class="cardchip__set"><%= c.topic.name %></span>
+              <% end %>
             </span>
           <% end %>
         </span>

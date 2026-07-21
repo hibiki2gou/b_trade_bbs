@@ -147,7 +147,7 @@ teams:
   - { name: 神戸ストークス, slug: kobe-storks }
   - { name: バンビシャス奈良, slug: bambitious-nara }
   - { name: 愛媛オレンジバイキングス, slug: ehime-orange-vikings }
-  - { name: ライジングゼファーズ福岡, slug: rizing-zephyr-fukuoka }
+  - { name: ライジングゼファー福岡, slug: rizing-zephyr-fukuoka }
   - { name: 熊本ヴォルターズ, slug: kumamoto-volters }
   - { name: 鹿児島レブナイズ, slug: kagoshima-rebnise }
   # 別チームの選手を扱うカード（1on1 など）は、どのクラブにも属さないため
@@ -791,3 +791,46 @@ lineups:
       - { player: ニック・ケイ, rarity: 4 }
       - { player: タナー・グローヴス, rarity: 4 }
       - { player: ヴィック・ロー, rarity: 4 }
+
+  - set: beginning
+    cards:
+      - { team: levanga-hokkaido, name: レバンガ北海道, rarity: 4 }
+      - { team: sendai-89ers, name: 仙台89ERS, rarity: 4 }
+      - { team: akita-northern-happinets, name: 秋田ノーザンハピネッツ, rarity: 4 }
+      - { team: ibaraki-robots, name: 茨城ロボッツ, rarity: 4 }
+      - { team: utsunomiya-brex, name: 宇都宮ブレックス, rarity: 4 }
+      - { team: gunma-crane-thunders, name: 群馬クレインサンダーズ, rarity: 4 }
+      - { team: koshigaya-alphas, name: 越谷アルファーズ, rarity: 4 }
+      - { team: altiri-chiba, name: アルティーリ千葉, rarity: 4 }
+      - { team: chiba-jets, name: 千葉ジェッツ, rarity: 4 }
+      - { team: alvark-tokyo, name: アルバルク東京, rarity: 4 }
+      - { team: sunrockers-shibuya, name: サンロッカーズ渋谷, rarity: 4 }
+      - { team: kawasaki-brave-thunders, name: 川崎ブレイブサンダース, rarity: 4 }
+      - { team: yokohama-b-corsairs, name: 横浜ビー・コルセアーズ, rarity: 4 }
+      - { team: toyama-grouses, name: 富山グラウジーズ, rarity: 4 }
+      - { team: sanen-neophoenix, name: 三遠ネオフェニックス, rarity: 4 }
+      - { team: seahorses-mikawa, name: シーホース三河, rarity: 4 }
+      - { team: fighting-eagles-nagoya, name: ファイティングイーグルス名古屋, rarity: 4 }
+      - { team: nagoya-diamond-dolphins, name: 名古屋ダイヤモンドドルフィンズ, rarity: 4 }
+      - { team: shiga-lakes, name: 滋賀レイクス, rarity: 4 }
+      - { team: kyoto-hannaryz, name: 京都ハンナリーズ, rarity: 4 }
+      - { team: osaka-evessa, name: 大阪エヴェッサ, rarity: 4 }
+      - { team: shimane-susanoo-magic, name: 島根スサノオマジック, rarity: 4 }
+      - { team: hiroshima-dragonflies, name: 広島ドラゴンフライズ, rarity: 4 }
+      - { team: saga-ballooners, name: 佐賀バルーナーズ, rarity: 4 }
+      - { team: nagasaki-velca, name: 長崎ヴェルカ, rarity: 4 }
+      - { team: ryukyu-golden-kings, name: 琉球ゴールデンキングス, rarity: 4 }
+      - { team: aomori-wats, name: 青森ワッツ, rarity: 4 }
+      - { team: iwate-big-bulls, name: 岩手ビッグブルズ, rarity: 4 }
+      - { team: yamagata-wyverns, name: 山形ワイヴァンズ, rarity: 4 }
+      - { team: fukushima-firebonds, name: 福島ファイヤーボンズ, rarity: 4 }
+      - { team: yokohama-excellence, name: 横浜エクセレンス, rarity: 4 }
+      - { team: fukui-blowinds, name: 福井ブローウィンズ, rarity: 4 }
+      - { team: shinshu-brave-warriors, name: 信州ブレイブウォリアーズ, rarity: 4 }
+      - { team: veltex-shizuoka, name: ベルテックス静岡, rarity: 4 }
+      - { team: kobe-storks, name: 神戸ストークス, rarity: 4 }
+      - { team: bambitious-nara, name: バンビシャス奈良, rarity: 4 }
+      - { team: ehime-orange-vikings, name: 愛媛オレンジバイキングス, rarity: 4 }
+      - { team: rizing-zephyr-fukuoka, name: ライジングゼファー福岡, rarity: 4 }
+      - { team: kumamoto-volters, name: 熊本ヴォルターズ, rarity: 4 }
+      - { team: kagoshima-rebnise, name: 鹿児島レブナイズ, rarity: 4 }

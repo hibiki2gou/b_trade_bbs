@@ -630,3 +630,148 @@ lineups:
       - { player: 中村太地, rarity: 4 }
       - { player: 上澤俊喜, rarity: 4 }
       - { player: ジャック・クーリー, rarity: 4 }
+
+  - set: emotional
+    cards:
+      - { player: 富永啓生, rarity: 5 }
+      - { player: 岡島和真, rarity: 5 }
+      - { player: 陳岡流羽, rarity: 5 }
+      - { player: 辻直人, rarity: 5 }
+      - { player: 黒川虎徹, rarity: 5 }
+      - { player: 宇都直輝, rarity: 5 }
+      - { player: 前田悟, rarity: 5 }
+      - { player: 岡田侑大, rarity: 5 }
+      - { player: ドウェイン・エバンス, rarity: 5 }
+      - { player: 栗原翼, rarity: 4 }
+      - { player: 遠藤祐亮, rarity: 4 }
+      - { player: 大庭岳輝, rarity: 4 }
+      - { player: 渡邊雄太, rarity: 4 }
+      - { player: ブランドン・デイヴィス, rarity: 4 }
+      - { player: 野﨑零也, rarity: 4 }
+      - { player: 米須玲音, rarity: 4 }
+      - { player: 新井楽人, rarity: 4 }
+      - { player: 佐々木隆成, rarity: 4 }
+      - { player: ダバンテ・ガードナー, rarity: 4 }
+      - { player: 保岡龍斗, rarity: 4 }
+      - { player: 今村佳太, rarity: 4 }
+      - { player: ザック・オーガスト, rarity: 4 }
+      - { player: 青木保憲, rarity: 4 }
+      - { player: デイビッド・ダジンスキー, rarity: 4 }
+      - { player: 星川堅信, rarity: 4 }
+      - { player: 佐土原遼, rarity: 4 }
+
+  - set: snapshot
+    cards:
+      - { player: 島谷怜, rarity: 5 }
+      - { player: 赤穂雷太, rarity: 5 }
+      - { player: 長谷川暢, rarity: 5 }
+      - { player: アンソニー・クレモンズ, rarity: 5 }
+      - { player: 渡邉伶音, rarity: 5 }
+      - { player: 篠山竜青, rarity: 5 }
+      - { player: キング開, rarity: 5 }
+      - { player: 岡田泰希, rarity: 5 }
+      - { player: 岡田侑大, rarity: 5 }
+      - { player: 半澤凌太, rarity: 4 }
+      - { player: 小川敦也, rarity: 4 }
+      - { player: 細川一輝, rarity: 4 }
+      - { player: 渡邊雄太, rarity: 4 }
+      - { player: 中村浩陸, rarity: 4 }
+      - { player: 永吉佑也, rarity: 4 }
+      - { player: 宮本一樹, rarity: 4 }
+      - { player: 湧川颯斗, rarity: 4 }
+      - { player: 長野誠史, rarity: 4 }
+      - { player: フランシス・ロペス, rarity: 4 }
+      - { player: 中東泰斗, rarity: 4 }
+      - { player: 澁田怜音, rarity: 4 }
+      - { player: 坂本聖芽, rarity: 4 }
+      - { player: メイヨニック, rarity: 4 }
+      - { player: 内尾聡理, rarity: 4 }
+      - { player: 熊谷航, rarity: 4 }
+      - { player: 脇真大, rarity: 4 }
+
+  - set: handwritten-deco
+    cards:
+      - { player: 新沼康生, rarity: 5 }
+      - { player: 小川敦也, rarity: 5 }
+      - { player: 四家魁人, rarity: 5 }
+      - { player: 金近廉, rarity: 5 }
+      - { player: 加藤嵩都, rarity: 5 }
+      - { player: 野本大智, rarity: 5 }
+      - { player: 坂本聖芽, rarity: 5 }
+      - { player: 富山仁貴, rarity: 5 }
+      - { player: イヒョンジュン, rarity: 5 }
+      - { player: 菊地広人, rarity: 4 }
+      - { player: 元田大陽, rarity: 4 }
+      - { player: 陳岡流羽, rarity: 4 }
+      - { player: 藤井祐眞, rarity: 4 }
+      - { player: 黒川虎徹, rarity: 4 }
+      - { player: 大倉颯太, rarity: 4 }
+      - { player: ジョシュ・ホーキンソン, rarity: 4 }
+      - { player: 米須玲音, rarity: 4 }
+      - { player: 前野幹太, rarity: 4 }
+      - { player: 田中晴瑛, rarity: 4 }
+      - { player: 佐々木隆成, rarity: 4 }
+      - { player: 久保田義章, rarity: 4 }
+      - { player: 杉本天昇, rarity: 4 }
+      - { player: ホール百音アレックス, rarity: 4 }
+      - { player: 中村太地, rarity: 4 }
+      - { player: 渡部琉, rarity: 4 }
+      - { player: 松脇圭志, rarity: 4 }
+
+  - set: break
+    cards:
+      - { player: 藤井祐眞, rarity: 5 }
+      - { player: テーブス海, rarity: 5 }
+      - { player: 田中大貴, rarity: 5 }
+      - { player: 篠山竜青, rarity: 5 }
+      - { player: 森井健太, rarity: 5 }
+      - { player: 藤永佳昭, rarity: 5 }
+      - { player: トーマス・ウィンブッシュ, rarity: 5 }
+      - { player: 鈴木達也, rarity: 5 }
+      - { player: コティ・クラーク, rarity: 5 }
+      - { player: ドワイト・ラモス, rarity: 4 }
+      - { player: 岡島和真, rarity: 4 }
+      - { player: 栗原翼, rarity: 4 }
+      - { player: 長谷川暢, rarity: 4 }
+      - { player: 小川敦也, rarity: 4 }
+      - { player: アンソニー・クレモンズ, rarity: 4 }
+      - { player: 木田貴明, rarity: 4 }
+      - { player: 渡邊雄太, rarity: 4 }
+      - { player: ヤンテ・メイテン, rarity: 4 }
+      - { player: 久保田義章, rarity: 4 }
+      - { player: 平松克樹, rarity: 4 }
+      - { player: 佐藤卓磨, rarity: 4 }
+      - { player: 小川麻斗, rarity: 4 }
+      - { player: 伊藤達哉, rarity: 4 }
+      - { player: レイナルド・ガルシア, rarity: 4 }
+      - { player: 馬場雄大, rarity: 4 }
+      - { player: 岸本隆一, rarity: 4 }
+
+  - set: leading-scorers
+    cards:
+      - { player: 富永啓生, rarity: 5 }
+      - { player: ジャレット・カルバー, rarity: 5 }
+      - { player: D.J・ニュービル, rarity: 5 }
+      - { player: トレイ・ケル, rarity: 5 }
+      - { player: デイビッド・ヌワバ, rarity: 5 }
+      - { player: アンジェロ・カロイアロ, rarity: 5 }
+      - { player: マット・ボンズ, rarity: 5 }
+      - { player: クリストファー・スミス, rarity: 5 }
+      - { player: スタンリー・ジョンソン, rarity: 5 }
+      - { player: ヤニー・ウェッツェル, rarity: 4 }
+      - { player: ロバート・フランクス, rarity: 4 }
+      - { player: ケリー・ブラックシアー・ジュニア, rarity: 4 }
+      - { player: セクー・ドゥムブヤ, rarity: 4 }
+      - { player: ブランドン・アシュリー, rarity: 4 }
+      - { player: ナシール・リトル, rarity: 4 }
+      - { player: セバスチャン・サイズ, rarity: 4 }
+      - { player: ジョシュ・ホーキンソン, rarity: 4 }
+      - { player: ロスコ・アレン, rarity: 4 }
+      - { player: ダミアン・イングリス, rarity: 4 }
+      - { player: ダバンテ・ガードナー, rarity: 4 }
+      - { player: ショーン・オマラ, rarity: 4 }
+      - { player: アーロン・ヘンリー, rarity: 4 }
+      - { player: ザック・オーガスト, rarity: 4 }
+      - { player: ニック・ケイ, rarity: 4 }
+      - { player: タナー・グローヴス, rarity: 4 }
+      - { player: ヴィック・ロー, rarity: 4 }

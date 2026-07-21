@@ -1,27 +1,41 @@
 # TRADE COURT — 設計書
 
 このファイルは「今どう作られているか」を記す。判断の理由や経緯は
-[roadmap.md](roadmap.md) の「決定事項」を参照。
+[roadmap.md](roadmap.md) の「決定事項」、日ごとの記録は [worklog.md](worklog.md) を参照。
 
 ---
 
 ## 1. データ構造
 
 ```
-Team（チーム）──< Player（選手）──< Card（カード）>── Topic（弾）>── Board（裏方）
-                                        ↑       ↑
-                          Post（募集）──┴───────┘
-                            ├─ Wish  → wanted_cards （欲しいカード・複数）
-                            └─ Offer → offered_cards（出せるカード・複数）
+Team（チーム）──< Player（選手）
+     │                 │
+     │            CardPlayer（写っている選手・0人以上）
+     │                 │
+     └──────────< Card（カード）>── Topic（弾）>── Board（裏方）
+                       ↑
+         Post（募集）──┘
+           ├─ Wish  → wanted_cards （欲しいカード・複数）
+           └─ Offer → offered_cards（出せるカード・複数）
 ```
 
 - **Board** … 弾をまとめる裏方の区分け。画面には出さない
 - **Topic（弾）** … カードセット。掲示板の単位。例: OCEAN
 - **Team（チーム）** … クラブ。こちらも掲示板の入口になる
 - **Player（選手）** … 背番号・ポジション・所属チームを持つ
-- **Card（カード）** … 選手 × 弾 の交差点。レア度（1〜5）とカード名を持つ
+- **Card（カード）** … 弾に収録された1枚。レア度（1〜5）とカード名を持ち、
+  **自分が属する team を1つ持つ**。写っている選手は 0人以上
+- **CardPlayer** … カードと選手をつなぐ中間テーブル
 - **Post（募集）** … 欲しい／出せるカードを、それぞれ複数指定できる書き込み
 - **Wish / Offer** … 募集とカードをつなぐ中間テーブル
+
+### カードの3種類
+
+| 種類 | 例 | 選手 | team |
+|---|---|---|---|
+| 選手カード | 中山拓哉 | 1人 | その選手の所属クラブ |
+| 複数選手カード | 青木保憲 vs 渡辺翔太 | 2人以上 | 同じクラブならそのクラブ、またぐなら B.LEAGUE |
+| クラブカード | 滋賀レイクス | 0人 | そのクラブ |
 
 ### なぜこの形か（要点）
 
@@ -31,6 +45,9 @@ Team（チーム）──< Player（選手）──< Card（カード）>── 
   チームからも掲示板に入れるようにするため
 - **レア度はカードの属性**: 同じ選手でも弾ごとにレア度が違うため Card に持たせる
 - **同一選手・同一弾の複数カード**（得点記録／アシスト記録）は `Card.name` で区別する
+- **カードが team を直接持つ**: 当初は選手から所属クラブをたどっていたが、
+  1on1 のように別クラブの選手が写るカードは「どちらのクラブでもない」ため成立しない。
+  カード自身に team を持たせ、掲示板の振り分けは**選手を経由せず team を見る**
 - **欲しい／出せるを対称にした**: どちらも複数枚を選べる中間テーブル方式。
   これにより「このカードを出せる人」も検索できる
 - **募集は弾に所属しない**: 欲しいカードが複数弾にまたがりうるため `posts.topic_id` を廃止。
@@ -73,13 +90,22 @@ Team（チーム）──< Player（選手）──< Card（カード）>── 
 ### cards（カード）
 | カラム | 型 | 制約 |
 |---|---|---|
-| topic_id / player_id | references | NOT NULL |
-| name | string | NOT NULL, default ""（1弾1種類なら ""） |
+| topic_id / team_id | references | NOT NULL |
+| name | string | NOT NULL, default ""（選手1人なら "" でよい） |
 | rarity | integer | NOT NULL、1〜5 |
+| key | string | NOT NULL、内容から自動生成 |
 
-- UNIQUE(topic_id, player_id, name) … 二重登録を防ぐ
+- UNIQUE(topic_id, key) … 二重登録を防ぐ
+- `key` は写っている選手の組み合わせ（いなければ team）と name から
+  `before_validation` で組み立てる。選手が可変長なのでカラムでは表せず、
+  文字列にまとめて一意制約をかけている
 - name を NULL でなく "" にしているのは、SQLite で NULL 同士が「別物」扱いになり
   重複を防げないため
+
+### card_players（カードに写っている選手）
+| カラム | 型 | 制約 |
+|---|---|---|
+| card_id / player_id | references | NOT NULL、(card_id, player_id) で UNIQUE |
 
 ### posts（募集）
 | カラム | 型 | 制約 |
@@ -99,11 +125,12 @@ Team（チーム）──< Player（選手）──< Card（カード）>── 
 ## 3. モデルの責務
 
 - **Topic**: `belongs_to :board` / `has_many :cards`。`image_path`（`sets/<slug>.jpg`）
-- **Team**: `has_many :players`（背番号順）/ `has_many :cards, through: :players`。
+- **Team**: `has_many :players`（背番号順）/ `has_many :cards`。
   `image_path`（`teams/<slug>.png`）
-- **Player**: `belongs_to :team` / `has_many :cards`。背番号はチーム内で一意
-- **Card**: `belongs_to :topic, :player`。`label` / `stars` / `picker_label` / `search_text`、
-  `delegate :team, to: :player`
+- **Player**: `belongs_to :team` / `has_many :cards, through: :card_players`。
+  背番号はチーム内で一意
+- **Card**: `belongs_to :topic, :team` / `has_many :players, through: :card_players`。
+  `label` / `stars` / `picker_label` / `search_text` / `sort_number`
 - **Post**: `has_many :wanted_cards, through: :wishes` / `has_many :offered_cards, through: :offers`。
   `enum :status`、`complete!`、欲しいカード1枚以上を検証
   - `scope :wanting_topic(topic)` … その弾のカードを欲しがる募集
@@ -114,7 +141,7 @@ Team（チーム）──< Player（選手）──< Card（カード）>── 
 ## 4. 画面
 
 ```
-トップ（弾一覧）  ⇄  チーム一覧        ← 切り替えボタン
+トップ（弾一覧）  ⇄  チーム一覧  ⇄  カードを探す   ← 切り替えボタン
    ↓ 弾/チームを選ぶ
 掲示板
   ├ 見出し（画像・名前・戻るボタン・操作ボタン）… 画面上部に固定
@@ -123,6 +150,17 @@ Team（チーム）──< Player（選手）──< Card（カード）>── 
   ├ 募集中 / 成立済み タブ
   └ 募集一覧
 ```
+
+### カードを探す（`/cards`）
+
+全弾の収録カードを横断して見るページ。弾・クラブ・レア度・キーワードで絞り込める。
+
+- 検索は `Card#search_text`（カード名・写っている選手名・クラブ名・弾名を繋げた文字列）
+  に対して行うので、選手名でもクラブ名でも引っかかる
+- 絞り込みは GET パラメータ（`?topic_id=&team_id=&rarity=&q=`）。
+  絞り込んだ状態の URL をそのまま共有できる
+- 表示は弾ごとに区切り、掲示板と同じ `_card_group` を使い回す
+  （弾名が見出しと重複するので `show_set: false` で省く）
 
 ### 投稿フォーム（モーダル）
 

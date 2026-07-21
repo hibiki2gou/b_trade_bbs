@@ -120,3 +120,4 @@ app/assets/images/teams/<slug>.png    … チームのロゴ
 - [docs/overview.md](docs/overview.md) … 企画とこれまでの流れ
 - [docs/design.md](docs/design.md) … 設計書（データ構造・画面・技術）
 - [docs/roadmap.md](docs/roadmap.md) … 進め方・決定事項・宿題（未決事項）
+- [docs/worklog.md](docs/worklog.md) … 作業メモ（日ごとの記録・つまずいた点）

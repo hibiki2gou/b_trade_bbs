@@ -866,7 +866,6 @@ lineups:
       - { team: kumamoto-volters, name: 熊本ヴォルターズ, rarity: 4 }
       - { team: kagoshima-rebnise, name: 鹿児島レブナイズ, rarity: 4 }
   - set: season-2025-26
-    # 秋田ノーザンハピネッツの★4が1枚未取得（103/104枚）
     cards:
       - { player: 狩俣昌也, rarity: 4 }
       - { player: ジャレル・ブラントリー, rarity: 4 }
@@ -1157,7 +1156,6 @@ lineups:
       - { player: 山口颯斗, rarity: 4 }
       - { player: アレックス・カーク, rarity: 4 }
   - set: smile
-    # 長崎ヴェルカの★4が未取得（25/26枚）
     cards:
       - { player: D.J・ニュービル, rarity: 5 }
       - { player: ケリー・ブラックシアー・ジュニア, rarity: 5 }
@@ -1185,7 +1183,6 @@ lineups:
       - { player: コフィ・コーバーン, rarity: 4 }
       - { player: 角田太輝, rarity: 4 }
   - set: dunk
-    # レバンガ北海道の★4が未取得（25/26枚）
     cards:
       - { player: カイ・ソット, rarity: 5 }
       - { player: ジョン・ムーニー, rarity: 5 }
@@ -1415,7 +1412,6 @@ lineups:
       - { player: ギャビン・エドワーズ, rarity: 4 }
       - { player: グラント・ジェレット, rarity: 4 }
   - set: b2-champions
-    # 神戸ストークスの★4が1枚未取得（14/15枚）
     cards:
       - { player: 寺園脩斗, rarity: 5 }
       - { player: アイザック・バッツ, rarity: 5 }
@@ -1476,3 +1472,38 @@ lineups:
       - { team: hiroshima-dragonflies, name: 広島ドラゴンフライズ, rarity: 4 }
       - { team: nagasaki-velca, name: 長崎ヴェルカ, rarity: 4 }
       - { team: ryukyu-golden-kings, name: 琉球ゴールデンキングス, rarity: 4 }
+  - set: one-on-one
+    # 対戦カードなので、どちらのクラブにも属さない B.LEAGUE 扱いにする。
+    # 下記7枚は相手選手が未登録のため保留（B2の選手データ入力後に追加する）:
+    #   岡部 雅大 vs 後藤 翔平（★4）
+    #   ジェームズ・ベル vs ケニー・マニゴールト（★4）
+    #   大橋 大空 vs 藤澤 尚之（★4）
+    #   土家 大輝 vs 柏倉 哲平（★4）
+    #   小林 遥太 vs 寺園 脩斗（★4）
+    #   村上 駿斗 vs 武内 理貴（★4）
+    #   藤本 巧太 vs 澤邉 圭太（★4）
+    cards:
+      - { players: [青木保憲, 渡辺翔太], team: bleague,
+          name: 青木 保憲 vs 渡辺 翔太, rarity: 5 }
+      - { players: [岸本隆一, 辻直人], team: bleague,
+          name: 岸本 隆一 vs 辻 直人, rarity: 5 }
+      - { players: [富樫勇樹, 大倉颯太], team: bleague,
+          name: 富樫 勇樹 vs 大倉 颯太, rarity: 5 }
+      - { players: [ドウェイン・エバンス, 星川堅信], team: bleague,
+          name: ドウェイン・エバンス vs 星川 堅信, rarity: 5 }
+      - { players: [安藤誓哉, 川嶋勇人], team: bleague,
+          name: 安藤 誓哉 vs 川嶋 勇人, rarity: 5 }
+      - { players: [並里成, アリ・メザー], team: bleague,
+          name: 並里 成 vs アリ・メザー, rarity: 4 }
+      - { players: [駒沢颯, 池田祐一], team: bleague,
+          name: 駒沢 颯 vs 池田 祐一, rarity: 4 }
+      - { players: [渡邉伶音, デイビッド・ヌワバ], team: bleague,
+          name: 渡邉 伶音 vs デイビッド・ヌワバ, rarity: 4 }
+      - { players: [篠山竜青, ベンドラメ礼生], team: bleague,
+          name: 篠山 竜青 vs ベンドラメ 礼生, rarity: 4 }
+      - { players: [ザック・オーガスト, ブロック・モータム], team: bleague,
+          name: ザック・オーガスト vs ブロック・モータム, rarity: 4 }
+      - { players: [角田太輝, 須田侑太郎], team: bleague,
+          name: 角田 太輝 vs 須田 侑太郎, rarity: 4 }
+      - { players: [加藤嵩都, ニック・ケイ], team: bleague,
+          name: 加藤 嵩都 vs ニック・ケイ, rarity: 4 }

@@ -1,32 +1,46 @@
-# Card = カード。選手(player) × 弾(topic) の交差点。
+# Card = カード。弾(topic)に収録された1枚。
+#
+# カードには次の種類がある。どれも「所属チーム(team)」を1つ持ち、
+# 写っている選手は0人以上。
+#   - 選手カード       … 選手1人。team はその選手の所属クラブ
+#   - 複数選手カード   … 選手2人以上（1on1 など）。同じクラブならそのクラブ、
+#                        別クラブにまたがるなら B.LEAGUE
+#   - クラブカード     … 選手0人。team はそのクラブ
 class Card < ApplicationRecord
-  belongs_to :topic   # どの弾に収録されたか
-  belongs_to :player  # どの選手か
+  belongs_to :topic  # どの弾に収録されたか
+  belongs_to :team   # このカードがどのチームの掲示板に出るか
+
+  # 写っている選手（0人以上）
+  has_many :card_players, dependent: :destroy
+  has_many :players, through: :card_players
 
   # このカードを「欲しいカード」に含んでいる募集（Wish 経由）。
   # restrict_with_error = 募集から参照されているカードは消せない
-  # （消すと募集が宙に浮くため）
   has_many :wishes, dependent: :restrict_with_error
   has_many :wishing_posts, through: :wishes, source: :post
 
   # このカードを「出せるカード」に含んでいる募集（Offer 経由）。
-  # 提供されているカードも、募集がある限り消せない
   has_many :offers, dependent: :restrict_with_error
   has_many :offering_posts, through: :offers, source: :post
 
-  # レア度は 1〜5 の数字のみ許可
   validates :rarity, presence: true,
                      inclusion: { in: 1..5, message: "は1〜5で入力してください" }
-  # 同じ選手・同じ弾の中では、カード名が重複しないこと。
-  # name が空文字("")のカードは「その弾に1種類だけ」を意味する
-  validates :name, uniqueness: { scope: [ :topic_id, :player_id ] }
+  # 同じ弾の中で、同じ内容のカードが二重に登録されないようにする
+  validates :key, presence: true, uniqueness: { scope: :topic_id }
+  validate :name_required_unless_single_player
 
-  # 選手の所属クラブは Player が持っているので、card.team で引けるようにする
-  delegate :team, to: :player
+  # key は内容から自動で組み立てる（保存のたびに作り直す）
+  before_validation :build_key
 
-  # 画面表示用: 「河村勇輝（得点記録）」または「河村勇輝」
+  # 画面表示用の名前。
+  #   選手1人  … 「河村勇輝」または「河村勇輝（得点記録）」
+  #   それ以外 … カード名をそのまま（「青木保憲 vs 渡辺翔太」「滋賀レイクス」など）
   def label
-    name.present? ? "#{player.name}（#{name}）" : player.name
+    if single_player?
+      name.present? ? "#{players.first.name}（#{name}）" : players.first.name
+    else
+      name
+    end
   end
 
   # レア度を★で表す。例: rarity 4 → "★★★★☆"
@@ -35,13 +49,44 @@ class Card < ApplicationRecord
   end
 
   # 選択肢（プルダウン）用の見やすいラベル。
-  # 例: 「河村勇輝（得点記録） ★★★★★ / 記録達成カード」
-  # 弾をまたぐチームの掲示板でも、どの弾のカードか分かるようにする。
+  # 例: 「河村勇輝 ★★★★★ / 記録達成」
   def picker_label
     "#{label} #{stars} / #{topic.name}"
   end
 
+  # 一覧を並べるときの副キー。写っている選手の背番号を使う。
+  # 選手がいないカード（クラブカード）は末尾に寄せる。
+  def sort_number
+    players.filter_map(&:jersey_number).min || 999
+  end
+
+  # 検索用のテキスト。写っている全選手・カード名・チーム名・弾名をつなげる
   def search_text
-    [ player.name, name, player.team.name, topic.name ].join(" ").downcase
+    ([ name ] + players.map(&:name) + [ team.name, topic.name ]).join(" ").downcase
+  end
+
+  private
+
+  def single_player?
+    players.size == 1
+  end
+
+  # 選手が1人でないカード（複数選手・クラブカード）は、
+  # 表示に使う名前が無いと何のカードか分からなくなる
+  def name_required_unless_single_player
+    return if single_player? || name.present?
+
+    errors.add(:name, "は、選手が1人でないカードには必要です")
+  end
+
+  # カードの内容から識別子を組み立てる。
+  # 選手がいれば選手の組み合わせ、いなければチームで区別する。
+  def build_key
+    ids = players.map(&:id).compact.sort
+    self.key = if ids.any?
+                 "players:#{ids.join(',')}:#{name}"
+    else
+                 "team:#{team_id}:#{name}"
+    end
   end
 end

@@ -31,10 +31,11 @@ class Post < ApplicationRecord
   }
 
   # 指定のチームのカードを1枚でも欲しがっている募集。
-  # 欲しいカード → 選手 → チーム、とたどって絞り込む。
+  # カード自身が持つチームで絞り込む（選手からたどらない）。
+  # これにより、クラブカードや B.LEAGUE のカードも正しく拾える。
   # 使い方: Post.wanting_team(team)
   scope :wanting_team, ->(team) {
-    joins(wanted_cards: :player).where(players: { team_id: team.id }).distinct
+    joins(:wanted_cards).where(cards: { team_id: team.id }).distinct
   }
 
   # 成立ボタンを押したときの処理。状態を「成立済み」にして日時を記録する

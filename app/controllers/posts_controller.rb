@@ -38,22 +38,22 @@ class PostsController < ApplicationController
   # エラー付きの @post のまま再表示する。show アクションと同じ変数を用意する。
   def render_board_with_errors
     @showing_completed = false
-    @offered_options = Card.includes(:player, :topic).to_a.sort_by(&:picker_label)
+    @offered_options = Card.includes(:players, :topic, :team).to_a.sort_by(&:picker_label)
 
     if params[:board_type] == "team" && params[:board_id].present?
       @team = Team.find(params[:board_id])
       @posts = Post.wanting_team(@team).open_posts
-                   .recent.includes(wanted_cards: :player, offered_cards: :player)
-      @cards = @team.cards.includes(:topic, :player)
-                    .sort_by { |c| [ c.topic.position, c.player.jersey_number || 999 ] }
+                   .recent.includes(wanted_cards: :players, offered_cards: :players)
+      @cards = @team.cards.includes(:topic, :players)
+                    .sort_by { |c| [ c.topic.position, c.sort_number ] }
       @wanted_options = @cards
       render "teams/show", status: :unprocessable_entity
     elsif params[:board_id].present?
       @topic = Topic.find(params[:board_id])
       @posts = Post.wanting_topic(@topic).open_posts
-                   .recent.includes(wanted_cards: :player, offered_cards: :player)
-      @cards = @topic.cards.includes(player: :team)
-                     .sort_by { |c| [ c.player.team.position, c.player.jersey_number || 999 ] }
+                   .recent.includes(wanted_cards: :players, offered_cards: :players)
+      @cards = @topic.cards.includes(:team, :players)
+                     .sort_by { |c| [ c.team.position, c.sort_number ] }
       @wanted_options = @cards
       render "topics/show", status: :unprocessable_entity
     else

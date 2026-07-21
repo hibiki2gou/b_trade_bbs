@@ -14,18 +14,18 @@ class TopicsController < ApplicationController
     @showing_completed = params[:status] == "completed"
     posts = Post.wanting_topic(@topic)
     posts = @showing_completed ? posts.completed_posts : posts.open_posts
-    @posts = posts.recent.includes(wanted_cards: :player, offered_cards: :player)
+    @posts = posts.recent.includes(wanted_cards: :players, offered_cards: :players)
 
     # この弾の収録カード一覧（把握用に掲示板で表示する）。
     # チームの並び順 → 背番号順。背番号なしは最後にする。
-    @cards = @topic.cards.includes(player: :team)
-                   .sort_by { |c| [ c.player.team.position, c.player.jersey_number || 999 ] }
+    @cards = @topic.cards.includes(:team, :players)
+                   .sort_by { |c| [ c.team.position, c.sort_number ] }
 
     # 投稿フォーム用。
     @post = Post.new
     # 欲しいカードの選択肢はこの弾のカード。
     @wanted_options = @cards
     # 出せるカードの選択肢は全カード（全弾から選べる）。
-    @offered_options = Card.includes(:player, :topic).to_a.sort_by(&:picker_label)
+    @offered_options = Card.includes(:players, :topic, :team).to_a.sort_by(&:picker_label)
   end
 end

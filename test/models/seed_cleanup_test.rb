@@ -11,7 +11,7 @@ class SeedCleanupTest < ActiveSupport::TestCase
   test "カードが紐づいた弾は削除対象にならない" do
     topic  = @board.topics.create!(name: "弾A", slug: "set-a", position: 1)
     player = Player.create!(name: "選手A", team: @team)
-    Card.create!(topic: topic, player: player, rarity: 5)
+    Card.create!(topic: topic, team: player.team, players: [ player ], rarity: 5)
 
     assert topic.cards.exists?, "カードがあるので守られる側"
   end
@@ -19,7 +19,7 @@ class SeedCleanupTest < ActiveSupport::TestCase
   test "募集から欲しがられている弾は削除対象にならない" do
     topic  = @board.topics.create!(name: "弾B", slug: "set-b", position: 2)
     player = Player.create!(name: "選手B", team: @team)
-    card   = Card.create!(topic: topic, player: player, rarity: 4)
+    card   = Card.create!(topic: topic, team: player.team, players: [ player ], rarity: 4)
     Post.create!(nickname: "太郎", wanted_cards: [ card ])
 
     assert Post.wanting_topic(topic).exists?, "募集があるので守られる側"

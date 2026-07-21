@@ -123,6 +123,19 @@ ActiveRecord::Base.transaction do
     topics_by_slug[s["slug"]] = topic
   end
 
+  # YAML から消えた弾の後始末。
+  # カードや募集が紐づいているものは消さず、警告するだけにする
+  # （うっかり YAML から消したときに、データごと失わないため）。
+  board.topics.where.not(slug: set_slugs).each do |t|
+    if t.cards.exists? || Post.wanting_topic(t).exists?
+      warn "注意: 弾「#{t.name}」は YAML にありませんが、" \
+           "カードや募集が紐づいているため残します"
+    else
+      t.destroy!
+      puts "YAML から消えた弾を削除しました: #{t.name}"
+    end
+  end
+
   # チーム(Team)。slug で探して、無ければ作る
   teams_by_slug = {}
   teams.each_with_index do |t, i|
@@ -131,6 +144,17 @@ ActiveRecord::Base.transaction do
     team.position = i + 1
     team.save!
     teams_by_slug[t["slug"]] = team
+  end
+
+  # YAML から消えたチームの後始末。選手が所属していれば残す
+  Team.where.not(slug: team_slugs).each do |t|
+    if t.players.exists?
+      warn "注意: チーム「#{t.name}」は YAML にありませんが、" \
+           "選手が所属しているため残します"
+    else
+      t.destroy!
+      puts "YAML から消えたチームを削除しました: #{t.name}"
+    end
   end
 
   # 選手(Player)

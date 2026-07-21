@@ -34,7 +34,6 @@ sets:
   - { name: HALLOWEEN, slug: halloween }
   - { name: オータム, slug: autumn }
   - { name: 犬の日, slug: dog-day }
-  - { name: ARENA, slug: arena }
   - { name: Sanrio characters, slug: sanrio-characters }
   - { name: 入場, slug: entrance }
   - { name: マスコット, slug: mascot }

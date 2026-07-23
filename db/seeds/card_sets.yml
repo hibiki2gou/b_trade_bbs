@@ -1537,3 +1537,31 @@ lineups:
       - { player: 金丸晃輔, rarity: 4 }
       - { player: 熊谷航, rarity: 4 }
       - { player: ジャック・クーリー, rarity: 4 }
+  - set: iconic-moments
+    cards:
+      - { player: 富永啓生, rarity: 5 }
+      - { player: 渡辺翔太, rarity: 5 }
+      - { player: 栗原翼, rarity: 5 }
+      - { player: 小島元基, rarity: 5 }
+      - { player: 比江島慎, rarity: 5 }
+      - { player: 中村拓人, rarity: 5 }
+      - { player: セクー・ドゥムブヤ, rarity: 5 }
+      - { player: エヴァンスルーク, rarity: 5 }
+      - { player: 富樫勇樹, rarity: 5 }
+      - { player: セバスチャン・サイズ, rarity: 5 }
+      - { player: ディディ・ロウザダ, rarity: 5 }
+      - { player: 篠山竜青, rarity: 5 }
+      - { player: キーファー・ラベナ, rarity: 5 }
+      - { player: トレイ・ケル, rarity: 5 }
+      - { player: デイビッド・ヌワバ, rarity: 5 }
+      - { player: 西田優大, rarity: 5 }
+      - { player: ジャモルコ・ピケット, rarity: 5 }
+      - { player: 今村佳太, rarity: 5 }
+      - { player: ザック・オーガスト, rarity: 5 }
+      - { player: 前田悟, rarity: 5 }
+      - { player: 木下誠, rarity: 5 }
+      - { player: ニック・ケイ, rarity: 5 }
+      - { player: 山崎稜, rarity: 5 }
+      - { player: 角田太輝, rarity: 5 }
+      - { player: 馬場雄大, rarity: 5 }
+      - { player: 岸本隆一, rarity: 5 }

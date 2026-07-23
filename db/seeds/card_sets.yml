@@ -102,6 +102,7 @@ sets:
   - { name: ICONIC MOMENTS, slug: iconic-moments }
   - { name: EMOTIONAL, slug: emotional }
   - { name: OCEAN, slug: ocean }
+  - { name: ピクセルアート, slug: pixel-art }
 
 # ============================================================
 # クラブチーム ※この順で画面に並ぶ
@@ -1508,3 +1509,31 @@ lineups:
           name: 角田 太輝 vs 須田 侑太郎, rarity: 4 }
       - { players: [加藤嵩都, ニック・ケイ], team: bleague,
           name: 加藤 嵩都 vs ニック・ケイ, rarity: 4 }
+  - set: pixel-art
+    cards:
+      - { player: 長谷川暢, rarity: 5 }
+      - { player: 小川敦也, rarity: 5 }
+      - { player: 渡邉伶音, rarity: 5 }
+      - { player: 原修太, rarity: 5 }
+      - { player: 篠山竜青, rarity: 5 }
+      - { player: スコット・エサトン, rarity: 5 }
+      - { player: 竹内譲次, rarity: 5 }
+      - { player: 飯尾文哉, rarity: 5 }
+      - { player: メイヨニック, rarity: 5 }
+      - { player: 関野剛平, rarity: 4 }
+      - { player: ネイサン・ブース, rarity: 4 }
+      - { player: 赤穂雷太, rarity: 4 }
+      - { player: 細川一輝, rarity: 4 }
+      - { player: アンソニー・クレモンズ, rarity: 4 }
+      - { player: 小酒部泰暉, rarity: 4 }
+      - { player: ジャン・ローレンス・ハーパージュニア, rarity: 4 }
+      - { player: 須藤昂矢, rarity: 4 }
+      - { player: 田中晴瑛, rarity: 4 }
+      - { player: 湧川颯斗, rarity: 4 }
+      - { player: 石井講祐, rarity: 4 }
+      - { player: 杉本天昇, rarity: 4 }
+      - { player: 田原隆徳, rarity: 4 }
+      - { player: 前田悟, rarity: 4 }
+      - { player: 金丸晃輔, rarity: 4 }
+      - { player: 熊谷航, rarity: 4 }
+      - { player: ジャック・クーリー, rarity: 4 }
